@@ -1,34 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/05 12:37:20 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/05 16:28:45 by rkhakimu         ###   ########.fr       */
+/*   Created: 2025/03/05 16:14:13 by rkhakimu          #+#    #+#             */
+/*   Updated: 2025/03/05 16:15:09 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "libft.h"
 
-# include "../lib/Libft/libft.h"
-# include "../lib/MLX42/include/MLX42/MLX42.h"
-# include <stdio.h>
-# include <fcntl.h>
-# include <math.h>
-# include <errno.h>
-# include <string.h>
-# include <limits.h>
-# include <errno.h>
-# include <stdlib.h>
-
-#endif
-
-typedef struct  s_game
+int	ft_isspace(int c)
 {
-    mlx_t       *mlx;
-    mlx_image   *img;    
-}   t_game;
-
+	return (c == ' ' || (c >= 9 && c <= 13));
+}

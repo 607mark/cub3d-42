@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/05 12:37:20 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/05 16:28:45 by rkhakimu         ###   ########.fr       */
+/*   Created: 2025/03/05 16:19:09 by rkhakimu          #+#    #+#             */
+/*   Updated: 2025/03/05 16:19:21 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "libft.h"
 
-# include "../lib/Libft/libft.h"
-# include "../lib/MLX42/include/MLX42/MLX42.h"
-# include <stdio.h>
-# include <fcntl.h>
-# include <math.h>
-# include <errno.h>
-# include <string.h>
-# include <limits.h>
-# include <errno.h>
-# include <stdlib.h>
-
-#endif
-
-typedef struct  s_game
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 {
-    mlx_t       *mlx;
-    mlx_image   *img;    
-}   t_game;
+	void	*new_ptr;
 
+	if (!ptr)
+		return (malloc(new_size));
+	if (!new_size)
+	{
+		free(ptr);
+		return (NULL);
+	}
+	if (new_size <= old_size)
+		return (ptr);
+	new_ptr = malloc(new_size);
+	if (!new_ptr)
+		return (NULL);
+	ft_memcpy(new_ptr, ptr, old_size);
+	free(ptr);
+	return (new_ptr);
+}

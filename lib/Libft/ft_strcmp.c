@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/05 12:37:20 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/05 16:28:45 by rkhakimu         ###   ########.fr       */
+/*   Created: 2025/03/05 15:22:59 by rkhakimu          #+#    #+#             */
+/*   Updated: 2025/03/05 15:23:24 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "libft.h"
 
-# include "../lib/Libft/libft.h"
-# include "../lib/MLX42/include/MLX42/MLX42.h"
-# include <stdio.h>
-# include <fcntl.h>
-# include <math.h>
-# include <errno.h>
-# include <string.h>
-# include <limits.h>
-# include <errno.h>
-# include <stdlib.h>
-
-#endif
-
-typedef struct  s_game
+int	ft_strcmp(const char *s1, const char *s2)
 {
-    mlx_t       *mlx;
-    mlx_image   *img;    
-}   t_game;
+	unsigned char	c1;
+	unsigned char	c2;
 
+	while (1)
+	{
+		c1 = (unsigned char) *s1;
+		c2 = (unsigned char) *s2;
+		if (c1 != c2)
+			return (c1 - c2);
+		if (c1 == '\0')
+			return (0);
+		s1++;
+		s2++;
+	}
+	return (0);
+}

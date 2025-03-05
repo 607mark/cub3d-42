@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_custom_puts.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/05 12:37:20 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/05 16:28:45 by rkhakimu         ###   ########.fr       */
+/*   Created: 2025/03/05 16:18:00 by rkhakimu          #+#    #+#             */
+/*   Updated: 2025/03/05 16:18:35 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "libft.h"
 
-# include "../lib/Libft/libft.h"
-# include "../lib/MLX42/include/MLX42/MLX42.h"
-# include <stdio.h>
-# include <fcntl.h>
-# include <math.h>
-# include <errno.h>
-# include <string.h>
-# include <limits.h>
-# include <errno.h>
-# include <stdlib.h>
-
-#endif
-
-typedef struct  s_game
+int	custom_puts(const char *str)
 {
-    mlx_t       *mlx;
-    mlx_image   *img;    
-}   t_game;
+	int	count;
 
+	count = 0;
+	while (*str)
+	{
+		if (write(STDOUT_FILENO, str, 1) == -1)
+			return (-1);
+		str++;
+		count++;
+	}
+	if (write(STDOUT_FILENO, "\n", 1) == -1)
+		return (-1);
+	return (count + 1);
+}

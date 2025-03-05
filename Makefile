@@ -6,7 +6,7 @@
 #    By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/05 12:31:45 by rkhakimu          #+#    #+#              #
-#    Updated: 2025/03/05 12:32:54 by rkhakimu         ###   ########.fr        #
+#    Updated: 2025/03/05 16:09:28 by rkhakimu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ else ifeq ($(UNAME_S), Darwin)
 endif
 
 # Source files
-SRC         := main.c \
+SRC         := 
                
 SRCS        := $(addprefix $(SRC_DIR)/, $(SRC))
 OBJ         := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
