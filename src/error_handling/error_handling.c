@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/05 15:22:59 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/06 08:39:08 by rkhakimu         ###   ########.fr       */
+/*   Created: 2025/03/06 09:17:47 by rkhakimu          #+#    #+#             */
+/*   Updated: 2025/03/06 09:19:34 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../inc/cub3d.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+void error_exit(char *msg)
 {
-	while (*s1 && *s1 == *s2)
-	{
-		s1++;
-		s2++;
-	}
-	return ((unsigned char)*s1 - (unsigned char)*s2);
+	printf("%s\n", msg);
+	exit (1);
 }
+

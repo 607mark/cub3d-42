@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:20 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/05 16:28:45 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/06 09:44:16 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,35 @@
 
 #endif
 
-typedef struct  s_game
-{
-    mlx_t       *mlx;
-    mlx_image   *img;    
-}   t_game;
 
+typedef struct	s_player
+{
+	double		x;
+	double		y;
+	double		dir_x;
+	double		dit_y;
+	char		orientation;
+}	t_player;
+
+typedef struct	s_texture
+{
+	char		*north;
+	char		*south;
+	char		*east;
+	char		*west;
+	mlx_image_t	*img_north;
+	mlx_image_t	*img_south;
+	mlx_image_t	*img_east;
+	mlx_image_t	*img_west;
+}	t_texture;
+
+typedef struct	s_game
+{
+	char		**map;
+	int			map_width;
+	int			map_height;
+	t_player	player;
+	t_texture	textures;
+	int			floor_rgb;
+	int			ceiling_rgb;
+}	t_game;

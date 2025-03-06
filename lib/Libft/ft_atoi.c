@@ -3,37 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkhakimu <rkhakimu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:42:47 by rkhakimu          #+#    #+#             */
-/*   Updated: 2024/06/18 10:47:41 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/06 09:52:24 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+static int	process_digits(const char *str, long long n, int sign)
+{
+	long long	result;
+
+	while (*str >= '0' && *str <= '9')
+	{
+		if (n > LONG_MAX / 10)
+		{
+			if (sign > 0)
+				return (-1);
+			return (0);
+		}
+		result = n * 10;
+		if (result > LONG_MAX - (*str - '0'))
+		{
+			if (sign > 0)
+				return (-1);
+			return (0);
+		}
+		n = result + (*str - '0');
+		str++;
+	}
+	return ((int)(sign * n));
+}
+
 int	ft_atoi(const char *str)
 {
 	int			sign;
 	long long	n;
-	long long	long_max;
 
-	long_max = ((unsigned long long)(-1)) / 2;
 	sign = 1;
 	n = 0;
-	while ((8 < *str && *str < 14) || *str == ' ')
+	while ((*str >= 9 && *str <= 13) || *str == ' ')
 		str++;
 	if (*str == '-' || *str == '+')
-		if (*str++ == '-')
-			sign = -1;
-	while ('0' <= *str && *str <= '9')
 	{
-		if (n > long_max / 10)
-			return ((sign > 0) * (-1));
-		n = n * 10;
-		if (n > long_max - (*str - '0'))
-			return ((sign > 0) * (-1));
-		n = n + ((*str++) - '0');
+		if (*str == '-')
+			sign = -1;
+		str++;
 	}
-	return ((int)(sign * n));
+	return (process_digits(str, n, sign));
 }
