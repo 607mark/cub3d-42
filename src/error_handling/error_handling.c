@@ -6,15 +6,16 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 09:17:47 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/06 09:19:34 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/06 14:51:25 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-void error_exit(char *msg)
+void	error_exit(char *msg)
 {
-	printf("%s\n", msg);
+	ft_putstr_fd("Error\n", STDERR_FILENO);
+	ft_putstr_fd(msg, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 	exit (1);
 }
-

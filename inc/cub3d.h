@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:20 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/06 09:44:16 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:13:15 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,14 @@
 # include <errno.h>
 # include <string.h>
 # include <limits.h>
-# include <errno.h>
 # include <stdlib.h>
-
-#endif
-
 
 typedef struct	s_player
 {
 	double		x;
 	double		y;
 	double		dir_x;
-	double		dit_y;
+	double		dir_y;
 	char		orientation;
 }	t_player;
 
@@ -57,4 +53,14 @@ typedef struct	s_game
 	t_texture	textures;
 	int			floor_rgb;
 	int			ceiling_rgb;
+	mlx_image_t	*img_ptr;
+	mlx_t		*mlx_ptr;
 }	t_game;
+
+
+
+/*Errors*/
+void	error_exit(char *msg);
+
+
+#endif
