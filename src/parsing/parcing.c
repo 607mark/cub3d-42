@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:25 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/09 22:35:15 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/09 23:10:09 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ void	read_config_line(t_game *game, char *line)
 	else if (ft_strncmp(trimmed, "EA ", 3) == 0)
 		parse_texture(&game->textures, trimmed);
 	else if (ft_strncmp(trimmed, "F ", 2) == 0)
-		//parsing cnolor function;
+		parse_color(&game->floor_rgb, trimmed);
 	else if (ft_strncmp(trimmed, "C ", 2) == 0)
-		//parsing color function;
+		parse_color(&game->ceiling_rgb, trimmed);
 	else
 		error_exit("invalid config line");
 	free(trimmed);
@@ -97,4 +97,30 @@ void	parse_texture(t_texture *textures, char *line)
 			error_exit("Duplicate EA textrure");
 		textures->east = path;
 	}
+}
+
+void	parse_color(int *color, char *line)
+{
+	char	*ptr;
+	int		r;
+	int		g;
+	int		b;
+
+	ptr = line + 2;
+	while (ft_isspace(*ptr))
+		ptr++;
+	r = ft_atoi(ptr);
+	ptr = ft_strchr(ptr, ',');
+	if (!ptr || r < 0 || r > 255)
+		error_exit("Invalid RGB format");
+	ptr++;
+	g = ft_atoi(ptr);
+	ptr = (ft_strchr(ptr, ','));
+	if (!ptr || g < 0 || g > 255)
+		error_exit("Invalid RGB format");
+	ptr++;
+	b = ft_atoi(ptr);
+	if (b < 0 || b > 255 || *color != -1)
+		error_exit("Invalid RGB or duplicate");
+	*color = (r << 16) | (g << 8) | b;
 }
