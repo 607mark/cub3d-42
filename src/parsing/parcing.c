@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:25 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/09 21:34:17 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/09 21:56:48 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,28 @@ void	parce_cub_file(t_game *game, char *filename)
 	free(line);
 	close(fd);
 	//validating map function
+}
+
+void	read_config_line(t_game *game, char *line)
+{
+	char	*trimmed;
+	
+	trimmed = ft_strtrim(line, " \t\n");
+	if (!trimmed)
+		error_exit("Memory allocation failed");
+	if (ft_strcmp(trimmed, "NO ", 3) == 0)
+		//parsing texture function;
+	else if (ft_strncmp(trimmed, "SO ", 3) == 0)
+		//parsing tnexture function;
+	else if (ft_strncmp(trimmed, "WE ", 3) == 0)
+		//parsing tnexture function;
+	else if (ft_strncmp(trimmed, "EA ", 3) == 0)
+		//parsing tnexture function;
+	else if (ft_strncmp(trimmed, "F ", 2) == 0)
+		//parsing cnolor function;
+	else if (ft_strncmp(trimmed, "C ", 2) == 0)
+		//parsing color function;
+	else
+		error_exit("invalid config line");
+	free(trimmed);
 }
