@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:20 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/09 21:36:09 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/09 22:35:24 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,3 +71,4 @@ int		validate_file_ext(char *filename);
 int		validate_file_access(char *filename);
 int		is_config_element(char *line);
 void	init_game(t_game *game);
+void	parse_texture(t_texture *textures, char *line);

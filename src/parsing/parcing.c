@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:25 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/09 21:56:48 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/09 22:35:15 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ void	read_config_line(t_game *game, char *line)
 	if (!trimmed)
 		error_exit("Memory allocation failed");
 	if (ft_strcmp(trimmed, "NO ", 3) == 0)
-		//parsing texture function;
+		parse_texture(&game->textures, trimmed);
 	else if (ft_strncmp(trimmed, "SO ", 3) == 0)
-		//parsing tnexture function;
+		parse_texture(&game->textures, trimmed);
 	else if (ft_strncmp(trimmed, "WE ", 3) == 0)
-		//parsing tnexture function;
+		parse_texture(&game->textures, trimmed);
 	else if (ft_strncmp(trimmed, "EA ", 3) == 0)
-		//parsing tnexture function;
+		parse_texture(&game->textures, trimmed);
 	else if (ft_strncmp(trimmed, "F ", 2) == 0)
 		//parsing cnolor function;
 	else if (ft_strncmp(trimmed, "C ", 2) == 0)
@@ -60,4 +60,41 @@ void	read_config_line(t_game *game, char *line)
 	else
 		error_exit("invalid config line");
 	free(trimmed);
+}
+
+void	parse_texture(t_texture *textures, char *line)
+{
+	char	*path;
+	char	*start;
+
+	start = line + 3;
+	while (ft_isspace(*start))
+		start++;
+	path = ft_strdup(start);
+	if (!path)
+		error_exit("Memory allocation failed");
+	if (ft_strncmp(line, "NO ", 3) == 0)
+	{
+		if (textures->north)
+			error_exit("Duplicate NO textrure");
+		textures->north = path;
+	}
+	else if (ft_strncmp(line, "SO ", 3) == 0)
+	{
+		if (textures->south)
+			error_exit("Duplicate SO textrure");
+		textures->south = path;
+	}
+	else if (ft_strncmp(line, "WE ", 3) == 0)
+	{
+		if (textures->west)
+			error_exit("Duplicate WE textrure");
+		textures->west = path;
+	}
+	else if (ft_strncmp(line, "EA ", 3) == 0)
+	{
+		if (textures->east)
+			error_exit("Duplicate EA textrure");
+		textures->east = path;
+	}
 }
