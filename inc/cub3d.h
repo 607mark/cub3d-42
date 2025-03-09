@@ -24,7 +24,16 @@
 # include <errno.h>
 # include <stdlib.h>
 
-#endif
+# define WIDTH 1000
+# define HEIGHT 500
+
+typedef struct s_win
+{
+	mlx_t	*mlx;
+	int	h;
+	int	w;
+}	t_win;
+
 
 
 typedef struct	s_player
@@ -55,6 +64,12 @@ typedef struct	s_game
 	int			map_height;
 	t_player	player;
 	t_texture	textures;
-	int			floor_rgb;
-	int			ceiling_rgb;
+	uint32_t			floor_rgb;
+	uint32_t			ceiling_rgb;
+	t_win		win;
+	mlx_image_t *img;
 }	t_game;
+
+
+void	init_win(t_game *game);
+#endif

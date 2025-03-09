@@ -13,7 +13,7 @@
 # Project and Compiler Settings
 NAME        := cub3D
 CC          := cc
-CFLAGS      := -Wall -Wextra -Werror
+CFLAGS      := -Wall -Wextra
 
 # Directories
 SRC_DIR     := src
@@ -37,7 +37,8 @@ else ifeq ($(UNAME_S), Darwin)
 endif
 
 # Source files
-SRC         := 
+SRC         := main.c \
+				graphics/render.c 
                
 SRCS        := $(addprefix $(SRC_DIR)/, $(SRC))
 OBJ         := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
@@ -58,6 +59,7 @@ $(OBJ_DIR):
 
 # Compile object files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@ $(HEADERS)
 
 # Library building rules
@@ -77,14 +79,14 @@ $(MLX):
 clean:
 	rm -rf $(OBJ_DIR)
 	@make clean -C $(LIBFT_DIR)
-	@make clean -C $(MLX_DIR)/build
+	# @make clean -C $(MLX_DIR)/build
 	@echo "Object files and build directories cleaned."
 
 # Full clean, including libraries and binaries
 fclean: clean
 	rm -f $(NAME)
 	@make fclean -C $(LIBFT_DIR)
-	rm -rf $(MLX_DIR)
+	# rm -rf $(MLX_DIR)
 	@echo "Fully cleaned project, including libraries and executable."
 
 # Rebuild everything from scratch
