@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:20 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/09 23:10:20 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/10 00:26:10 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,3 +73,7 @@ int		is_config_element(char *line);
 void	init_game(t_game *game);
 void	parse_texture(t_texture *textures, char *line);
 void	parse_color(int *color, char *line);
+
+/* MAP */
+void	read_map(t_game *game, int fd);
+char	**ft_realloc_2d(char **old, int new_size);

@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:25 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/09 23:10:09 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/10 00:25:39 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ void	parce_cub_file(t_game *game, char *filename)
 	line = get_next_line(fd);
 	while (line && is_config_element(line))
 	{
-		//reading configuration line function
+		read_config_line(game, line);
 		free(line);
 		line = get_next_line(line);
 	}
 	if (!line)
 		error_exit("No map found in file");
-	//reading map function
+	read_map(game, fd);
 	free(line);
 	close(fd);
 	//validating map function
