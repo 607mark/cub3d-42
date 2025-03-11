@@ -36,14 +36,14 @@
 
 int map[MAP_HEIGHT][MAP_WIDTH] = {
     {1,1,1,1,1,1,1,1,1,1},
+    {1,0,0,1,0,0,0,0,0,1},
     {1,0,0,0,0,0,0,0,0,1},
     {1,0,0,0,0,0,0,0,0,1},
     {1,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,1,1,1,0,0,1},
+    {1,0,0,0,0,0,0,0,1,1},
     {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,1,0,0,1},
     {1,1,1,1,1,1,1,1,1,1}
 };
 
@@ -107,10 +107,52 @@ void rotate(t_game* game, double rot_rad)
     rotate_vector(&game->player.x_plane, &game->player.y_plane, rot_rad);
 }
 
+void draw_square(t_game *game, int x, int y)
+{
+    int size = 100;
+    int start_x = x;
+    int start_y = y;
+    int end_x = x + size - 1;
+    int end_y = y + size - 1;
+    int draw_y = start_y;
+    while (draw_y <= end_y)
+    {
+        int draw_x = start_x;
+        while (draw_x <= end_x)
+        {
+            if(!(draw_x % 100) || !(draw_y % 100))
+                mlx_put_pixel(game->img, draw_x, draw_y, 0x000000FF);
+            else
+                mlx_put_pixel(game->img, draw_x, draw_y, 0xF000002F);
+            draw_x++;
+        }
+        draw_y++;
+    }
+}
+
+void draw_map(t_game* game)
+{
+    memset(game->img->pixels, 0, SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(uint32_t));
+    int i, j;
+    i = 0;
+    while(i < 10)
+    {
+        j = 0;
+        while(j < 10)
+        {
+            if (map[j][i] == 1)
+                draw_square(game, i * 100, j * 100);
+            j++;
+        }
+        i++;
+    }
+}
+
 void draw_hook(void* param)
 {
     t_game* game = (t_game*)param;
-    memset(game->img->pixels, 0, SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(uint32_t)); 
+    
+    draw_map(game);
     uint32_t start_x = game->player.x_pos * 100;
     uint32_t start_y = game->player.y_pos * 100;
     const double line_length = 90;
