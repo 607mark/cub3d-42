@@ -38,12 +38,12 @@ typedef struct s_player {
 
 
 typedef struct s_keys {
-    bool w_press;
-    bool a_press;
-    bool s_press;
-    bool d_press;
-    bool left_press;
-    bool right_press;
+    bool w;
+    bool a;
+    bool s;
+    bool d;
+    bool left;
+    bool right;
 } t_keys;
 
 typedef struct	s_texture
