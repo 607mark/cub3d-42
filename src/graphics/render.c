@@ -56,23 +56,23 @@ void rotate_vector(double* x, double* y, double rad)
     *y = x_old * sin_angle + *y * cos_angle;
 }
 
-void key_hook(mlx_key_data_t keygame, void* param)
+void key_hook(mlx_key_data_t keydata, void* param)
 {
     t_game* game = (t_game*)param;
     
-    if (keygame.key == MLX_KEY_W)
-        game->keys.w_press = (keygame.action != MLX_RELEASE);
-    if (keygame.key == MLX_KEY_S)
-        game->keys.s_press = (keygame.action != MLX_RELEASE);
-    if (keygame.key == MLX_KEY_A)
-        game->keys.a_press = (keygame.action != MLX_RELEASE);
-    if (keygame.key == MLX_KEY_D)
-        game->keys.d_press = (keygame.action != MLX_RELEASE);
-    if (keygame.key == MLX_KEY_LEFT)
-        game->keys.left_press = (keygame.action != MLX_RELEASE);
-    if (keygame.key == MLX_KEY_RIGHT)
-        game->keys.right_press = (keygame.action != MLX_RELEASE);
-    if (keygame.key == MLX_KEY_ESCAPE && keygame.action == MLX_PRESS)
+    if (keydata.key == MLX_KEY_W)
+        game->keys.w_press = (keydata.action != MLX_RELEASE);
+    if (keydata.key == MLX_KEY_S)
+        game->keys.s_press = (keydata.action != MLX_RELEASE);
+    if (keydata.key == MLX_KEY_A)
+        game->keys.a_press = (keydata.action != MLX_RELEASE);
+    if (keydata.key == MLX_KEY_D)
+        game->keys.d_press = (keydata.action != MLX_RELEASE);
+    if (keydata.key == MLX_KEY_LEFT)
+        game->keys.left_press = (keydata.action != MLX_RELEASE);
+    if (keydata.key == MLX_KEY_RIGHT)
+        game->keys.right_press = (keydata.action != MLX_RELEASE);
+    if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
         mlx_close_window(game->mlx);
 }
 
