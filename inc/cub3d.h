@@ -27,24 +27,24 @@
 # define WIDTH 1000
 # define HEIGHT 500
 
-typedef struct s_win
-{
-	mlx_t	*mlx;
-	int	h;
-	int	w;
-}	t_win;
+typedef struct s_player {
+    double x_pos;
+    double y_pos;
+    double x_dir;
+    double y_dir;
+    double x_plane;
+    double y_plane;
+} t_player;
 
 
-
-typedef struct	s_player
-{
-	double		x;
-	double		y;
-	double		dir_x;
-	double		dir_y;
-	double 		plane_x;
-    double		plane_y;
-}	t_player;
+typedef struct s_keys {
+    bool w_press;
+    bool a_press;
+    bool s_press;
+    bool d_press;
+    bool left_press;
+    bool right_press;
+} t_keys;
 
 typedef struct	s_texture
 {
@@ -58,6 +58,11 @@ typedef struct	s_texture
 	mlx_image_t	*img_west;
 }	t_texture;
 
+typedef struct s_data {
+    
+    t_player player;
+} t_data;
+
 typedef struct	s_game
 {
 	int		**map;
@@ -67,10 +72,9 @@ typedef struct	s_game
 	t_texture	textures;
 	uint32_t			floor_rgb;
 	uint32_t			ceiling_rgb;
-	t_win		win;
-	mlx_image_t *img;
+	mlx_t* mlx;
+    mlx_image_t* img;
+	t_keys keys;
 }	t_game;
 
-
-void	init_win(t_game *game);
 #endif
