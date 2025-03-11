@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_handling.c                                   :+:      :+:    :+:   */
+/*   flood_fill.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 09:17:47 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/11 12:41:11 by rkhakimu         ###   ########.fr       */
+/*   Created: 2025/03/11 11:51:33 by rkhakimu          #+#    #+#             */
+/*   Updated: 2025/03/11 12:05:50 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-void	error_exit(char *msg)
+void	flood_fill(t_game *game, int x, int y, char **map)
 {
-	ft_putstr_fd("Error\n", STDERR_FILENO);
-	ft_putstr_fd(msg, STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
-	exit (1);
-}
-
-void	free_game(t_game *game)
-{
-	int	y;
-	
-	y = 0;
-	while(y < game->map_height)
-	{
-		free(game->map[y]);
-		y++;
-	}
-	if (game->map)
-		free(game->map);
+	if (x < 0 || x >= game->map_width || y < 0 || y >= game->map_height)
+		error_exit("Map not enclosed by walls");
+	if (map[y][x] == '1' || map[y][x] == '#')
+		return ;
+	if (ft_isspace(map[y][x]))
+		return ;
+	map[y][x] = '#';
+	flood_fill(game, x + 1, y, map);
+	flood_fill(game, x - 1, y, map);
+	flood_fill(game, x, y + 1, map);
+	flood_fill(game, x, y - 1, map);
 }

@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:47:45 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/10 00:26:24 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/11 12:14:26 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,3 +61,26 @@ void	read_map(t_game *game, int fd)
 	game->map = temp_map;
 	game->map_height = height;
 }
+
+void	check_row(char *row, int y, t_game *game, int *player_found)
+{
+	char	*ptr;
+	
+	ptr = row;
+	while(*ptr)
+	{
+		if (*ptr == 'N' || *ptr == 'S' || *ptr == 'W' || *ptr == 'E')
+		{
+			if (*player_found)
+				error_exit("Multiple players in map");
+			*player_found = 1;
+			game->player.x = ptr - row;
+			game->player.y = y;
+			game->player.orientation = *ptr;
+		}
+		else if (*ptr != '0' && *ptr != '1' && !ft_isspace(*ptr))
+			error_exit("Invalid character in map");
+		ptr++;
+	}
+}
+

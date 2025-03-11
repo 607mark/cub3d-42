@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:25 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/10 00:25:39 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/11 12:47:57 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ void	parce_cub_file(t_game *game, char *filename)
 	{
 		read_config_line(game, line);
 		free(line);
-		line = get_next_line(line);
+		line = get_next_line(fd);
 	}
 	if (!line)
 		error_exit("No map found in file");
 	read_map(game, fd);
 	free(line);
 	close(fd);
-	//validating map function
+	validate_map(game);
 }
 
 void	read_config_line(t_game *game, char *line)
