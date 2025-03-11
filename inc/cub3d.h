@@ -58,11 +58,6 @@ typedef struct	s_texture
 	mlx_image_t	*img_west;
 }	t_texture;
 
-typedef struct s_data {
-    
-    t_player player;
-} t_data;
-
 typedef struct	s_game
 {
 	int		**map;
