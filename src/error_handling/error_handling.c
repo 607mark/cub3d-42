@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 09:17:47 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/11 12:41:11 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/11 13:35:07 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,9 @@ void	free_game(t_game *game)
 	}
 	if (game->map)
 		free(game->map);
+	free(game->textures.north);
+	free(game->textures.south);
+	free(game->textures.west);
+	free(game->textures.east);
+	//more for mlx;
 }

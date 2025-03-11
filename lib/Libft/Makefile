@@ -6,63 +6,76 @@
 #    By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 13:18:21 by rkhakimu          #+#    #+#              #
-#    Updated: 2024/10/25 13:18:27 by rkhakimu         ###   ########.fr        #
+#    Updated: 2025/03/11 14:30:37 by rkhakimu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Project settings
-NAME        = libft.a
-CC          = cc
-CFLAGS      = -Wall -Wextra -Werror
+# Compiler Settings
+NAME		= libft.a
+CC			= cc
+CFLAGS		= -Wall -Wextra -Werror
 
-# Source files
-SRC         = ft_isascii.c ft_memcpy.c ft_strlcat.c ft_strrchr.c ft_bzero.c \
-              ft_isdigit.c ft_memmove.c ft_strlcpy.c ft_tolower.c ft_calloc.c \
-              ft_isprint.c ft_memset.c ft_strlen.c ft_toupper.c ft_isalnum.c \
-              ft_memchr.c ft_strchr.c ft_strncmp.c ft_isalpha.c ft_memcmp.c \
-              ft_strdup.c ft_strnstr.c ft_atoi.c ft_strdup.c ft_substr.c \
-              ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c \
-              ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c \
-              ft_putnbr_fd.c ft_printchar.c ft_printf.c ft_printhex.c \
-              ft_printhex_ptr.c ft_printnbr.c ft_printstr.c ft_printunbr.c \
-              get_next_line.c get_next_line_utils.c
+# Directories
+SRC_DIR		= .
+OBJ_DIR		= obj
 
-SRC_BONUS   = ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c \
-              ft_lstlast_bonus.c ft_lstadd_back_bonus.c ft_lstdelone_bonus.c \
-              ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c
+# Source Files
+SRCS = \
+	ft_isascii.c ft_memcpy.c ft_strlcat.c ft_strrchr.c ft_bzero.c \
+	ft_isdigit.c ft_memmove.c ft_strlcpy.c ft_tolower.c ft_calloc.c \
+	ft_isprint.c ft_memset.c ft_strlen.c ft_toupper.c ft_isalnum.c \
+	ft_memchr.c ft_strchr.c ft_strncmp.c ft_isalpha.c ft_memcmp.c \
+	ft_strdup.c ft_strnstr.c ft_atoi.c ft_substr.c \
+	ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c \
+	ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c \
+	ft_putnbr_fd.c ft_printchar.c ft_printf.c ft_printhex.c \
+	ft_printhex_ptr.c ft_printnbr.c ft_printstr.c ft_printunbr.c \
+	get_next_line.c get_next_line_utils.c \
+	ft_isspace.c ft_strcmp.c ft_realloc.c \
+	ft_abs.c ft_min.c ft_max.c ft_custom_puts.c
 
-# Object files
-OBJ         = $(SRC:.c=.o)
-OBJ_BONUS   = $(SRC_BONUS:.c=.o)
+SRCS_BONUS = \
+	ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c \
+	ft_lstlast_bonus.c ft_lstadd_back_bonus.c ft_lstdelone_bonus.c \
+	ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c
 
+# Object Files
+OBJS		= $(SRCS:%.c=$(OBJ_DIR)/%.o)
+OBJS_BONUS	= $(SRCS_BONUS:%.c=$(OBJ_DIR)/%.o)
+
+# Phony Targets
 .PHONY: all clean fclean re bonus
 
-# Default target to build the library
+# Default Target
 all: $(NAME)
 
-# Rule to create the static library
-$(NAME): $(OBJ)
-	@ar -rcs $(NAME) $(OBJ)
-	@echo "Libft library created: $(NAME)"
+# Library Creation
+$(NAME): $(OBJS)
+	@ar -rcs $(NAME) $(OBJS)
+	@echo "Libft is ready"
 
-# Rule for bonus files
-bonus: $(OBJ) $(OBJ_BONUS)
-	@ar -rcs $(NAME) $(OBJ) $(OBJ_BONUS)
-	@echo "Libft bonus features added to: $(NAME)"
+# Bonus Target
+bonus: $(OBJS) $(OBJS_BONUS)
+	@ar -rcs $(NAME) $(OBJS) $(OBJS_BONUS)
+	@echo "Libft with bonus is ready"
 
-# Compilation rule for object files
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+# Object File Compilation
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-# Clean object files
+# Create Object Directory
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
+
+# Clean Object Files
 clean:
-	rm -f $(OBJ) $(OBJ_BONUS)
-	@echo "Object files removed."
+	@rm -rf $(OBJ_DIR)
+	@echo "Object files removed"
 
-# Full clean, including the static library
+# Full Clean
 fclean: clean
-	rm -f $(NAME)
-	@echo "Library and object files removed."
+	@rm -f $(NAME)
+	@echo "Libft fully cleaned"
 
-# Rebuild the entire library from scratch
+# Rebuild
 re: fclean all

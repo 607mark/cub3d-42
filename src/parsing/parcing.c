@@ -6,13 +6,13 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:25 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/11 12:47:57 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/11 13:33:27 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-void	parce_cub_file(t_game *game, char *filename)
+void	parse_cub_file(t_game *game, char *filename)
 {
 	int		fd;
 	char	*line;
@@ -33,8 +33,11 @@ void	parce_cub_file(t_game *game, char *filename)
 	if (!line)
 		error_exit("No map found in file");
 	read_map(game, fd);
-	free(line);
 	close(fd);
+	if (!game->textures.north || !game->textures.south
+		|| game->textures.west || !game->textures.east
+		|| game->floor_rgb == -1 || game->ceiling_rgb == -1)
+		error_exit("Missing config elements");
 	validate_map(game);
 }
 

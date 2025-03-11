@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:10:07 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/09 21:30:23 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/11 13:38:35 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,3 +35,14 @@ void	init_game(t_game *game)
 	game->img_ptr = NULL;
 	game->mlx_ptr = NULL;
 }
+
+int	main(int ac, char **av)
+{
+	t_game	game;
+	if (ac != 2)
+		error_exit("Usage: ./cub3d <map.cub>");
+	parse_cub_file(&game, argv[1]);
+	free_game(&game);
+	return (0);
+}
+
