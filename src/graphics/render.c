@@ -127,13 +127,23 @@ void draw_hook(void* param)
     int sy = (y0 < y1) ? 1 : -1;
     int err = dx - dy;
 
-    while (42) {
-        if (x0 >= 0 && x0 < SCREEN_WIDTH && y0 >= 0 && y0 < SCREEN_HEIGHT)
+    while (42)
+    {
+            
+        if (x0 >= 0 && x0 < SCREEN_WIDTH && y0 - 1>= 0 && y0 + 1 < SCREEN_HEIGHT)
         {
             mlx_put_pixel(game->img, x0, y0, 0xFFFFFFFF);
             mlx_put_pixel(game->img, x0 , y0 + 1, 0xFFFFFFFF);
             mlx_put_pixel(game->img, x0, y0 -1, 0xFFFFFFFF);
         }
+        mlx_put_pixel(game->img, start_x, start_y, 0xFF0000FF);
+        mlx_put_pixel(game->img, start_x -1, start_y, 0xFF0000FF);
+        mlx_put_pixel(game->img, start_x + 1, start_y, 0xFF0000FF);
+        mlx_put_pixel(game->img, start_x -1, start_y -1, 0xFF0000FF);
+        mlx_put_pixel(game->img, start_x + 1, start_y -1, 0xFF0000FF);
+        mlx_put_pixel(game->img, start_x + 1, start_y, 0xFF0000FF);
+        mlx_put_pixel(game->img, start_x, start_y -1, 0xFF0000FF);
+        mlx_put_pixel(game->img, start_x, start_y -1, 0xFF0000FF);
         if (x0 == x1 && y0 == y1)
             break;
         int e2 = 2 * err;
