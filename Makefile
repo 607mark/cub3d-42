@@ -6,7 +6,7 @@
 #    By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/05 12:31:45 by rkhakimu          #+#    #+#              #
-#    Updated: 2025/03/11 14:13:31 by rkhakimu         ###   ########.fr        #
+#    Updated: 2025/03/12 18:40:38 by rkhakimu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ SRCS =		$(SRC_DIR)/main.c \
 OBJS		= $(SRCS:.c=.o)
 
 # Compiler Flags
-CFLAGS		= -Wall -Werror -Wextra
+CFLAGS		= -g -Wall -Werror -Wextra
 INCLUDES	= -I$(INC_DIR) -I$(LIBFT_DIR) -I$(MLX42_DIR)/include
 
 # Platform-specific library linking

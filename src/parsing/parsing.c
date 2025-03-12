@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parcing.c                                          :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:25 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/12 12:38:09 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/12 19:05:31 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,10 @@ void	parse_cub_file(t_game *game, char *filename)
 		error_exit("Failed to open file");
 	init_game(game);
 	line = get_next_line(fd);
-	while (line && is_config_element(line))
+	while (is_config_element(line) || ft_strlen(line) == 1)
 	{
-		read_config_line(game, line);
+		if (ft_strlen(line) != 1)
+			read_config_line(game, line);
 		free(line);
 		line = get_next_line(fd);
 	}
@@ -60,12 +61,11 @@ void	parse_cub_file(t_game *game, char *filename)
 	read_map(game, fd);
 	close(fd);
 	if (!game->textures.north || !game->textures.south
-		|| game->textures.west || !game->textures.east
+		|| !game->textures.west || !game->textures.east
 		|| game->floor_rgb == -1 || game->ceiling_rgb == -1)
 		error_exit("Missing config elements");
 	validate_map(game);
 }
-
 
 void	parse_texture(t_texture *textures, char *line)
 {

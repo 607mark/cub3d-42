@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:47:45 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/11 12:14:26 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/12 19:04:57 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,23 @@ void	read_map(t_game *game, int fd)
 	height = 0;
 	line = get_next_line(fd);
 	while (line)
-	{
-		temp_map = ft_realloc_2d(temp_map, height + 1);
-		if (!temp_map)
-			error_exit("Memory allocation failed");
-		temp_map[height] = ft_strdup(line);
-		if (!temp_map[height])
-			error_exit("Memory allocation failed");
-		free(line);
-		height++;
-		line = get_next_line(fd);
-	}
-	if (height == 0)
-		error_exit("Empty map");
-	game->map = temp_map;
-	game->map_height = height;
+    {
+        char *trimmed = ft_strtrim(line, "\n");
+        temp_map = ft_realloc_2d(temp_map, height + 1);
+        if (!temp_map)
+            error_exit("Memory allocation failed");
+        temp_map[height] = ft_strdup(trimmed);
+        if (!temp_map[height])
+            error_exit("Memory allocation failed");
+        free(trimmed);
+        free(line);
+        height++;
+        line = get_next_line(fd);
+    }
+    if (height == 0)
+        error_exit("Empty map");
+    game->map = temp_map;
+    game->map_height = height;
 }
 
 void	check_row(char *row, int y, t_game *game, int *player_found)
@@ -79,7 +81,7 @@ void	check_row(char *row, int y, t_game *game, int *player_found)
 			game->player.orientation = *ptr;
 		}
 		else if (*ptr != '0' && *ptr != '1' && !ft_isspace(*ptr))
-			error_exit("Invalid character in map");
+		    error_exit("Invalid character in map");
 		ptr++;
 	}
 }

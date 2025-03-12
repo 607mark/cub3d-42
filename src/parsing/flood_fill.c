@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 11:51:33 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/11 12:05:50 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/12 19:00:23 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,14 @@
 
 void	flood_fill(t_game *game, int x, int y, char **map)
 {
-	if (x < 0 || x >= game->map_width || y < 0 || y >= game->map_height)
+	printf("x: %d, y: %d, game->map_height: %d\n", x, y, game->map_height);
+	if (x < 0 || y < 0 || y >= game->map_height)
+	{
+		
 		error_exit("Map not enclosed by walls");
+	}
+	if (x >= (int)ft_strlen(map[y]))
+		error_exit("Map not enclosed by walls, h");
 	if (map[y][x] == '1' || map[y][x] == '#')
 		return ;
 	if (ft_isspace(map[y][x]))
