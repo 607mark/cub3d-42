@@ -80,9 +80,9 @@ void print_hook(void *param)
 {
     t_game* game = (t_game*)param;
 
-    // printf("  Pos: (%.2f, %.2f)\n", game->player.x_pos, game->player.y_pos);
-    // printf("  Dir: (%.2f, %.2f)\n", game->player.x_dir, game->player.y_dir);
-    // printf("  Plane: (%.2f, %.2f)\n", game->player.x_plane, game->player.y_plane);
+    printf("  Pos: (%.2f, %.2f)\n", game->player.x_pos, game->player.y_pos);
+    printf("  Dir: (%.2f, %.2f)\n", game->player.x_dir, game->player.y_dir);
+    printf("  Plane: (%.2f, %.2f)\n", game->player.x_plane, game->player.y_plane);
 }
 
 int is_valid_pos(t_game* game, double new_x, double new_y)
@@ -107,9 +107,8 @@ void rotate(t_game* game, double rot_rad)
     rotate_vector(&game->player.x_plane, &game->player.y_plane, rot_rad);
 }
 
-void draw_square(t_game *game, int x, int y)
+void draw_square(t_game *game, int x, int y, int size, uint32_t color)
 {
-    int size = 100;
     int start_x = x;
     int start_y = y;
     int end_x = x + size - 1;
@@ -120,10 +119,10 @@ void draw_square(t_game *game, int x, int y)
         int draw_x = start_x;
         while (draw_x <= end_x)
         {
-            if(!(draw_x % 100) || !(draw_y % 100))
+            if(size ==100 && (!(draw_x % 100) || !(draw_y % 100)))
                 mlx_put_pixel(game->img, draw_x, draw_y, 0x000000FF);
             else
-                mlx_put_pixel(game->img, draw_x, draw_y, 0xF000002F);
+                mlx_put_pixel(game->img, draw_x, draw_y, color);
             draw_x++;
         }
         draw_y++;
@@ -141,7 +140,7 @@ void draw_map(t_game* game)
         while(j < 10)
         {
             if (map[j][i] == 1)
-                draw_square(game, i * 100, j * 100);
+                draw_square(game, i * 100, j * 100, 100, 0xF000002F);
             j++;
         }
         i++;
@@ -178,14 +177,7 @@ void draw_hook(void* param)
             mlx_put_pixel(game->img, x0 , y0 + 1, 0xFFFFFFFF);
             mlx_put_pixel(game->img, x0, y0 -1, 0xFFFFFFFF);
         }
-        mlx_put_pixel(game->img, start_x, start_y, 0xFF0000FF);
-        mlx_put_pixel(game->img, start_x -1, start_y, 0xFF0000FF);
-        mlx_put_pixel(game->img, start_x + 1, start_y, 0xFF0000FF);
-        mlx_put_pixel(game->img, start_x -1, start_y -1, 0xFF0000FF);
-        mlx_put_pixel(game->img, start_x + 1, start_y -1, 0xFF0000FF);
-        mlx_put_pixel(game->img, start_x + 1, start_y, 0xFF0000FF);
-        mlx_put_pixel(game->img, start_x, start_y -1, 0xFF0000FF);
-        mlx_put_pixel(game->img, start_x, start_y -1, 0xFF0000FF);
+        draw_square(game, start_x - 5, start_y -5, 10, 0xFFFFFFFF);
         if (x0 == x1 && y0 == y1)
             break;
         int e2 = 2 * err;
@@ -206,7 +198,7 @@ void player_hook(void* param)
 {
     t_game* game = (t_game*)param;
     const double move_speed = 0.1;
-    const double rot_speed = 0.01;
+    const double rot_speed = 0.1;
 
     if (game->keys.w)
         move(game, game->player.x_dir, game->player.y_dir, move_speed);
@@ -252,7 +244,7 @@ int main(void) {
     mlx_image_to_window(game.mlx, game.img, 0, 0);
     mlx_loop_hook(game.mlx, player_hook, &game);
     mlx_loop_hook(game.mlx, draw_hook, &game);
-    //mlx_loop_hook(game.mlx, print_hook, &game);
+    mlx_loop_hook(game.mlx, print_hook, &game);
     mlx_key_hook(game.mlx, key_hook, &game);
     
     mlx_loop(game.mlx);
