@@ -41,7 +41,7 @@ int	main(int ac, char **av)
 	t_game	game;
 	if (ac != 2)
 		error_exit("Usage: ./cub3d <map.cub>");
-	parse_cub_file(&game, argv[1]);
+	parse_cub_file(&game, av[1]);
 	free_game(&game);
 	return (0);
 }

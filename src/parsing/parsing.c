@@ -12,6 +12,31 @@
 
 #include "../../inc/cub3d.h"
 
+void	read_config_line(t_game *game, char *line)
+{
+	char	*trimmed;
+	
+	trimmed = ft_strtrim(line, " \t\n");
+	if (!trimmed)
+		error_exit("Memory allocation failed");
+	if (ft_strncmp(trimmed, "NO ", 3) == 0)
+		parse_texture(&game->textures, trimmed);
+	else if (ft_strncmp(trimmed, "SO ", 3) == 0)
+		parse_texture(&game->textures, trimmed);
+	else if (ft_strncmp(trimmed, "WE ", 3) == 0)
+		parse_texture(&game->textures, trimmed);
+	else if (ft_strncmp(trimmed, "EA ", 3) == 0)
+		parse_texture(&game->textures, trimmed);
+	else if (ft_strncmp(trimmed, "F ", 2) == 0)
+		parse_color(&game->floor_rgb, trimmed);
+	else if (ft_strncmp(trimmed, "C ", 2) == 0)
+		parse_color(&game->ceiling_rgb, trimmed);
+	else
+		error_exit("invalid config line");
+	free(trimmed);
+}
+
+
 void	parse_cub_file(t_game *game, char *filename)
 {
 	int		fd;
@@ -41,29 +66,6 @@ void	parse_cub_file(t_game *game, char *filename)
 	validate_map(game);
 }
 
-void	read_config_line(t_game *game, char *line)
-{
-	char	*trimmed;
-	
-	trimmed = ft_strtrim(line, " \t\n");
-	if (!trimmed)
-		error_exit("Memory allocation failed");
-	if (ft_strcmp(trimmed, "NO ", 3) == 0)
-		parse_texture(&game->textures, trimmed);
-	else if (ft_strncmp(trimmed, "SO ", 3) == 0)
-		parse_texture(&game->textures, trimmed);
-	else if (ft_strncmp(trimmed, "WE ", 3) == 0)
-		parse_texture(&game->textures, trimmed);
-	else if (ft_strncmp(trimmed, "EA ", 3) == 0)
-		parse_texture(&game->textures, trimmed);
-	else if (ft_strncmp(trimmed, "F ", 2) == 0)
-		parse_color(&game->floor_rgb, trimmed);
-	else if (ft_strncmp(trimmed, "C ", 2) == 0)
-		parse_color(&game->ceiling_rgb, trimmed);
-	else
-		error_exit("invalid config line");
-	free(trimmed);
-}
 
 void	parse_texture(t_texture *textures, char *line)
 {

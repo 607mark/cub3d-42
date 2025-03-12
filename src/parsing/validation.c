@@ -67,7 +67,7 @@ void	validate_map(t_game *game)
 	while (y < game->map_height)
 	{
 		check_row(game->map[y], y, game, &player_found);
-		if (ft_strlen(game->map[y]) > game->map_width)
+		if ((int)ft_strlen(game->map[y]) > game->map_width)
 			game->map_width = ft_strlen(game->map[y]);
 		y++;
 	}

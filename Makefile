@@ -26,6 +26,7 @@ SRCS =		$(SRC_DIR)/main.c \
 			$(ERROR_DIR)/error_handling.c \
 			$(PARSE_DIR)/flood_fill.c \
 			$(PARSE_DIR)/parsing.c \
+			$(PARSE_DIR)/parsing_color.c \
 			$(PARSE_DIR)/reading_map.c \
 			$(PARSE_DIR)/validation.c
 
