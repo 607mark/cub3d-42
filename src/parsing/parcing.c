@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:25 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/12 11:09:07 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/12 12:38:09 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,11 @@ void	parse_texture(t_texture *textures, char *line)
 	path = ft_strdup(start);
 	if (!path)
 		error_exit("Memory allocation failed");
+	if (!validate_tex_ext(path))
+	{
+		free(path);
+		error_exit("Invalid texture extention (must be .xpm or .png)");
+	}
 	if (ft_strncmp(line, "NO ", 3) == 0)
 	{
 		if (textures->north)

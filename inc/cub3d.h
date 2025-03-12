@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:20 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/11 13:30:02 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/12 12:36:56 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	parse_cub_file(t_game *game, char *filename);
 void	error_exit(char *msg);
 int		validate_file_ext(char *filename);
 int		validate_file_access(char *filename);
+int		validate_tex_ext(char *filename);
 int		is_config_element(char *line);
 void	init_game(t_game *game);
 void	parse_texture(t_texture *textures, char *line);

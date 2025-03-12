@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:07 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/11 12:29:20 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/12 12:35:47 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,20 @@ int	validate_file_ext(char *filename)
 		return (1);
 	return (0);
 }
+
+int	validate_tex_ext(char *filename)
+{
+	char	*ext;
+
+	ext = NULL;
+	ext = ft_strrchr(filename, '.');
+	if (!ext)
+		return (0);
+	if (ft_strcmp(".xpm", ext) == 0 || ft_strcmp(".png", ext) == 0)
+		return (1);
+	return (0);
+}
+
 
 int	validate_file_access(char *filename)
 {
