@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 09:17:47 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/12 10:14:03 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/12 11:09:21 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,21 @@ void	error_exit(char *msg)
 	exit (1);
 }
 
-// void	free_game(t_game *game)
-// {
-// 	int	y;
+void	free_game(t_game *game)
+{
+	int	y;
 	
-// 	y = 0;
-// 	while(y < game->map_height)
-// 	{
-// 		free(game->map[y]);
-// 		y++;
-// 	}
-// 	if (game->map)
-// 		free(game->map);
-// 	free(game->textures.north);
-// 	free(game->textures.south);
-// 	free(game->textures.west);
-// 	free(game->textures.east);
-// 	//more for mlx;
-// }
+	y = 0;
+	while(y < game->map_height)
+	{
+		free(game->map[y]);
+		y++;
+	}
+	if (game->map)
+		free(game->map);
+	free(game->textures.north);
+	free(game->textures.south);
+	free(game->textures.west);
+	free(game->textures.east);
+	//more for mlx;
+}

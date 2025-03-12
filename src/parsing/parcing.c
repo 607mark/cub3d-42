@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:25 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/12 09:08:53 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/12 11:09:07 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,29 +101,3 @@ void	parse_texture(t_texture *textures, char *line)
 		textures->east = path;
 	}
 }
-
-// void	parse_color(int *color, char *line)
-// {
-// 	char	*ptr;
-// 	int		r;
-// 	int		g;
-// 	int		b;
-
-// 	ptr = line + 2;
-// 	while (ft_isspace(*ptr))
-// 		ptr++;
-// 	r = ft_atoi(ptr);
-// 	ptr = ft_strchr(ptr, ',');
-// 	if (!ptr || r < 0 || r > 255)
-// 		error_exit("Invalid RGB format");
-// 	ptr++;
-// 	g = ft_atoi(ptr);
-// 	ptr = (ft_strchr(ptr, ','));
-// 	if (!ptr || g < 0 || g > 255)
-// 		error_exit("Invalid RGB format");
-// 	ptr++;
-// 	b = ft_atoi(ptr);
-// 	if (b < 0 || b > 255 || *color != -1)
-// 		error_exit("Invalid RGB or duplicate");
-// 	*color = (r << 16) | (g << 8) | b;
-// }

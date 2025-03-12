@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 09:09:06 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/12 10:17:09 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/12 11:48:18 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,23 +79,10 @@ void	parse_color(int *color, char *line)
 		error_exit("Invalid RGB format: GREEN component");
 	skip_spaces(&ptr);
 	*color = parse_component(&ptr, '\0', &err_flag);
-	if (*color == -1 || (*color != -1 && *color != 0))
+	if (*color == -1)
 		error_exit("Invalid RGB format: BLUE or duplicate");
 	skip_spaces(&ptr);
 	if (*ptr != '\0')
 		error_exit("Invalid RGB format: trailing characters");
 	*color = (r << 16) | (g << 8) | *color;
-}
-
-void test_parse_color_valid_rgb_format(void)
-{
-    char *line = "C 255, 128, 64";
-    int color = 0;
-    
-    parse_color(&color, line);
-    
-    // Expected color: R=255 (0xFF), G=128 (0x80), B=64 (0x40)
-    // Combined as 0xFF8040
-    int expected = (255 << 16) | (128 << 8) | 64;
-    printf("test_parse_color_valid_rgb_format: PASSED\n");
 }
