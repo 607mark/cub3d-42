@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:47:45 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/14 17:17:13 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/14 17:34:24 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,17 @@ void	read_map(t_game *game, int fd)
             free(line);
             if (!has_content)
                 error_exit("Invalid map: empty line within map");
+			line = get_next_line(fd);
+			while (line)
+			{
+				if (!is_newline(line))
+				{
+					free(line);
+					error_exit("Invalid map: content after map end");
+				}
+				free(line);
+				line = get_next_line(fd);
+			}
             break;
         }
         if (is_config_element(line))
