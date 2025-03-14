@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:25 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/14 15:03:51 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/14 17:17:30 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,9 @@ void	read_config_line(t_game *game, char *line)
 {
 	char	*trimmed;
 
-	printf("Raw config line: '%s'\n", line);
 	trimmed = ft_strtrim(line, " \t\n");
 	if (!trimmed)
 		error_exit("Memory allocation failed");
-	printf("Trimmed config line: '%s'\n", trimmed);
 	if (ft_strncmp(trimmed, "NO ", 3) == 0)
 		parse_texture(&game->textures, trimmed);
 	else if (ft_strncmp(trimmed, "SO ", 3) == 0)

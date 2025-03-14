@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 09:09:06 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/14 15:09:06 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/14 17:17:53 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,12 @@ static int	parse_component(char **ptr, char end_char, int *err_flag)
 	count_digits(endptr, err_flag);
 	while(ft_isdigit(*endptr))
 		endptr++;
-	printf("parse_component: endptr at '%s', expected end_char '%c'\n", endptr, end_char);
 	if (*endptr != end_char || value < 0 || value > 255 || *err_flag)
 		return (-1);
 	if (end_char == ',')
 		*ptr = endptr + 1;
 	else
 		*ptr = endptr;
-	printf("parse_component: new ptr at '%s'\n", *ptr);
 	return (value);
 }
 
@@ -72,7 +70,6 @@ void	parse_color(int *color, char *line)
 	int		g;
 	int		err_flag;
 
-	printf("parse_color input: '%s'\n", line);
 	ptr = line + 2;
 	err_flag = 0;
 	skip_spaces(&ptr);
@@ -90,7 +87,6 @@ void	parse_color(int *color, char *line)
 	skip_spaces(&ptr);
 	while (*ptr == '\n' || ft_isspace(*ptr))
 		ptr++;
-	printf("After parsing, ptr points to: '%s'\n", ptr);
 	if (*ptr != '\0')
 		error_exit("Invalid RGB format: trailing characters");
 	*color = (r << 16) | (g << 8) | *color;

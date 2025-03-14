@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:47:45 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/14 15:23:00 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/14 17:17:13 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,17 @@ char	**ft_realloc_2d(char **old, int new_size)
 	return (new);
 }
 
-void read_map(t_game *game, int fd)
+void	read_map(t_game *game, int fd)
 {
-    char *line;
-    int has_content;
+    char	*line;
+    int		has_content;
+	int		i;
+	char	*trimmed;
 
-    printf("Using NEW read_map version\n");
     has_content = 0;
     line = get_next_line(fd);
     while (line)
     {
-        printf("read_map line: '%s'\n", line);
         if (is_newline(line))
         {
             free(line);
@@ -55,7 +55,14 @@ void read_map(t_game *game, int fd)
         }
         if (is_config_element(line))
             error_exit("Invalid map: config element after map start");
-        char *trimmed = ft_strtrim(line, "\n");
+        trimmed = ft_strtrim(line, "\n");
+		i = 0;
+		while (trimmed[i])
+		{
+			if (ft_isspace(trimmed[i]))
+				trimmed[i] = '0';
+			i++;
+		}
         game->map = ft_realloc_2d(game->map, game->map_height + 1);
         if (!game->map)
             error_exit("Memory allocation failed");
@@ -68,7 +75,6 @@ void read_map(t_game *game, int fd)
         has_content = 1;
         line = get_next_line(fd);
     }
-    printf("read_map completed, height = %d\n", game->map_height);
     if (game->map_height < 2)
         error_exit("Map too small");
 }
