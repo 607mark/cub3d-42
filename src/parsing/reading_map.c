@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:47:45 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/14 13:44:57 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/14 15:23:00 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,27 +35,26 @@ char	**ft_realloc_2d(char **old, int new_size)
 	return (new);
 }
 
-void	read_map(t_game *game, int fd)
+void read_map(t_game *game, int fd)
 {
-	char	*line;
-	int		has_content;
+    char *line;
+    int has_content;
 
-	has_content = 0;
-	line = get_next_line(fd);
-	while (line)
+    printf("Using NEW read_map version\n");
+    has_content = 0;
+    line = get_next_line(fd);
+    while (line)
     {
-		if (is_config_element(line))
-			error_exit("Invalid map: config element after map start");
-		if (is_newline(line))
-		{
-			if (has_content)
-			{
-				free(line);
-				line = get_next_line(fd);
-				continue;
-			}
-			error_exit("Invalid map: newline within map");
-		}
+        printf("read_map line: '%s'\n", line);
+        if (is_newline(line))
+        {
+            free(line);
+            if (!has_content)
+                error_exit("Invalid map: empty line within map");
+            break;
+        }
+        if (is_config_element(line))
+            error_exit("Invalid map: config element after map start");
         char *trimmed = ft_strtrim(line, "\n");
         game->map = ft_realloc_2d(game->map, game->map_height + 1);
         if (!game->map)
@@ -66,9 +65,10 @@ void	read_map(t_game *game, int fd)
         free(trimmed);
         free(line);
         game->map_height++;
-		has_content = 1;
+        has_content = 1;
         line = get_next_line(fd);
     }
+    printf("read_map completed, height = %d\n", game->map_height);
     if (game->map_height < 2)
         error_exit("Map too small");
 }

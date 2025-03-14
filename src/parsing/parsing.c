@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:25 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/14 13:45:30 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/14 15:03:51 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 void	read_config_line(t_game *game, char *line)
 {
 	char	*trimmed;
-	
+
+	printf("Raw config line: '%s'\n", line);
 	trimmed = ft_strtrim(line, " \t\n");
 	if (!trimmed)
 		error_exit("Memory allocation failed");
+	printf("Trimmed config line: '%s'\n", trimmed);
 	if (ft_strncmp(trimmed, "NO ", 3) == 0)
 		parse_texture(&game->textures, trimmed);
 	else if (ft_strncmp(trimmed, "SO ", 3) == 0)
@@ -58,13 +60,13 @@ void	parse_cub_file(t_game *game, char *filename)
 	}
 	if (!line)
 		error_exit("No map found in file");
-	if (is_newline(line))
+	while (line && is_newline(line))
 	{
 		free(line);
 		line = get_next_line(fd);
-		if (!line)
-			error_exit("No map found after newline");
 	}
+	if (!line)
+		error_exit("No map found after config");
 	game->map = ft_realloc_2d(NULL, 1);
 	game->map[0] = ft_strdup(ft_strtrim(line, "\n"));
 	game->map_height = 1;
