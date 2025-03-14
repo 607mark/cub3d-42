@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:47:45 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/12 19:04:57 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:44:57 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,39 @@ char	**ft_realloc_2d(char **old, int new_size)
 void	read_map(t_game *game, int fd)
 {
 	char	*line;
-	char	**temp_map;
-	int		height;
+	int		has_content;
 
-	temp_map = NULL;
-	height = 0;
+	has_content = 0;
 	line = get_next_line(fd);
 	while (line)
     {
+		if (is_config_element(line))
+			error_exit("Invalid map: config element after map start");
+		if (is_newline(line))
+		{
+			if (has_content)
+			{
+				free(line);
+				line = get_next_line(fd);
+				continue;
+			}
+			error_exit("Invalid map: newline within map");
+		}
         char *trimmed = ft_strtrim(line, "\n");
-        temp_map = ft_realloc_2d(temp_map, height + 1);
-        if (!temp_map)
+        game->map = ft_realloc_2d(game->map, game->map_height + 1);
+        if (!game->map)
             error_exit("Memory allocation failed");
-        temp_map[height] = ft_strdup(trimmed);
-        if (!temp_map[height])
+        game->map[game->map_height] = ft_strdup(trimmed);
+        if (!game->map[game->map_height])
             error_exit("Memory allocation failed");
         free(trimmed);
         free(line);
-        height++;
+        game->map_height++;
+		has_content = 1;
         line = get_next_line(fd);
     }
-    if (height == 0)
-        error_exit("Empty map");
-    game->map = temp_map;
-    game->map_height = height;
+    if (game->map_height < 2)
+        error_exit("Map too small");
 }
 
 void	check_row(char *row, int y, t_game *game, int *player_found)

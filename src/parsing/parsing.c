@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:25 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/12 19:05:31 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:45:30 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,29 @@ void	parse_cub_file(t_game *game, char *filename)
 		error_exit("Failed to open file");
 	init_game(game);
 	line = get_next_line(fd);
-	while (is_config_element(line) || ft_strlen(line) == 1)
+	while (line && (is_config_element(line) || is_newline(line)))
 	{
-		if (ft_strlen(line) != 1)
+		if (is_config_element(line))
 			read_config_line(game, line);
 		free(line);
 		line = get_next_line(fd);
 	}
 	if (!line)
 		error_exit("No map found in file");
+	if (is_newline(line))
+	{
+		free(line);
+		line = get_next_line(fd);
+		if (!line)
+			error_exit("No map found after newline");
+	}
+	game->map = ft_realloc_2d(NULL, 1);
+	game->map[0] = ft_strdup(ft_strtrim(line, "\n"));
+	game->map_height = 1;
+	free(line);
 	read_map(game, fd);
 	close(fd);
-	if (!game->textures.north || !game->textures.south
-		|| !game->textures.west || !game->textures.east
-		|| game->floor_rgb == -1 || game->ceiling_rgb == -1)
-		error_exit("Missing config elements");
+	validate_config(game);
 	validate_map(game);
 }
 

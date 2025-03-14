@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:07 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/12 12:35:47 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:29:45 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	validate_map(t_game *game)
 	player_found = 0;
 	while (y < game->map_height)
 	{
+		printf("Row %d: %s\n", y, game->map[y]);
 		check_row(game->map[y], y, game, &player_found);
 		if ((int)ft_strlen(game->map[y]) > game->map_width)
 			game->map_width = ft_strlen(game->map[y]);
@@ -73,5 +74,31 @@ void	validate_map(t_game *game)
 	}
 	if (!player_found)
 		error_exit("No player found in map");
+	printf("Starting flood_fill at x: %f, y: %f\n", game->player.x, game->player.y);
 	flood_fill(game, game->player.x, game->player.y, game->map);
+}
+
+void	validate_config(t_game *game)
+{
+	if (!game->textures.north)
+		error_exit("Missing NO texture");
+	if (!game->textures.south)
+		error_exit("Missing SO texture");
+	if (!game->textures.west)
+		error_exit("Missing WE texture");
+	if (!game->textures.east)
+		error_exit("Missing EA texture");
+	if (game->ceiling_rgb == -1)
+		error_exit("Missing C color");
+	if (game->floor_rgb == -1)
+		error_exit("Missing F color");
+}
+
+int	is_newline(char *line)
+{
+	if (!line)
+		return (0);
+	if (ft_strlen(line) == 1 && line[0] == '\n')
+		return (1);
+	return (0);
 }
