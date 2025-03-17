@@ -36,6 +36,25 @@ typedef struct s_player {
     double y_plane;
 } t_player;
 
+typedef struct s_raycast
+{
+	double x_cam;
+	double x_raydir;
+	double y_raydir;
+	int		x_map;
+	int		y_map;
+	double x_side_dist;
+	double y_side_dist;
+	double x_delt_dist;
+	double y_delt_dist;
+	double wall_dist;
+	int x_step;
+	int y_step;
+	bool collision;
+	int side;
+	char dir;
+} t_raycast;
+
 
 typedef struct s_keys {
     bool w;

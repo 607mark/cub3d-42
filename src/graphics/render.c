@@ -147,16 +147,13 @@ void draw_map(t_game* game)
     }
 }
 
-void draw_hook(void* param)
+void draw_line(t_game *game, double xdir, double ydir, double line_length, uint32_t color)
 {
-    t_game* game = (t_game*)param;
-    
-    draw_map(game);
     uint32_t start_x = game->player.x_pos * 100;
     uint32_t start_y = game->player.y_pos * 100;
-    const double line_length = 90;
-    double end_x = start_x + game->player.x_dir * line_length;
-    double end_y = start_y + game->player.y_dir * line_length;
+    line_length = 90;
+    double end_x = start_x + xdir * line_length;
+    double end_y = start_y + ydir * line_length;
     int x0 = start_x;
     int y0 = start_y;
     int x1 = end_x;
@@ -173,9 +170,9 @@ void draw_hook(void* param)
             
         if (x0 >= 0 && x0 < SCREEN_WIDTH && y0 - 1>= 0 && y0 + 1 < SCREEN_HEIGHT)
         {
-            mlx_put_pixel(game->img, x0, y0, 0xFFFFFFFF);
-            mlx_put_pixel(game->img, x0 , y0 + 1, 0xFFFFFFFF);
-            mlx_put_pixel(game->img, x0, y0 -1, 0xFFFFFFFF);
+            mlx_put_pixel(game->img, x0, y0, color);
+            mlx_put_pixel(game->img, x0 , y0 + 1, color);
+            mlx_put_pixel(game->img, x0, y0 -1, color);
         }
         draw_square(game, start_x - 5, start_y -5, 10, 0xFFFFFFFF);
         if (x0 == x1 && y0 == y1)
@@ -192,6 +189,86 @@ void draw_hook(void* param)
             y0 += sy;
         }
     }
+}
+
+void reset_img(t_game *game)
+{
+    //mlx_image_to_window(game->mlx, game->img, 0, 0);
+    memset(game->img->pixels, 0, game->img->width * game->img->height * sizeof(int32_t));
+}
+
+void calc_ray_dir(t_raycast *r, int i, t_game* game)
+{
+    r->x_cam = 2 * i / (double) SCREEN_WIDTH - 1;
+    r->x_raydir = game->player.x_dir + game->player.x_plane * r->x_cam;
+    r->y_raydir = game->player.y_dir + game->player.y_plane * r->x_cam;
+}
+
+void calc_delt_dist(t_raycast *r, int i, t_game* game)
+{
+    if (!r->x_raydir)
+        r->x_delt_dist = 1e12;
+    else
+        r->x_delt_dist = fabs(1/r->x_raydir);
+    if (!r->y_raydir)
+        r->y_delt_dist = 1e12;
+    else
+        r->y_delt_dist = fabs(1/r->y_raydir);
+}
+
+void get_step_dir(t_raycast *r, int i, t_game* game)
+{
+    if (r->x_raydir < 0)
+    {
+        r->x_step = -1;
+        r->x_side_dist = (game->player.x_pos - r->x_map) * r->x_delt_dist;
+    }
+    else
+    {
+        r->x_step = 1;
+        r->x_side_dist = (r->x_map + 1 - game->player.x_pos) * r->x_delt_dist;
+    }
+    if (r->y_raydir < 0)
+    {
+        r->y_step = -1;
+        r->y_side_dist = (game->player.y_pos - r->y_map) * r->y_delt_dist;
+    }
+    else
+    {
+        r->y_step = 1;
+        r->y_side_dist = (r->y_map + 1 - game->player.y_pos) * r->y_delt_dist;
+    }
+}
+
+void render_hook(void* param)
+{
+    t_game *game = (t_game *) param;
+    t_raycast r;
+    ft_memset(&r, 0, sizeof(t_raycast));
+    //reset_img(game);
+    int i = 0;
+    while(i < SCREEN_WIDTH)
+    {
+        calc_ray_dir(&r, i, game);
+        calc_delt_dist(&r, i, game);
+        get_step_dir(&r, i, game);
+        draw_line(game, r.x_raydir, r.y_raydir, 66, 0x5F40FF80);
+
+        
+
+        i++;
+    }
+}
+
+
+void draw_hook(void* param)
+{
+    t_game* game = (t_game*)param;
+    
+    draw_map(game);
+    draw_line(game, game->player.x_dir, game->player.y_dir, 90, 0xFFFFFFFF);
+    draw_line(game, game->player.x_plane, game->player.y_plane, 66, 0xF00FFFFF);
+    render_hook(param);
 }
 
 void player_hook(void* param)
@@ -244,6 +321,7 @@ int main(void) {
     mlx_image_to_window(game.mlx, game.img, 0, 0);
     mlx_loop_hook(game.mlx, player_hook, &game);
     mlx_loop_hook(game.mlx, draw_hook, &game);
+    // mlx_loop_hook(game.mlx, render_hook, &game);
     mlx_loop_hook(game.mlx, print_hook, &game);
     mlx_key_hook(game.mlx, key_hook, &game);
     
