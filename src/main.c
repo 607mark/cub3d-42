@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:10:07 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/19 12:22:22 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:34:04 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	main(int ac, char **av)
 		error_exit("Usage: ./cub3d <map.cub>");
 	parse_cub_file(&game, av[1]);
 	free_game(&game);
+	load_textures(&game);
 	return (0);
 }
 
