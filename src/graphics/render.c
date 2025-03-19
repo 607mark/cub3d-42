@@ -151,7 +151,6 @@ void draw_line(t_game *game, double xdir, double ydir, double line_length, uint3
 {
     uint32_t start_x = game->player.x_pos * 100;
     uint32_t start_y = game->player.y_pos * 100;
-    line_length = 90;
     double end_x = start_x + xdir * line_length;
     double end_y = start_y + ydir * line_length;
     int x0 = start_x;
@@ -218,6 +217,8 @@ void calc_delt_dist(t_raycast *r, int i, t_game* game)
 
 void get_step_dir(t_raycast *r, int i, t_game* game)
 {
+    r->x_map = (int)game->player.x_pos;
+    r->y_map = (int)game->player.y_pos;
     if (r->x_raydir < 0)
     {
         r->x_step = -1;
@@ -240,42 +241,127 @@ void get_step_dir(t_raycast *r, int i, t_game* game)
     }
 }
 
-void render_hook(void* param)
+void dda(t_raycast *r, t_game* game)
 {
-    t_game *game = (t_game *) param;
-    t_raycast r;
-    ft_memset(&r, 0, sizeof(t_raycast));
-    //reset_img(game);
-    int i = 0;
-    while(i < SCREEN_WIDTH)
+    while (r->collision == false)
     {
-        calc_ray_dir(&r, i, game);
-        calc_delt_dist(&r, i, game);
-        get_step_dir(&r, i, game);
-        draw_line(game, r.x_raydir, r.y_raydir, 66, 0x5F40FF80);
-
-        
-
-        i++;
+        if (r->x_side_dist < r->y_side_dist)
+        {
+            r->x_side_dist += r->x_delt_dist;
+            r->x_map += r->x_step;
+            r->side = 0;
+        }
+        else
+        {
+            r->y_side_dist += r->y_delt_dist;
+            r->y_map += r->y_step;
+            r->side = 1;
+        }
+        if (r->x_map >= 0 && r->x_map < MAP_WIDTH && r->y_map >= 0 && r->y_map < MAP_HEIGHT)
+        {
+            if (map[r->y_map][r->x_map] != 0)
+                r->collision = true;
+        }
     }
 }
 
+void calc_perpendicular_dist(t_raycast *r)
+{
+    if (r->side == 0)
+        r->perp_dist = (r->x_side_dist - r->x_delt_dist);
+    else
+        r->perp_dist = (r->y_side_dist - r->y_delt_dist);
+}
 
+// void render_hook(void* param)
+// {
+//     t_game *game = (t_game *) param;
+//     t_raycast r;
+//     ft_memset(&r, 0, sizeof(t_raycast));
+//     //reset_img(game);
+//     int i = 0;
+//     while(i < SCREEN_WIDTH)
+//     {
+//         calc_ray_dir(&r, i, game);
+//         calc_delt_dist(&r, i, game);
+//         get_step_dir(&r, i, game);
+//         draw_line(game, r.x_raydir, r.y_raydir, 66, 0x5F40FF80);
+//         dda(&r, game);
+//         if (r.side == 0)
+//             r.perp_dist = (r.x_side_dist - r.x_delt_dist);
+//         else
+//             r.perp_dist = (r.y_side_dist - r.y_delt_dist);
+          
+//         i++;
+//     }
+// }
+
+void draw_ray(t_game *game, t_raycast *r)
+{
+    double hit_x, hit_y;
+    
+    hit_x = game->player.x_pos + r->x_raydir * r->perp_dist;
+    hit_y = game->player.y_pos + r->y_raydir * r->perp_dist;
+    uint32_t hit_x_screen = (uint32_t)(hit_x * 100);
+    uint32_t hit_y_screen = (uint32_t)(hit_y * 100);
+
+    int x0 = game->player.x_pos * 100;
+    int y0 = game->player.y_pos * 100;
+    int x1 = hit_x_screen;
+    int y1 = hit_y_screen;
+
+    int dx = abs(x1 - x0);
+    int dy = abs(y1 - y0);
+    int sx = (x0 < x1) ? 1 : -1;
+    int sy = (y0 < y1) ? 1 : -1;
+    int err = dx - dy;
+
+    while (42)
+    {
+        if (x0 >= 0 && x0 < SCREEN_WIDTH && y0 >= 0 && y0 < SCREEN_HEIGHT)
+            mlx_put_pixel(game->img, x0, y0, 0x9F4000F0);
+        if (x0 == x1 && y0 == y1)
+            break;
+        int e2 = 2 * err;
+        if (e2 > -dy)
+        {
+            err -= dy;
+            x0 += sx;
+        }
+        if (e2 < dx)
+        {
+            err += dx;
+            y0 += sy;
+        }
+    }
+}
 void draw_hook(void* param)
 {
     t_game* game = (t_game*)param;
-    
+    t_raycast r;
+
     draw_map(game);
+    int i = 0;
+    while (i < SCREEN_WIDTH) {
+        ft_memset(&r, 0, sizeof(t_raycast));
+        calc_ray_dir(&r, i, game);
+        calc_delt_dist(&r, i, game);
+        get_step_dir(&r, i, game);
+        dda(&r, game);
+        calc_perpendicular_dist(&r);
+        draw_ray(game, &r);
+
+        i += 20;
+    }
+    draw_square(game, game->player.x_pos *100 - 5, game->player.y_pos * 100 - 5, 10, 0xFFFFFFFF);
     draw_line(game, game->player.x_dir, game->player.y_dir, 90, 0xFFFFFFFF);
-    draw_line(game, game->player.x_plane, game->player.y_plane, 66, 0xF00FFFFF);
-    render_hook(param);
 }
 
 void player_hook(void* param)
 {
     t_game* game = (t_game*)param;
     const double move_speed = 0.1;
-    const double rot_speed = 0.1;
+    const double rot_speed = 0.05;
 
     if (game->keys.w)
         move(game, game->player.x_dir, game->player.y_dir, move_speed);
@@ -293,11 +379,11 @@ void player_hook(void* param)
 
 void init(t_game *game)
 {
-    game->player.x_pos = 1.5;
-    game->player.y_pos = 1.5;
+    game->player.x_pos = 4.5;
+    game->player.y_pos = 4.5;
     game->player.x_dir = 0;
     game->player.y_dir = -1;
-    game->player.x_plane = 0.66;
+    game->player.x_plane = 1;
     game->player.y_plane = 0;
     // rotate_vector(&game->player.x_dir, &game->player.y_dir, 3.14 / 2);
     // rotate_vector(&game->player.x_plane, &game->player.y_plane, 3.14 / 2);
@@ -322,7 +408,7 @@ int main(void) {
     mlx_loop_hook(game.mlx, player_hook, &game);
     mlx_loop_hook(game.mlx, draw_hook, &game);
     // mlx_loop_hook(game.mlx, render_hook, &game);
-    mlx_loop_hook(game.mlx, print_hook, &game);
+    //mlx_loop_hook(game.mlx, print_hook, &game);
     mlx_key_hook(game.mlx, key_hook, &game);
     
     mlx_loop(game.mlx);

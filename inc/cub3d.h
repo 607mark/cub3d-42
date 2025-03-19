@@ -48,6 +48,7 @@ typedef struct s_raycast
 	double x_delt_dist;
 	double y_delt_dist;
 	double wall_dist;
+	double perp_dist;
 	int x_step;
 	int y_step;
 	bool collision;
