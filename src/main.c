@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:10:07 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/11 13:38:35 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/19 12:22:22 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	init_game(t_game *game)
 	game->map = NULL;
 	game->map_width = 0;
 	game->map_height = 0;
-	game->player.x = 0.0;
-	game->player.y = 0.0;
-	game->player.dir_x = 0.0;
-	game->player.dir_y = 0.0;
+	game->player.x_pos = 0.0;
+	game->player.y_pos = 0.0;
+	game->player.x_dir = 0.0;
+	game->player.y_dir = 0.0;
 	game->player.orientation = '\0';
 	game->textures.north = NULL;
 	game->textures.south = NULL;
@@ -32,9 +32,17 @@ void	init_game(t_game *game)
 	game->textures.img_east = NULL;
 	game->floor_rgb = -1;
 	game->ceiling_rgb = -1;
-	game->img_ptr = NULL;
-	game->mlx_ptr = NULL;
+	game->mlx = NULL;
+	game->img = NULL;
+	game->keys.w = 0;
+	game->keys.a = 0;
+	game->keys.s = 0;
+	game->keys.d = 0;
+	game->keys.left = 0;
+	game->keys.right = 0;
 }
+
+
 
 int	main(int ac, char **av)
 {

@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 09:09:06 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/14 17:17:53 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:03:47 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,28 +66,27 @@ static int	parse_component(char **ptr, char end_char, int *err_flag)
 void	parse_color(int *color, char *line)
 {
 	char	*ptr;
-	int		r;
-	int		g;
+	t_rgb	rgb;
 	int		err_flag;
 
 	ptr = line + 2;
 	err_flag = 0;
 	skip_spaces(&ptr);
-	r = parse_component(&ptr, ',', &err_flag);
-	if (r == -1)
+	rgb.r = parse_component(&ptr, ',', &err_flag);
+	if (rgb.r == -1)
 		error_exit("Invalid RGB format: RED component");
 	skip_spaces(&ptr);
-	g = parse_component(&ptr, ',', &err_flag);
-	if (g == -1)
+	rgb.g = parse_component(&ptr, ',', &err_flag);
+	if (rgb.g == -1)
 		error_exit("Invalid RGB format: GREEN component");
 	skip_spaces(&ptr);
-	*color = parse_component(&ptr, '\0', &err_flag);
-	if (*color == -1)
+	rgb.b = parse_component(&ptr, '\0', &err_flag);
+	if (rgb.b == -1)
 		error_exit("Invalid RGB format: BLUE or duplicate");
 	skip_spaces(&ptr);
 	while (*ptr == '\n' || ft_isspace(*ptr))
 		ptr++;
 	if (*ptr != '\0')
 		error_exit("Invalid RGB format: trailing characters");
-	*color = (r << 16) | (g << 8) | *color;
+	*color = (uint32_t)((rgb.r << 16) | (rgb.g << 8) | rgb.b);
 }

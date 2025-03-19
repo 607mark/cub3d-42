@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:47:45 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/14 17:34:24 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/17 13:51:22 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ void	check_row(char *row, int y, t_game *game, int *player_found)
 			if (*player_found)
 				error_exit("Multiple players in map");
 			*player_found = 1;
-			game->player.x = ptr - row;
-			game->player.y = y;
+			game->player.x_pos = ptr - row;
+			game->player.y_pos = y;
 			game->player.orientation = *ptr;
 		}
 		else if (*ptr != '0' && *ptr != '1' && !ft_isspace(*ptr))

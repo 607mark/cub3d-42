@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:25 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/17 12:41:32 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/19 10:42:29 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	parse_texture(t_texture *textures, char *line)
 	if (!validate_tex_ext(path))
 	{
 		free(path);
-		error_exit("Invalid texture extention (must be .xpm or .png)");
+		error_exit("Invalid texture extention (must be teture.png)");
 	}
 	if (!validate_file_access(path))
 	{

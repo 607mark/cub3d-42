@@ -6,7 +6,7 @@
 #    By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/05 12:31:45 by rkhakimu          #+#    #+#              #
-#    Updated: 2025/03/12 18:40:38 by rkhakimu         ###   ########.fr        #
+#    Updated: 2025/03/19 13:11:05 by rkhakimu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ ERROR_DIR	= $(SRC_DIR)/error_handling
 PARSE_DIR	= $(SRC_DIR)/parsing
 LIBFT_DIR	= ./lib/Libft
 MLX42_DIR	= ./lib/MLX42
+FREE_DIR	= $(SRC_DIR)/freeing
 
 # Source Files
 SRCS =		$(SRC_DIR)/main.c \
@@ -28,7 +29,10 @@ SRCS =		$(SRC_DIR)/main.c \
 			$(PARSE_DIR)/parsing.c \
 			$(PARSE_DIR)/parsing_color.c \
 			$(PARSE_DIR)/reading_map.c \
-			$(PARSE_DIR)/validation.c
+			$(PARSE_DIR)/validation.c \
+			$(PARSE_DIR)/loading_textures.c \
+			$(PARSE_DIR)/rendering_textures.c \
+			$(FREE_DIR)/freeing.c
 
 OBJS		= $(SRCS:.c=.o)
 

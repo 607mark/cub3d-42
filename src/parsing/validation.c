@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:07 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/14 17:19:20 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:02:17 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ int	validate_tex_ext(char *filename)
 	ext = ft_strrchr(filename, '.');
 	if (!ext)
 		return (0);
-	if (ft_strcmp(".xpm", ext) == 0 || ft_strcmp(".png", ext) == 0)
+	if (ft_strcmp(".png", ext) == 0)
 		return (1);
+	if (ft_strcmp(".xpm", ext) == 0)
+		error_exit("warning: .xpm detected. Needs to be .png");
 	return (0);
 }
 
@@ -90,8 +92,8 @@ void	validate_map(t_game *game)
     }
     if (!player_found)
         error_exit("No player found in map");
-    printf("Starting flood_fill at x: %f, y: %f\n", game->player.x, game->player.y);
-    flood_fill(game, game->player.x, game->player.y, game->map);
+    printf("Starting flood_fill at x: %f, y: %f\n", game->player.x_pos, game->player.y_pos);
+    flood_fill(game, game->player.x_pos, game->player.y_pos, game->map);
 }
 
 void	validate_config(t_game *game)
