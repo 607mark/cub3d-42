@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:54:57 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/20 09:35:09 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/20 09:44:38 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	free_texture_pair(char **path, mlx_texture_t **texture)
 	}
 	if (*texture)
 	{
-		free(*texture);
+		mlx_delete_texture(*texture);
 		*texture = NULL;
 	}
 }
@@ -50,30 +50,6 @@ void	free_textures(t_game *game)
 	free_texture_pair(&game->textures.south, &game->textures.tex_south);
 	free_texture_pair(&game->textures.west, &game->textures.tex_west);
 	free_texture_pair(&game->textures.east, &game->textures.tex_east);
-}
-
-void	free_mlx_images(t_game *game)
-{
-	if (game->textures.tex_north)
-	{
-		mlx_delete_image(game->mlx, game->textures.tex_north);
-		game->textures.tex_north = NULL;
-	}
-	if (game->textures.tex_south)
-	{
-		mlx_delete_image(game->mlx, game->textures.tex_south);
-		game->textures.tex_south = NULL;
-	}
-	if (game->textures.tex_west)
-	{
-		mlx_delete_image(game->mlx, game->textures.tex_west);
-		game->textures.tex_west = NULL;
-	}
-	if (game->textures.tex_east)
-	{
-		mlx_delete_image(game->mlx, game->textures.tex_east);
-		game->textures.tex_east = NULL;
-	}
 }
 
 void	free_mlx(t_game *game)
@@ -94,6 +70,5 @@ void	free_game(t_game *game)
 {
 	free_map(game);
 	free_textures(game);
-	free_mlx_images(game);
 	free_mlx(game);
 }

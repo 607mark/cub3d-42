@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:10:07 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/19 14:34:04 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/20 09:39:49 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ void	init_game(t_game *game)
 	game->textures.south = NULL;
 	game->textures.west = NULL;
 	game->textures.east = NULL;
-	game->textures.img_north = NULL;
-	game->textures.img_south = NULL;
-	game->textures.img_west = NULL;
-	game->textures.img_east = NULL;
+	game->textures.tex_north = NULL;
+	game->textures.tex_south = NULL;
+	game->textures.tex_west = NULL;
+	game->textures.tex_east = NULL;
 	game->floor_rgb = -1;
 	game->ceiling_rgb = -1;
 	game->mlx = NULL;
