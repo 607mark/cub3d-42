@@ -47,6 +47,7 @@ int map[MAP_HEIGHT][MAP_WIDTH] = {
     {1,1,1,1,1,1,1,1,1,1}
 };
 
+// rotation matrix for wikipedia
 void rotate_vector(double* x, double* y, double rad)
 {
     double x_old = *x;
@@ -101,12 +102,15 @@ void move(t_game* game, double x_dir, double y_dir, double speed)
         game->player.y_pos = new_y;
 }
 
+
+//rotates both player's dir and plane dir(perpendicular to player)
 void rotate(t_game* game, double rot_rad)
 {
     rotate_vector(&game->player.x_dir, &game->player.y_dir, rot_rad);
     rotate_vector(&game->player.x_plane, &game->player.y_plane, rot_rad);
 }
 
+//draws square of given color and size
 void draw_square(t_game *game, int x, int y, int size, uint32_t color)
 {
     int start_x = x;
@@ -129,6 +133,8 @@ void draw_square(t_game *game, int x, int y, int size, uint32_t color)
     }
 }
 
+
+//draws simple visualization of top-down view map 
 void draw_map(t_game* game)
 {
     memset(game->img->pixels, 0, SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(uint32_t));
@@ -146,7 +152,7 @@ void draw_map(t_game* game)
         i++;
     }
 }
-
+//bresenham that draws from player to player's direction the line of specific length
 void draw_line(t_game *game, double xdir, double ydir, double line_length, uint32_t color)
 {
     uint32_t start_x = game->player.x_pos * 100;
@@ -196,6 +202,9 @@ void reset_img(t_game *game)
     memset(game->img->pixels, 0, game->img->width * game->img->height * sizeof(int32_t));
 }
 
+
+// x_cam is conversion of i(n of vertical line to number from -1 to 1, where it's the leftmost and rightmost ray accordingly
+// rays direction calculation is a linear transformation that shifts player's direction by a scaled perpendicular component 
 void calc_ray_dir(t_raycast *r, int i, t_game* game)
 {
     r->x_cam = 2 * i / (double) SCREEN_WIDTH - 1;
@@ -203,18 +212,23 @@ void calc_ray_dir(t_raycast *r, int i, t_game* game)
     r->y_raydir = game->player.y_dir + game->player.y_plane * r->x_cam;
 }
 
+// delt_dist is the distance it takes ray to cross 1 "square" on xy graph, it's 1 <=
 void calc_delt_dist(t_raycast *r, int i, t_game* game)
 {
-    if (!r->x_raydir)
+    if (!r->x_raydir) //check if the ray is moving this direction at all, if no, then set to big value to prevent division by 0 later on
         r->x_delt_dist = 1e12;
     else
-        r->x_delt_dist = fabs(1/r->x_raydir);
+        r->x_delt_dist = fabs(1/r->x_raydir); // fabs is |-4| = 4
     if (!r->y_raydir)
         r->y_delt_dist = 1e12;
     else
         r->y_delt_dist = fabs(1/r->y_raydir);
 }
 
+
+//determines step's direction for future dda calculation
+// side_dist is calculation to get the distance to the closest whole number coord.  if 3.65 -> calc distance to get to 4
+//if ray direction for one of the axises was 0, then delt_dist is 1e12, then side_dist is also really big, this is used in later dda , so dda will never pick this step
 void get_step_dir(t_raycast *r, int i, t_game* game)
 {
     r->x_map = (int)game->player.x_pos;
@@ -241,6 +255,10 @@ void get_step_dir(t_raycast *r, int i, t_game* game)
     }
 }
 
+// moves the ray step-by-step across the map to find where it hits a wall
+// compares x_side_dist and y_side_dist to decide which direction to step next (x or y)
+// if a step’s side_dist was huge (1e12 from delt_dist), dda skips that direction, doing only on the valid step
+// side = 0 means hit a vertical wall (x-step), side = 1 means hit a horizontal wall (y-step)
 void dda(t_raycast *r, t_game* game)
 {
     while (r->collision == false)
@@ -264,6 +282,7 @@ void dda(t_raycast *r, t_game* game)
         }
     }
 }
+
 
 void calc_perpendicular_dist(t_raycast *r)
 {
@@ -351,7 +370,7 @@ void draw_hook(void* param)
         calc_perpendicular_dist(&r);
         draw_ray(game, &r);
 
-        i += 20;
+        i += 10;
     }
     draw_square(game, game->player.x_pos *100 - 5, game->player.y_pos * 100 - 5, 10, 0xFFFFFFFF);
     draw_line(game, game->player.x_dir, game->player.y_dir, 90, 0xFFFFFFFF);
@@ -383,7 +402,7 @@ void init(t_game *game)
     game->player.y_pos = 4.5;
     game->player.x_dir = 0;
     game->player.y_dir = -1;
-    game->player.x_plane = 1;
+    game->player.x_plane = 0.66;
     game->player.y_plane = 0;
     // rotate_vector(&game->player.x_dir, &game->player.y_dir, 3.14 / 2);
     // rotate_vector(&game->player.x_plane, &game->player.y_plane, 3.14 / 2);
