@@ -6,64 +6,37 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:26:12 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/19 11:29:45 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/20 09:34:42 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-void	load_north_texture(t_game *game)
+mlx_texture_t	*load_texture_file(char *path)
 {
-	mlx_texture_t	*temp;
-	
-	temp = NULL;
-	if (game->textures.north)
-	{
-		temp = load_texture_file(game->textures.north);
-		game->textures.img_north = texture_to_image(game, temp);
-	}
-}
+	mlx_texture_t	*texture;
 
-void	load_south_texture(t_game *game)
-{
-	mlx_texture_t	*temp;
-	
-	temp = NULL;
-	if (game->textures.south)
-	{
-		temp = load_texture_file(game->textures.south);
-		game->textures.img_south = texture_to_image(game, temp);
-	}
-}
-
-void	load_west_texture(t_game *game)
-{
-	mlx_texture_t	*temp;
-	
-	temp = NULL;
-	if (game->textures.west)
-	{
-		temp = load_texture_file(game->textures.west);
-		game->textures.img_west = texture_to_image(game, temp);
-	}
-}
-
-void	load_east_texture(t_game *game)
-{
-	mlx_texture_t	*temp;
-	
-	temp = NULL;
-	if (game->textures.east)
-	{
-		temp = load_texture_file(game->textures.east);
-		game->textures.img_east = texture_to_image(game, temp);
-	}
+	if (!path || !validate_tex_ext(path))
+		error_exit("invalid texture path or extention");
+	texture = mlx_load_png(path);
+	if (!texture)
+		error_exit("Failed to load PNG texture");
+	return (texture);    
 }
 
 void	load_textures(t_game *game)
 {
-	load_north_texture(game);
-	load_south_texture(game);
-	load_west_texture(game);
-	load_east_texture(game);
+	if (game->textures.north)
+		error_exit("Missing NO texture");
+	game->textures.tex_north = load_texture_file(game->textures.north);
+	if (game->textures.south)
+		error_exit("Missing SO texture");
+	game->textures.tex_south = load_texture_file(game->textures.south);
+	if (game->textures.west)
+		error_exit("Missing WE texture");
+	game->textures.tex_west = load_texture_file(game->textures.west);
+	if (game->textures.east)
+		error_exit("Missing EA texture");
+	game->textures.tex_east = load_texture_file(game->textures.east);
+
 }

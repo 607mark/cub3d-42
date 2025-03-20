@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:54:57 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/19 13:11:34 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/20 09:35:09 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,51 +30,49 @@ void	free_map(t_game *game)
 	}
 }
 
+void	free_texture_pair(char **path, mlx_texture_t **texture)
+{
+	if (*path)
+	{
+		free(*path);
+		*path = NULL;
+	}
+	if (*texture)
+	{
+		free(*texture);
+		*texture = NULL;
+	}
+}
+
 void	free_textures(t_game *game)
 {
-	if (game->textures.north)
-	{
-		free(game->textures.north);
-		game->textures.north = NULL;
-	}
-	if (game->textures.south)
-	{
-		free(game->textures.south);
-		game->textures.south = NULL;
-	}
-	if (game->textures.east)
-	{
-		free(game->textures.east);
-		game->textures.east = NULL;
-	}
-	if (game->textures.west)
-	{
-		free(game->textures.west);
-		game->textures.west = NULL;
-	}
+	free_texture_pair(&game->textures.north, &game->textures.tex_north);
+	free_texture_pair(&game->textures.south, &game->textures.tex_south);
+	free_texture_pair(&game->textures.west, &game->textures.tex_west);
+	free_texture_pair(&game->textures.east, &game->textures.tex_east);
 }
 
 void	free_mlx_images(t_game *game)
 {
-	if (game->textures.img_north)
+	if (game->textures.tex_north)
 	{
-		mlx_delete_image(game->mlx, game->textures.img_north);
-		game->textures.img_north = NULL;
+		mlx_delete_image(game->mlx, game->textures.tex_north);
+		game->textures.tex_north = NULL;
 	}
-	if (game->textures.img_south)
+	if (game->textures.tex_south)
 	{
-		mlx_delete_image(game->mlx, game->textures.img_south);
-		game->textures.img_south = NULL;
+		mlx_delete_image(game->mlx, game->textures.tex_south);
+		game->textures.tex_south = NULL;
 	}
-	if (game->textures.img_west)
+	if (game->textures.tex_west)
 	{
-		mlx_delete_image(game->mlx, game->textures.img_west);
-		game->textures.img_west = NULL;
+		mlx_delete_image(game->mlx, game->textures.tex_west);
+		game->textures.tex_west = NULL;
 	}
-	if (game->textures.img_east)
+	if (game->textures.tex_east)
 	{
-		mlx_delete_image(game->mlx, game->textures.img_east);
-		game->textures.img_east = NULL;
+		mlx_delete_image(game->mlx, game->textures.tex_east);
+		game->textures.tex_east = NULL;
 	}
 }
 

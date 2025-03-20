@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:20 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/19 13:11:54 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/20 09:31:00 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,14 @@ typedef struct s_keys
 
 typedef struct	s_texture
 {
-	char		*north;
-	char		*south;
-	char		*east;
-	char		*west;
-	mlx_image_t	*img_north;
-	mlx_image_t	*img_south;
-	mlx_image_t	*img_east;
-	mlx_image_t	*img_west;
+	char			*north;
+	char			*south;
+	char			*east;
+	char			*west;
+	mlx_texture_t	*tex_north;
+	mlx_texture_t	*tex_south;
+	mlx_texture_t	*tex_east;
+	mlx_texture_t	*tex_west;
 }	t_texture;
 
 typedef struct	s_game
@@ -111,6 +111,7 @@ void			free_game(t_game *game);
 
 /* Freeing */
 void			free_map(t_game *game);
+void			free_texture_pair(char **path, mlx_texture_t **texture);
 void			free_textures(t_game *game);
 void			free_mlx_images(t_game *game);
 void			free_mlx(t_game *game);
@@ -132,11 +133,6 @@ int				is_newline(char *line);
 
 /* Loading textures */
 mlx_texture_t	*load_texture_file(char *path);
-mlx_image_t		*texture_to_image(t_game *game, mlx_texture_t *texture);
-void			load_north_texture(t_game *game);
-void			load_south_texture(t_game *game);
-void			load_west_texture(t_game *game);
-void			load_east_texture(t_game *game);
 void			load_textures(t_game *game);
 
 /* MAP */
