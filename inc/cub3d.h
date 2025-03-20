@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:20 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/20 09:43:59 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/20 11:42:46 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ void			free_game(t_game *game);
 
 /* Parsing functions */
 void			parse_cub_file(t_game *game, char *filename);
+char			*parse_config(t_game *game, int fd);
+void			parse_map_start(t_game *game, int fd, char *first_map_line);
 void			error_exit(char *msg);
 int				validate_file_ext(char *filename);
 int				validate_file_access(char *filename);
