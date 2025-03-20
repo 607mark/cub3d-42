@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:26:12 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/20 09:34:42 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:57:55 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,16 @@ mlx_texture_t	*load_texture_file(char *path)
 
 void	load_textures(t_game *game)
 {
-	if (game->textures.north)
+	if (!game->textures.north)
 		error_exit("Missing NO texture");
 	game->textures.tex_north = load_texture_file(game->textures.north);
-	if (game->textures.south)
+	if (!game->textures.south)
 		error_exit("Missing SO texture");
 	game->textures.tex_south = load_texture_file(game->textures.south);
-	if (game->textures.west)
+	if (!game->textures.west)
 		error_exit("Missing WE texture");
 	game->textures.tex_west = load_texture_file(game->textures.west);
-	if (game->textures.east)
+	if (!game->textures.east)
 		error_exit("Missing EA texture");
 	game->textures.tex_east = load_texture_file(game->textures.east);
 
