@@ -12,6 +12,9 @@
 
 # Project and Compiler Settings
 NAME = cub3d
+NAME        := cub3D
+CC          := cc
+CFLAGS      := -Wall -Wextra
 
 # Directories
 INC_DIR		= ./inc
@@ -52,11 +55,31 @@ LIBFT		= $(LIBFT_DIR)/libft.a
 MLX42		= $(MLX42_DIR)/build/libmlx42.a
 
 RM			= rm -rf
+# Source files
+SRC         := main.c \
+				graphics/render.c 
+               
+SRCS        := $(addprefix $(SRC_DIR)/, $(SRC))
+OBJ         := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
 .PHONY: all clean fclean re
 
 # Default target
 all: $(LIBFT) $(MLX42) $(NAME)
+all: $(NAME)
+
+# Build the executable
+$(NAME): $(LIBFT) $(MLX) $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBS) $(HEADERS) -o $@
+
+# Rule to create the object directory
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
+
+# Compile object files
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c $< -o $@ $(HEADERS)
 
 $(LIBFT):
 	@echo "Building Libft library..."
@@ -82,11 +105,11 @@ clean:
 	@echo "Deleting object files..."
 	@$(RM) $(OBJS)
 	@make clean -C $(LIBFT_DIR) --no-print-directory
-	@$(RM) $(MLX42_DIR)/build
+	# @$(RM) $(MLX42_DIR)/build
 
 fclean: clean
 	@echo "Deleting cub3d and libraries..."
 	@$(RM) $(NAME) $(LIBFT)
-	@$(RM) $(MLX42_DIR)
+	# @$(RM) $(MLX42_DIR)
 
 re: fclean all

@@ -35,45 +35,44 @@ typedef struct s_rgb
 	bool	vaid;
 }	t_rgb;
 
-typedef struct s_player
-{
-	double	x_pos;
-	double	y_pos;
-	double	x_dir;
-	double	y_dir;
-	double	x_plane;
-	double	y_plane;
-	char	orientation;
-}	t_player;
+typedef struct s_player {
+    double x_pos;
+    double y_pos;
+    double x_dir;
+    double y_dir;
+    double x_plane;
+    double y_plane;
+} t_player;
 
 typedef struct s_raycast
 {
+	double x_cam;
+	double x_raydir;
+	double y_raydir;
 	int		x_map;
 	int		y_map;
-	double	x_cam;
-	double	x_raydir;
-	double	y_raydir;
-	double	x_side_dist;
-	double	y_side_dist;
-	double	x_delt_dist;
-	double	y_delt_dist;
-	double	wall_dist;
-	int		x_step;
-	int		y_step;
-	bool	collision;
-	int		side;
-	char	dir;
-}	t_raycast;
+	double x_side_dist;
+	double y_side_dist;
+	double x_delt_dist;
+	double y_delt_dist;
+	double wall_dist;
+	double perp_dist;
+	int x_step;
+	int y_step;
+	bool collision;
+	int side;
+	char dir;
+} t_raycast;
 
-typedef struct s_keys
-{
-	bool	w;
-    bool	a;
-    bool	s;
-    bool	d;
-    bool	left;
-    bool	right;
-}	t_keys;
+
+typedef struct s_keys {
+    bool w;
+    bool a;
+    bool s;
+    bool d;
+    bool left;
+    bool right;
+} t_keys;
 
 typedef struct	s_texture
 {
@@ -89,7 +88,7 @@ typedef struct	s_texture
 
 typedef struct	s_game
 {
-	char		**map;
+	int		**map;
 	int			map_width;
 	int			map_height;
 	t_player	player;
@@ -101,7 +100,7 @@ typedef struct	s_game
 	t_keys		keys;
 }	t_game;
 
-#endif
+
 
 
 
@@ -142,3 +141,5 @@ void			validate_map(t_game *game);
 char			**ft_realloc_2d(char **old, int new_size);
 void			check_row(char *row, int y, t_game *game, int *player_found);
 void			flood_fill(t_game *game, int x, int y, char **map);
+
+#endif
