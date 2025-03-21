@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:47:45 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/11 12:14:26 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/17 13:51:22 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,29 +37,57 @@ char	**ft_realloc_2d(char **old, int new_size)
 
 void	read_map(t_game *game, int fd)
 {
-	char	*line;
-	char	**temp_map;
-	int		height;
+    char	*line;
+    int		has_content;
+	int		i;
+	char	*trimmed;
 
-	temp_map = NULL;
-	height = 0;
-	line = get_next_line(fd);
-	while (line)
-	{
-		temp_map = ft_realloc_2d(temp_map, height + 1);
-		if (!temp_map)
-			error_exit("Memory allocation failed");
-		temp_map[height] = ft_strdup(line);
-		if (!temp_map[height])
-			error_exit("Memory allocation failed");
-		free(line);
-		height++;
-		line = get_next_line(fd);
-	}
-	if (height == 0)
-		error_exit("Empty map");
-	game->map = temp_map;
-	game->map_height = height;
+    has_content = 0;
+    line = get_next_line(fd);
+    while (line)
+    {
+        if (is_newline(line))
+        {
+            free(line);
+            if (!has_content)
+                error_exit("Invalid map: empty line within map");
+			line = get_next_line(fd);
+			while (line)
+			{
+				if (!is_newline(line))
+				{
+					free(line);
+					error_exit("Invalid map: content after map end");
+				}
+				free(line);
+				line = get_next_line(fd);
+			}
+            break;
+        }
+        if (is_config_element(line))
+            error_exit("Invalid map: config element after map start");
+        trimmed = ft_strtrim(line, "\n");
+		i = 0;
+		while (trimmed[i])
+		{
+			if (ft_isspace(trimmed[i]))
+				trimmed[i] = '0';
+			i++;
+		}
+        game->map = ft_realloc_2d(game->map, game->map_height + 1);
+        if (!game->map)
+            error_exit("Memory allocation failed");
+        game->map[game->map_height] = ft_strdup(trimmed);
+        if (!game->map[game->map_height])
+            error_exit("Memory allocation failed");
+        free(trimmed);
+        free(line);
+        game->map_height++;
+        has_content = 1;
+        line = get_next_line(fd);
+    }
+    if (game->map_height < 2)
+        error_exit("Map too small");
 }
 
 void	check_row(char *row, int y, t_game *game, int *player_found)
@@ -74,12 +102,12 @@ void	check_row(char *row, int y, t_game *game, int *player_found)
 			if (*player_found)
 				error_exit("Multiple players in map");
 			*player_found = 1;
-			game->player.x = ptr - row;
-			game->player.y = y;
+			game->player.x_pos = ptr - row;
+			game->player.y_pos = y;
 			game->player.orientation = *ptr;
 		}
 		else if (*ptr != '0' && *ptr != '1' && !ft_isspace(*ptr))
-			error_exit("Invalid character in map");
+		    error_exit("Invalid character in map");
 		ptr++;
 	}
 }
