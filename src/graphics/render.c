@@ -29,25 +29,25 @@
 #include "../../inc/cub3d.h"
 
 
-#define MAP_WIDTH 10
-#define MAP_HEIGHT 10
-#define SCREEN_WIDTH 1000
-#define SCREEN_HEIGHT 1000
+// #define MAP_WIDTH 10
+// #define MAP_HEIGHT 10
+// #define SCREEN_WIDTH 1000
+// #define SCREEN_HEIGHT 1000
 
 
 
-int map[MAP_HEIGHT][MAP_WIDTH] = {
-    {1,1,1,1,1,1,1,1,1,1},
-    {1,0,0,1,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,1,1,1,0,0,1},
-    {1,0,0,0,0,0,0,0,1,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,1,0,0,1},
-    {1,1,1,1,1,1,1,1,1,1}
-};
+// int map[MAP_HEIGHT][MAP_WIDTH] = {
+//     {1,1,1,1,1,1,1,1,1,1},
+//     {1,0,0,1,0,0,0,0,0,1},
+//     {1,0,0,0,0,0,0,0,0,1},
+//     {1,0,0,0,0,0,0,0,0,1},
+//     {1,0,0,0,0,0,0,0,0,1},
+//     {1,0,0,0,1,1,1,0,0,1},
+//     {1,0,0,0,0,0,0,0,1,1},
+//     {1,0,0,0,0,0,0,0,0,1},
+//     {1,0,0,0,0,0,1,0,0,1},
+//     {1,1,1,1,1,1,1,1,1,1}
+// };
 
 // rotation matrix for wikipedia
 void rotate_vector(double* x, double* y, double rad)
@@ -405,7 +405,7 @@ void init(t_game *game)
     game->player.x_dir = 0;
     game->player.y_dir = -1;
     game->player.x_plane = 0.66;
-    game->scale = 50;
+    game->scale = 20;
     game->width = game->map_width * game->scale;
     game->height = game->map_height * game->scale;
     // rotate_vector(&game->player.x_dir, &game->player.y_dir, 3.14 / 2);
@@ -429,11 +429,11 @@ int render(t_game *game) {
 
     init(game);
 
-    game->mlx = mlx_init(game->width, game->height, "cub3D", 0);
+    game->mlx = mlx_init(game->width * 5, game->height * 5, "cub3D", 0);
     game->img = mlx_new_image(game->mlx, game->width, game->height);
     // validate_map(game);
 
-    mlx_image_to_window(game->mlx, game->img, 0, 0);
+    mlx_image_to_window(game->mlx, game->img, game->width * 5 - game->width, game->height * 5 - game->height);
     mlx_loop_hook(game->mlx, player_hook, game);
     mlx_loop_hook(game->mlx, draw_hook, game);
     // // // mlx_loop_hook(game.mlx, render_hook, &game);
