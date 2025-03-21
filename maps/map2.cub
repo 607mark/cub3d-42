@@ -1,0 +1,11 @@
+NO ./textures/dalles2.png
+SO ./textures/Tile_04-256x256.png
+WE ./textures/Tile_20-256x256.png
+EA ./textures/Woven_17-256x256.png
+
+F 20,20,20
+C 200,200,200
+
+111111111111111111111
+1000000000000000000E1
+111111111111111111111
