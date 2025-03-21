@@ -34,6 +34,8 @@
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 1000
 
+
+
 int map[MAP_HEIGHT][MAP_WIDTH] = {
     {1,1,1,1,1,1,1,1,1,1},
     {1,0,0,1,0,0,0,0,0,1},
@@ -60,7 +62,6 @@ void rotate_vector(double* x, double* y, double rad)
 void key_hook(mlx_key_data_t keydata, void* param)
 {
     t_game* game = (t_game*)param;
-    
     if (keydata.key == MLX_KEY_W)
         game->keys.w = (keydata.action != MLX_RELEASE);
     if (keydata.key == MLX_KEY_S)
@@ -88,14 +89,14 @@ void print_hook(void *param)
 
 int is_valid_pos(t_game* game, double new_x, double new_y)
 {
-    return (map[(int)new_y][(int)new_x] == 0);
+    return (game->map[(int)new_y][(int)new_x] == '#');
 }
 
 void move(t_game* game, double x_dir, double y_dir, double speed)
 {
     double new_x = game->player.x_pos + x_dir * speed;
     double new_y = game->player.y_pos + y_dir * speed;
-    
+    printf("MOVE\n");
     if (is_valid_pos(game, new_x, game->player.y_pos))
         game->player.x_pos = new_x;
     if (is_valid_pos(game, game->player.x_pos, new_y))
@@ -123,7 +124,7 @@ void draw_square(t_game *game, int x, int y, int size, uint32_t color)
         int draw_x = start_x;
         while (draw_x <= end_x)
         {
-            if(size ==100 && (!(draw_x % 100) || !(draw_y % 100)))
+            if(size == game->scale && (!(draw_x % game->scale) || !(draw_y % game->scale)))
                 mlx_put_pixel(game->img, draw_x, draw_y, 0x000000FF);
             else
                 mlx_put_pixel(game->img, draw_x, draw_y, color);
@@ -137,16 +138,16 @@ void draw_square(t_game *game, int x, int y, int size, uint32_t color)
 //draws simple visualization of top-down view map 
 void draw_map(t_game* game)
 {
-    memset(game->img->pixels, 0, SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(uint32_t));
+    memset(game->img->pixels, 0, game->map_width * game->scale * game->map_height * game->scale * sizeof(uint32_t));
     int i, j;
     i = 0;
-    while(i < 10)
+    while(i < game->map_width)
     {
         j = 0;
-        while(j < 10)
+        while(j < game->map_height)
         {
-            if (map[j][i] == 1)
-                draw_square(game, i * 100, j * 100, 100, 0xF000002F);
+            if (game->map[j][i] == '1')
+                draw_square(game, i * game->scale, j * game->scale, game->scale, 0xF000002F);
             j++;
         }
         i++;
@@ -155,8 +156,8 @@ void draw_map(t_game* game)
 //bresenham that draws from player to player's direction the line of specific length
 void draw_line(t_game *game, double xdir, double ydir, double line_length, uint32_t color)
 {
-    uint32_t start_x = game->player.x_pos * 100;
-    uint32_t start_y = game->player.y_pos * 100;
+    uint32_t start_x = game->player.x_pos * game->scale;
+    uint32_t start_y = game->player.y_pos * game->scale;
     double end_x = start_x + xdir * line_length;
     double end_y = start_y + ydir * line_length;
     int x0 = start_x;
@@ -173,7 +174,7 @@ void draw_line(t_game *game, double xdir, double ydir, double line_length, uint3
     while (42)
     {
             
-        if (x0 >= 0 && x0 < SCREEN_WIDTH && y0 - 1>= 0 && y0 + 1 < SCREEN_HEIGHT)
+        if (x0 >= 0 && x0 < game->width && y0 - 1>= 0 && y0 + 1 < game->height)
         {
             mlx_put_pixel(game->img, x0, y0, color);
             mlx_put_pixel(game->img, x0 , y0 + 1, color);
@@ -207,7 +208,7 @@ void reset_img(t_game *game)
 // rays direction calculation is a linear transformation that shifts player's direction by a scaled perpendicular component 
 void calc_ray_dir(t_raycast *r, int i, t_game* game)
 {
-    r->x_cam = 2 * i / (double) SCREEN_WIDTH - 1;
+    r->x_cam = 2 * i / (double) game->width - 1;
     r->x_raydir = game->player.x_dir + game->player.x_plane * r->x_cam;
     r->y_raydir = game->player.y_dir + game->player.y_plane * r->x_cam;
 }
@@ -275,9 +276,9 @@ void dda(t_raycast *r, t_game* game)
             r->y_map += r->y_step;
             r->side = 1;
         }
-        if (r->x_map >= 0 && r->x_map < MAP_WIDTH && r->y_map >= 0 && r->y_map < MAP_HEIGHT)
+        if (r->x_map >= 0 && r->x_map < game->map_width && r->y_map >= 0 && r->y_map < game->map_height)
         {
-            if (map[r->y_map][r->x_map] != 0)
+            if (game->map[r->y_map][r->x_map] != '#')
                 r->collision = true;
         }
     }
@@ -321,11 +322,11 @@ void draw_ray(t_game *game, t_raycast *r)
     
     hit_x = game->player.x_pos + r->x_raydir * r->perp_dist;
     hit_y = game->player.y_pos + r->y_raydir * r->perp_dist;
-    uint32_t hit_x_screen = (uint32_t)(hit_x * 100);
-    uint32_t hit_y_screen = (uint32_t)(hit_y * 100);
+    uint32_t hit_x_screen = (uint32_t)(hit_x * game->scale);
+    uint32_t hit_y_screen = (uint32_t)(hit_y * game->scale);
 
-    int x0 = game->player.x_pos * 100;
-    int y0 = game->player.y_pos * 100;
+    int x0 = game->player.x_pos * game->scale;
+    int y0 = game->player.y_pos * game->scale;
     int x1 = hit_x_screen;
     int y1 = hit_y_screen;
 
@@ -337,7 +338,7 @@ void draw_ray(t_game *game, t_raycast *r)
 
     while (42)
     {
-        if (x0 >= 0 && x0 < SCREEN_WIDTH && y0 >= 0 && y0 < SCREEN_HEIGHT)
+        if (x0 >= 0 && x0 < game->width && y0 >= 0 && y0 < game->height)
             mlx_put_pixel(game->img, x0, y0, 0x9F4000F0);
         if (x0 == x1 && y0 == y1)
             break;
@@ -361,7 +362,7 @@ void draw_hook(void* param)
 
     draw_map(game);
     int i = 0;
-    while (i < SCREEN_WIDTH) {
+    while (i < game->width) {
         ft_memset(&r, 0, sizeof(t_raycast));
         calc_ray_dir(&r, i, game);
         calc_delt_dist(&r, i, game);
@@ -372,7 +373,7 @@ void draw_hook(void* param)
 
         i += 10;
     }
-    draw_square(game, game->player.x_pos *100 - 5, game->player.y_pos * 100 - 5, 10, 0xFFFFFFFF);
+    draw_square(game, game->player.x_pos *game->scale - 5, game->player.y_pos * game->scale - 5, 10, 0xFFFFFFFF);
     draw_line(game, game->player.x_dir, game->player.y_dir, 90, 0xFFFFFFFF);
 }
 
@@ -381,7 +382,8 @@ void player_hook(void* param)
     t_game* game = (t_game*)param;
     const double move_speed = 0.1;
     const double rot_speed = 0.05;
-
+    printf("%f\n", game->player.x_pos);
+    printf("%f\n", game->player.y_pos);
     if (game->keys.w)
         move(game, game->player.x_dir, game->player.y_dir, move_speed);
     if (game->keys.s)
@@ -398,16 +400,18 @@ void player_hook(void* param)
 
 void init(t_game *game)
 {
-    game->player.x_pos = 4.5;
-    game->player.y_pos = 4.5;
+    game->player.x_pos += 0.5;
+    game->player.y_pos += 0.5;
     game->player.x_dir = 0;
     game->player.y_dir = -1;
     game->player.x_plane = 0.66;
-    game->player.y_plane = 0;
+    game->scale = 50;
+    game->width = game->map_width * game->scale;
+    game->height = game->map_height * game->scale;
     // rotate_vector(&game->player.x_dir, &game->player.y_dir, 3.14 / 2);
     // rotate_vector(&game->player.x_plane, &game->player.y_plane, 3.14 / 2);
     
-
+    
     game->keys.w = 0;
     game->keys.a = 0;
     game->keys.s = 0;
@@ -416,24 +420,30 @@ void init(t_game *game)
     game->keys.right = 0;
 }
 
-int main(void) {
-    t_game game;
-    
-    game.mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "cub3D", 0);
-    game.img = mlx_new_image(game.mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+int render(t_game *game) {
 
-    init(&game);
-    mlx_image_to_window(game.mlx, game.img, 0, 0);
-    mlx_loop_hook(game.mlx, player_hook, &game);
-    mlx_loop_hook(game.mlx, draw_hook, &game);
-    // mlx_loop_hook(game.mlx, render_hook, &game);
-    //mlx_loop_hook(game.mlx, print_hook, &game);
-    mlx_key_hook(game.mlx, key_hook, &game);
+
+       
+
+    // Print key mappings
+
+    init(game);
+
+    game->mlx = mlx_init(game->width, game->height, "cub3D", 0);
+    game->img = mlx_new_image(game->mlx, game->width, game->height);
+    // validate_map(game);
+
+    mlx_image_to_window(game->mlx, game->img, 0, 0);
+    mlx_loop_hook(game->mlx, player_hook, game);
+    mlx_loop_hook(game->mlx, draw_hook, game);
+    // // // mlx_loop_hook(game.mlx, render_hook, &game);
+    // // //mlx_loop_hook(game.mlx, print_hook, &game);
+    mlx_key_hook(game->mlx, key_hook, game);
     
-    mlx_loop(game.mlx);
+    mlx_loop(game->mlx);
     
-    mlx_delete_image(game.mlx, game.img);
-    mlx_terminate(game.mlx);
+    // mlx_delete_image(game->mlx, game->img);
+    // mlx_terminate(game->mlx);
     
     return 0;
 }

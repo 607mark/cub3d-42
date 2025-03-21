@@ -42,6 +42,7 @@ typedef struct s_player {
     double y_dir;
     double x_plane;
     double y_plane;
+	char orientation;
 } t_player;
 
 typedef struct s_raycast
@@ -88,9 +89,12 @@ typedef struct	s_texture
 
 typedef struct	s_game
 {
-	int		**map;
+	char		**map;
 	int			map_width;
 	int			map_height;
+	int			width;
+	int			height;
+	int scale;
 	t_player	player;
 	t_texture	textures;
 	int			floor_rgb;
@@ -103,7 +107,7 @@ typedef struct	s_game
 
 
 
-
+ int render(t_game *game);
 /*Errors*/
 void			error_exit(char *msg);
 void			free_game(t_game *game);

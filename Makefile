@@ -6,66 +6,55 @@
 #    By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/05 12:31:45 by rkhakimu          #+#    #+#              #
-#    Updated: 2025/03/20 11:54:51 by rkhakimu         ###   ########.fr        #
+#    Updated: 2025/03/05 16:09:28 by rkhakimu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Project and Compiler Settings
-NAME = cub3d
 NAME        := cub3D
 CC          := cc
 CFLAGS      := -Wall -Wextra
 
 # Directories
-INC_DIR		= ./inc
-SRC_DIR		= ./src
-ERROR_DIR	= $(SRC_DIR)/error_handling
-PARSE_DIR	= $(SRC_DIR)/parsing
-LIBFT_DIR	= ./lib/Libft
-MLX42_DIR	= ./lib/MLX42
-FREE_DIR	= $(SRC_DIR)/freeing
+SRC_DIR     := src
+OBJ_DIR     := obj
+LIB_DIR     := lib
 
-# Source Files
-SRCS =		$(SRC_DIR)/main.c \
-			$(ERROR_DIR)/error_handling.c \
-			$(PARSE_DIR)/flood_fill.c \
-			$(PARSE_DIR)/parsing.c \
-			$(PARSE_DIR)/parsing_color.c \
-			$(PARSE_DIR)/reading_map.c \
-			$(PARSE_DIR)/validation.c \
-			$(PARSE_DIR)/loading_textures.c \
-			$(FREE_DIR)/freeing.c
+# Libraries and Includes
+MLX_DIR     := $(LIB_DIR)/MLX42
+LIBFT_DIR   := $(LIB_DIR)/Libft
+MLX         := $(MLX_DIR)/build/libmlx42.a
+LIBFT       := $(LIBFT_DIR)/libft.a
 
-OBJS		= $(SRCS:.c=.o)
-
-# Compiler Flags
-CFLAGS		= -g -Wall -Werror -Wextra -ggdb3
-INCLUDES	= -I$(INC_DIR) -I$(LIBFT_DIR) -I$(MLX42_DIR)/include
+HEADERS     := -I ./inc -I $(MLX_DIR)/include/MLX42 -I $(LIBFT_DIR)
 
 # Platform-specific library linking
-UNAME_S := $(shell uname -s)
+UNAME_S     := $(shell uname -s)
 ifeq ($(UNAME_S), Linux)
-	LDFLAGS = -L$(LIBFT_DIR) -lft -L$(MLX42_DIR)/build -lmlx42 -ldl -lglfw -pthread -lm
+    LIBS := -L$(LIBFT_DIR) -lft $(MLX) -ldl -lglfw -pthread -lm
 else ifeq ($(UNAME_S), Darwin)
-	LDFLAGS = -L$(LIBFT_DIR) -lft -L$(MLX42_DIR)/build -lmlx42 -lglfw -framework Cocoa -framework OpenGL -framework IOKit
+    LIBS := -L$(LIBFT_DIR) -lft $(MLX) -lglfw -L/opt/homebrew/Cellar/glfw/3.4/lib/ -pthread -lm
 endif
 
-# Library Targets
-LIBFT		= $(LIBFT_DIR)/libft.a
-MLX42		= $(MLX42_DIR)/build/libmlx42.a
-
-RM			= rm -rf
 # Source files
 SRC         := main.c \
-				graphics/render.c 
+			error_handling/error_handling.c \
+			parsing/flood_fill.c \
+			parsing/parsing.c \
+			parsing/parsing_color.c \
+			parsing/reading_map.c \
+			parsing/validation.c \
+			parsing/loading_textures.c \
+			freeing/freeing.c \
+			graphics/render.c 
                
 SRCS        := $(addprefix $(SRC_DIR)/, $(SRC))
 OBJ         := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
+# Phony targets
 .PHONY: all clean fclean re
 
 # Default target
-all: $(LIBFT) $(MLX42) $(NAME)
 all: $(NAME)
 
 # Build the executable
@@ -81,35 +70,39 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@ $(HEADERS)
 
+# Library building rules
 $(LIBFT):
 	@echo "Building Libft library..."
-	@make -C $(LIBFT_DIR) --no-print-directory
+	@make -C $(LIBFT_DIR)
 
-$(MLX42):
+$(MLX):
 	@echo "Building MLX42 library..."
-	@if [ ! -d "$(MLX42_DIR)" ]; then \
-		git clone https://github.com/codam-coding-college/MLX42.git $(MLX42_DIR); \
+	@if [ ! -d "$(MLX_DIR)" ]; then \
+		git clone https://github.com/codam-coding-college/MLX42.git $(MLX_DIR); \
 	fi
-	cmake -S $(MLX42_DIR) -B $(MLX42_DIR)/build
-	make -C $(MLX42_DIR)/build -j4 --no-print-directory
+	cmake $(MLX_DIR) -B $(MLX_DIR)/build
+	make -C $(MLX_DIR)/build -j4
 
-$(NAME): $(OBJS)
-	@echo "Compiling cub3d..."
-	@cc $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME)
-	@echo "Success!"
-
-%.o: %.c
-	@cc $(CFLAGS) $(INCLUDES) -c $< -o $@
-
+# Clean up object files and intermediate build directories
 clean:
-	@echo "Deleting object files..."
-	@$(RM) $(OBJS)
-	@make clean -C $(LIBFT_DIR) --no-print-directory
-	# @$(RM) $(MLX42_DIR)/build
+	rm -rf $(OBJ_DIR)
+	@make clean -C $(LIBFT_DIR)
+	# @make clean -C $(MLX_DIR)/build
+	@echo "Object files and build directories cleaned."
 
+# Full clean, including libraries and binaries
 fclean: clean
-	@echo "Deleting cub3d and libraries..."
-	@$(RM) $(NAME) $(LIBFT)
-	# @$(RM) $(MLX42_DIR)
+	rm -f $(NAME)
+	@make fclean -C $(LIBFT_DIR)
+	# rm -rf $(MLX_DIR)
+	@echo "Fully cleaned project, including libraries and executable."
 
+# Rebuild everything from scratch
 re: fclean all
+
+help:
+	@echo "Available targets:"
+	@echo "  all     - Build the executable"
+	@echo "  clean   - Remove object files and build directories"
+	@echo "  fclean  - Clean everything including libraries and executable"
+	@echo "  re      - Rebuild everything from scratch"
