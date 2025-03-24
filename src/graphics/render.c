@@ -1,17 +1,18 @@
 
 // void draw_ceiling(t_game *game)
 // {
-    //     int i;
-    //     int j;
+//         int i;
+//         int j;
 
-    //     j = -1;
-    //     while (++j <= HEIGHT / 2)
-    //     {
-    //         i = -1;
-    //         while (++i < WIDTH)
-    //             mlx_put_pixel(game->img, i, j, game->ceiling_rgb);
-    //     }
+//         j = -1;
+//         while (++j <= HEIGHT / 2)
+//         {
+//             i = -1;
+//             while (++i < WIDTH)
+//                 mlx_put_pixel(game->img, i, j, game->ceiling_rgb);
+//         }
 // }
+
 // void draw_floor(t_game *game)
 // {
 //     int i;
@@ -216,6 +217,8 @@ void calc_ray_dir(t_raycast *r, int i, t_game* game)
 // delt_dist is the distance it takes ray to cross 1 "square" on xy graph, it's 1 <=
 void calc_delt_dist(t_raycast *r, int i, t_game* game)
 {
+    (void)i;
+    (void)game;
     if (!r->x_raydir) //check if the ray is moving this direction at all, if no, then set to big value to prevent division by 0 later on
         r->x_delt_dist = 1e12;
     else
@@ -232,6 +235,8 @@ void calc_delt_dist(t_raycast *r, int i, t_game* game)
 //if ray direction for one of the axises was 0, then delt_dist is 1e12, then side_dist is also really big, this is used in later dda , so dda will never pick this step
 void get_step_dir(t_raycast *r, int i, t_game* game)
 {
+    (void)i;
+    (void)game;
     r->x_map = (int)game->player.x_pos;
     r->y_map = (int)game->player.y_pos;
     if (r->x_raydir < 0)
@@ -355,26 +360,50 @@ void draw_ray(t_game *game, t_raycast *r)
         }
     }
 }
-void draw_hook(void* param)
-{
-    t_game* game = (t_game*)param;
-    t_raycast r;
+// void draw_hook(void* param)
+// {
+//     t_game* game = (t_game*)param;
+//     t_raycast r;
 
-    draw_map(game);
-    int i = 0;
-    while (i < game->width) {
+//     draw_map(game);
+//     int i = 0;
+//     while (i < game->width) {
+//         ft_memset(&r, 0, sizeof(t_raycast));
+//         calc_ray_dir(&r, i, game);
+//         calc_delt_dist(&r, i, game);
+//         get_step_dir(&r, i, game);
+//         dda(&r, game);
+//         calc_perpendicular_dist(&r);
+//         draw_ray(game, &r);
+
+//         i += 10;
+//     }
+//     draw_square(game, game->player.x_pos *game->scale - 5, game->player.y_pos * game->scale - 5, 10, 0xFFFFFFFF);
+//     draw_line(game, game->player.x_dir, game->player.y_dir, 90, 0xFFFFFFFF);
+// }
+
+void    draw_hook(void *param)
+{
+    t_game *game = (t_game *)param;
+    t_raycast r;
+    int i;
+    int draw_start;
+    int draw_end;
+
+    memset(game->img->pixels, 0, game->width * game->height * sizeof(uint32_t));
+    i = 0;
+    while (i < game->width)
+    {
         ft_memset(&r, 0, sizeof(t_raycast));
         calc_ray_dir(&r, i, game);
         calc_delt_dist(&r, i, game);
         get_step_dir(&r, i, game);
         dda(&r, game);
         calc_perpendicular_dist(&r);
-        draw_ray(game, &r);
-
-        i += 10;
+        calculate_wall_position(game, &r, &draw_start, &draw_end);
+        draw_wall_strip(game, i, draw_start, draw_end);
+        i++;
     }
-    draw_square(game, game->player.x_pos *game->scale - 5, game->player.y_pos * game->scale - 5, 10, 0xFFFFFFFF);
-    draw_line(game, game->player.x_dir, game->player.y_dir, 90, 0xFFFFFFFF);
 }
 
 void player_hook(void* param)
@@ -405,7 +434,7 @@ void init(t_game *game)
     game->player.x_dir = 0;
     game->player.y_dir = -1;
     game->player.x_plane = 0.66;
-    game->scale = 20;
+    game->scale = 70;
     game->width = game->map_width * game->scale;
     game->height = game->map_height * game->scale;
     // rotate_vector(&game->player.x_dir, &game->player.y_dir, 3.14 / 2);
@@ -429,11 +458,11 @@ int render(t_game *game) {
 
     init(game);
 
-    game->mlx = mlx_init(game->width * 5, game->height * 5, "cub3D", 0);
+    game->mlx = mlx_init(game->width, game->height, "cub3D", 0);
     game->img = mlx_new_image(game->mlx, game->width, game->height);
     // validate_map(game);
 
-    mlx_image_to_window(game->mlx, game->img, game->width * 5 - game->width, game->height * 5 - game->height);
+    mlx_image_to_window(game->mlx, game->img, 0, 0);
     mlx_loop_hook(game->mlx, player_hook, game);
     mlx_loop_hook(game->mlx, draw_hook, game);
     // // // mlx_loop_hook(game.mlx, render_hook, &game);

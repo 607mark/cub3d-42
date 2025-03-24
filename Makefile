@@ -6,14 +6,14 @@
 #    By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/05 12:31:45 by rkhakimu          #+#    #+#              #
-#    Updated: 2025/03/05 16:09:28 by rkhakimu         ###   ########.fr        #
+#    Updated: 2025/03/24 11:18:05 by rkhakimu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Project and Compiler Settings
 NAME        := cub3D
 CC          := cc
-CFLAGS      := -Wall -Wextra
+CFLAGS      := -Wall -Wextra -ggdb3
 
 # Directories
 SRC_DIR     := src
@@ -46,7 +46,8 @@ SRC         := main.c \
 			parsing/validation.c \
 			parsing/loading_textures.c \
 			freeing/freeing.c \
-			graphics/render.c 
+			graphics/render.c \
+			graphics/drawing.c 
                
 SRCS        := $(addprefix $(SRC_DIR)/, $(SRC))
 OBJ         := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
