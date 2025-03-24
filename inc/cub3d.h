@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:20 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/24 11:12:06 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/24 13:04:37 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ int 			render(t_game *game);
 int				calculate_wall_height(t_game *game, t_raycast *raycast);
 void			calculate_wall_position(t_game *game, t_raycast *raycast, int *draw_start, int *draw_end);
 void			draw_wall_strip(t_game *game, int x, int draw_start, int draw_end);
+void			draw_floor(t_game *game, int x, int *draw_end);
+void			draw_ceiling(t_game *game, int x, int *draw_start);
  
 /*Errors*/
 void			error_exit(char *msg);

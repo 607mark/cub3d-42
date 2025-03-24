@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:26:12 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/20 14:57:55 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:45:34 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,3 +40,24 @@ void	load_textures(t_game *game)
 	game->textures.tex_east = load_texture_file(game->textures.east);
 
 }
+
+// mlx_texture_t	*get_texture_for_wall(t_game *game, t_raycast *raycast)
+// {
+// 	mlx_texture_t	*texture;
+
+// 	if (raycast->side == 0)
+// 	{
+// 		if (raycast->x_raydir > 0)
+// 			texture = game->textures.east;
+// 		else
+// 			texture = game->textures.west;
+// 	}
+// 	else
+// 	{
+// 		if (raycast->y_raydir > 0)
+// 			texture = game->textures.south;
+// 		else
+// 			texture = game->textures.north;
+// 	}
+// 	return (texture);
+// }
