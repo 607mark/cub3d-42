@@ -64,6 +64,7 @@ typedef struct s_raycast
 	int side;
 	char dir;
 	char texture_type;
+	int wall_height;
 } t_raycast;
 
 
@@ -107,7 +108,7 @@ typedef struct	s_game
 
 
 
-uint32_t get_color(t_game * game, t_raycast *r);
+uint32_t get_color(t_game * game, t_raycast *r, int total_y, int draw_start);
 
 int 			render(t_game *game);
 int				calculate_wall_height(t_game *game, t_raycast *raycast);
