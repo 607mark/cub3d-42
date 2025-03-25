@@ -63,6 +63,7 @@ typedef struct s_raycast
 	bool collision;
 	int side;
 	char dir;
+	char texture_type;
 } t_raycast;
 
 
@@ -106,11 +107,12 @@ typedef struct	s_game
 
 
 
+uint32_t get_color(t_game * game, t_raycast *r);
 
 int 			render(t_game *game);
 int				calculate_wall_height(t_game *game, t_raycast *raycast);
 void			calculate_wall_position(t_game *game, t_raycast *raycast, int *draw_start, int *draw_end);
-void			draw_wall_strip(t_game *game, int x, int draw_start, int draw_end);
+void	draw_wall_strip(t_game *game, int x, int draw_start, int draw_end, t_raycast *r);
 void			draw_floor(t_game *game, int x, int *draw_end);
 void			draw_ceiling(t_game *game, int x, int *draw_start);
  

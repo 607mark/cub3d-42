@@ -401,7 +401,7 @@ void    draw_hook(void *param)
         dda(&r, game);
         calc_perpendicular_dist(&r);
         calculate_wall_position(game, &r, &draw_start, &draw_end);
-        draw_wall_strip(game, i, draw_start, draw_end);
+        draw_wall_strip(game, i, draw_start, draw_end, &r);
         i++;
     }
 }

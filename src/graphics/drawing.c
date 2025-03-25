@@ -65,7 +65,7 @@ void	draw_ceiling(t_game *game, int x, int *draw_start)
 	}
 }
 
-void	draw_wall_strip(t_game *game, int x, int draw_start, int draw_end)
+void	draw_wall_strip(t_game *game, int x, int draw_start, int draw_end, t_raycast *r)
 {
 	int	y;
 
@@ -73,7 +73,7 @@ void	draw_wall_strip(t_game *game, int x, int draw_start, int draw_end)
 	y = draw_start;
 	while (y < draw_end)
 	{
-		mlx_put_pixel(game->img, x, y, 0xff5733);
+		mlx_put_pixel(game->img, x, y, get_color(game, r));
 		y++;
 	}
 	draw_floor(game, x, &draw_end);
