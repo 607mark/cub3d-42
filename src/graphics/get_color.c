@@ -1,7 +1,8 @@
 #include "../../inc/cub3d.h"
 
 
-uint32_t get_texture_pixel_color(mlx_texture_t* texture, uint32_t x, uint32_t y) {
+uint32_t get_texture_pixel_color(mlx_texture_t* texture, uint32_t x, uint32_t y)
+{
    
     uint32_t shift = (y * texture->width + x) * texture->bytes_per_pixel;
     uint8_t* pixel = texture->pixels + shift;
