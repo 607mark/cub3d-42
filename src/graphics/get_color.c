@@ -30,23 +30,45 @@ uint32_t get_color(t_game * game, t_raycast *r, int total_y, int draw_start)
     double tex_y_point; 
     hit_x = fabs(hit_x);
     hit_y = fabs(hit_y);
+
     
     if (r->side)
         tex_x_point = hit_x - (int)hit_x;
     else
         tex_x_point = hit_y - (int)hit_y;
 
+    if (r->texture_type == 'S' || r->texture_type == 'W')
+        tex_x_point = 1 - tex_x_point; 
+
+
     tex_y_point = (double)(total_y - draw_start) / (double)r->wall_height;
 
     int x = game->textures.tex_north->width * tex_x_point;
     int y = game->textures.tex_north->height * tex_y_point;
-    if (r->texture_type == 'N')  
+    if (r->texture_type == 'N')
+    {
+        int x = game->textures.tex_north->width * tex_x_point;
+        int y = game->textures.tex_north->height * tex_y_point;
         return (get_texture_pixel_color(game->textures.tex_north, x, y));
+    }
     if (r->texture_type == 'S')
+    {
+        int x = game->textures.tex_south->width * tex_x_point;
+        int y = game->textures.tex_south->height * tex_y_point;
         return (get_texture_pixel_color(game->textures.tex_south, x, y));
+    }
     if (r->texture_type == 'W')
+    {
+        int x = game->textures.tex_west->width * tex_x_point;
+        int y = game->textures.tex_west->height * tex_y_point;
         return (get_texture_pixel_color(game->textures.tex_west, x, y));
+    }
     if (r->texture_type == 'E')
+    {
+        int x = game->textures.tex_east->width * tex_x_point;
+        int y = game->textures.tex_east->height * tex_y_point;
         return (get_texture_pixel_color(game->textures.tex_east, x, y));
+    }
+        
     
 }
