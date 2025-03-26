@@ -390,7 +390,7 @@ void    draw_hook(void *param)
     int draw_start;
     int draw_end;
 
-    memset(game->img->pixels, 0, game->width * game->height * sizeof(uint32_t));
+    reset_img(game);
     i = 0;
     while (i < game->width)
     {
