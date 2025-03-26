@@ -97,7 +97,6 @@ void move(t_game* game, double x_dir, double y_dir, double speed)
 {
     double new_x = game->player.x_pos + x_dir * speed;
     double new_y = game->player.y_pos + y_dir * speed;
-    printf("MOVE\n");
     if (is_valid_pos(game, new_x, game->player.y_pos))
         game->player.x_pos = new_x;
     if (is_valid_pos(game, game->player.x_pos, new_y))
@@ -401,7 +400,7 @@ void    draw_hook(void *param)
         dda(&r, game);
         calc_perpendicular_dist(&r);
         calculate_wall_position(game, &r, &draw_start, &draw_end);
-        draw_wall_strip(game, i, draw_start, draw_end);
+        draw_wall_strip(game, i, draw_start, draw_end, &r);
         i++;
     }
 }
@@ -411,8 +410,6 @@ void player_hook(void* param)
     t_game* game = (t_game*)param;
     const double move_speed = 0.1;
     const double rot_speed = 0.05;
-    printf("%f\n", game->player.x_pos);
-    printf("%f\n", game->player.y_pos);
     if (game->keys.w)
         move(game, game->player.x_dir, game->player.y_dir, move_speed);
     if (game->keys.s)
