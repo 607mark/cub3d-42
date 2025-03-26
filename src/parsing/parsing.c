@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:25 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/20 14:10:22 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/26 16:56:26 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,24 @@ void	read_config_line(t_game *game, char *line)
 
 	trimmed = ft_strtrim(line, " \t\n");
 	if (!trimmed)
-		error_exit("Memory allocation failed");
+		error_exit("Memory allocation failed", game);
 	if (ft_strncmp(trimmed, "NO ", 3) == 0)
-		parse_texture(&game->textures, trimmed);
+		parse_texture(&game->textures, trimmed, game);
 	else if (ft_strncmp(trimmed, "SO ", 3) == 0)
-		parse_texture(&game->textures, trimmed);
+		parse_texture(&game->textures, trimmed, game);
 	else if (ft_strncmp(trimmed, "WE ", 3) == 0)
-		parse_texture(&game->textures, trimmed);
+		parse_texture(&game->textures, trimmed, game);
 	else if (ft_strncmp(trimmed, "EA ", 3) == 0)
-		parse_texture(&game->textures, trimmed);
+		parse_texture(&game->textures, trimmed, game);
 	else if (ft_strncmp(trimmed, "F ", 2) == 0)
-		parse_color(&game->floor_rgb, trimmed);
+		parse_color(&game->floor_rgb, trimmed, game);
 	else if (ft_strncmp(trimmed, "C ", 2) == 0)
-		parse_color(&game->ceiling_rgb, trimmed);
+		parse_color(&game->ceiling_rgb, trimmed, game);
 	else
-		error_exit("invalid config line");
-	free(trimmed);
+	{
+		free(trimmed);
+		error_exit("invalid config line", game);
+	}
 }
 
 void	parse_cub_file(t_game *game, char *filename)
@@ -42,10 +44,10 @@ void	parse_cub_file(t_game *game, char *filename)
 	char	*first_map_line;
 
 	if (!validate_file_ext(filename) || !validate_file_access(filename))
-		error_exit("Invalid file extension or access");
+		error_exit("Invalid file extension or access", game);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		error_exit("Failed to open a file");
+		error_exit("Failed to open a file", game);
 	init_game(game);
 	first_map_line = parse_config(game, fd);
 	parse_map_start(game, fd, first_map_line);
@@ -68,31 +70,37 @@ char	*parse_config(t_game *game, int fd)
 	if (!line)
 	{
 		free(line);
-		error_exit("No map found in file");
+		error_exit("No map found in file", game);
 	}
 	return (line);
 }
 
 void	parse_map_start(t_game *game, int fd, char *first_map_line)
 {
-	char	*line;
+    char *line;
+    char *trimmed;
 
-	line = first_map_line;
-	while (line && is_newline(line))
-	{
-		free(line);
-		line = get_next_line(fd);
-	}
-	if (!line)
-		error_exit("No map found after config");
-	game->map = ft_realloc_2d(NULL, 1);
-	game->map[0] = ft_strdup(ft_strtrim(line, "\n"));
-	game->map_height = 1;
-	free(line);
-	read_map(game, fd);
+    line = first_map_line;
+    while (line && is_newline(line))
+    {
+        free(line);
+        line = get_next_line(fd);
+    }
+    if (!line)
+        error_exit("No map found after config", game);
+    game->map = ft_realloc_2d(NULL, 1);
+    if (!game->map)
+        error_exit("Memory allocation failed", game);
+    trimmed = ft_strtrim(line, "\n");
+    if (!trimmed)
+        error_exit("Memory allocation failed", game);
+    game->map[0] = trimmed;
+    free(line);
+    game->map_height = 1;
+    read_map(game, fd);
 }
 
-void	parse_texture(t_texture *textures, char *line)
+void	parse_texture(t_texture *textures, char *line, t_game *game)
 {
 	char	*path;
 	char	*start;
@@ -102,39 +110,61 @@ void	parse_texture(t_texture *textures, char *line)
 		start++;
 	path = ft_strdup(start);
 	if (!path)
-		error_exit("Memory allocation failed");
-	if (!validate_tex_ext(path))
+	{
+		free(line);
+		error_exit("Memory allocation failed", game);
+	}
+	if (!validate_tex_ext(path, game))
 	{
 		free(path);
-		error_exit("Invalid texture extention (must be teture.png)");
+		free(line);
+		error_exit("Invalid texture extention (must be teture.png)", game);
 	}
 	if (!validate_file_access(path))
 	{
 		free(path);
-		error_exit("File not accessible");
+		free(line);
+		error_exit("File not accessible", game);
 	}
 	if (ft_strncmp(line, "NO ", 3) == 0)
 	{
 		if (textures->north)
-			error_exit("Duplicate NO textrure");
+		{
+			free(path);
+			free(line);
+			error_exit("Duplicate NO textrure", game);
+		}
 		textures->north = path;
 	}
 	else if (ft_strncmp(line, "SO ", 3) == 0)
 	{
 		if (textures->south)
-			error_exit("Duplicate SO textrure");
+		{
+			free(path);
+			free(line);
+			error_exit("Duplicate SO textrure", game);
+		}
 		textures->south = path;
 	}
 	else if (ft_strncmp(line, "WE ", 3) == 0)
 	{
 		if (textures->west)
-			error_exit("Duplicate WE textrure");
+		{
+			free(path);
+			free(line);
+			error_exit("Duplicate WE textrure", game);
+		}
 		textures->west = path;
 	}
 	else if (ft_strncmp(line, "EA ", 3) == 0)
 	{
 		if (textures->east)
-			error_exit("Duplicate EA textrure");
+		{
+			free(path);
+			free(line);
+			error_exit("Duplicate EA textrure", game);
+		}
 		textures->east = path;
 	}
+	free(line);
 }
