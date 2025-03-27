@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 09:09:06 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/26 15:51:35 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/27 13:55:49 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 static void	skip_spaces(char **ptr)
 {
-	while (ft_isspace(**ptr))
-	(*ptr)++;
+	if (ptr && *ptr)
+	{
+		while (ft_isspace(**ptr))
+			(*ptr)++;
+	}
 }
 
 static int	check_start(char *ptr)
@@ -74,19 +77,30 @@ void	parse_color(int *color, char *line, t_game *game)
 	skip_spaces(&ptr);
 	rgb.r = parse_component(&ptr, ',', &err_flag);
 	if (rgb.r == -1)
+	{
+		free(line);
 		error_exit("Invalid RGB format: RED component", game);
+	}
 	skip_spaces(&ptr);
 	rgb.g = parse_component(&ptr, ',', &err_flag);
 	if (rgb.g == -1)
+	{
+		free(line);
 		error_exit("Invalid RGB format: GREEN component", game);
+	}
 	skip_spaces(&ptr);
 	rgb.b = parse_component(&ptr, '\0', &err_flag);
 	if (rgb.b == -1)
+	{
+		free(line);
 		error_exit("Invalid RGB format: BLUE or duplicate", game);
+	}
 	skip_spaces(&ptr);
-	while (*ptr == '\n' || ft_isspace(*ptr))
-		ptr++;
 	if (*ptr != '\0')
+	{
+		free(line);
 		error_exit("Invalid RGB format: trailing characters", game);
+	}
+	free(line);
 	*color = (uint32_t)((rgb.r << 16) | (rgb.g << 8) | rgb.b);
 }

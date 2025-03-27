@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:00:14 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/11 14:28:31 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/27 11:20:52 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,9 @@ void	ft_lstiter(t_list *lst, void (*f)(void*));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 /* Get Next Line */
+int		ft_strlen_gnl(char const *s);
+char	*ft_strchr_gnl(char const *s, int c);
+void	*ft_memmove_gnl(void *dst, const void *src, size_t len);
 char	*get_next_line(int fd);
 
 #endif

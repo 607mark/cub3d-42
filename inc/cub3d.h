@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:20 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/26 16:52:49 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/27 12:54:25 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct	s_game
 	mlx_t		*mlx;
     mlx_image_t	*img;
 	t_keys		keys;
+	int			fd;
 }	t_game;
 
 

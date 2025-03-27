@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:47:45 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/26 16:15:11 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/27 14:47:25 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,16 @@ void	read_map(t_game *game, int fd)
 			}
             break;
         }
+		//printf("{%s}", line);
         if (is_config_element(line))
+		{
+			free(line);
             error_exit("Invalid map: config element after map start", game);
+		}
         trimmed = ft_strtrim(line, "\n");
+		free(line);
+		if (!trimmed)
+			error_exit("Trim failed", game);
 		i = 0;
 		while (trimmed[i])
 		{
@@ -76,12 +83,14 @@ void	read_map(t_game *game, int fd)
 		}
         game->map = ft_realloc_2d(game->map, game->map_height + 1);
         if (!game->map)
+		{
+			free(trimmed);
             error_exit("Memory allocation failed", game);
+		}
         game->map[game->map_height] = ft_strdup(trimmed);
+		free(trimmed);
         if (!game->map[game->map_height])
             error_exit("Memory allocation failed", game);
-        free(trimmed);
-        free(line);
         game->map_height++;
         has_content = 1;
         line = get_next_line(fd);

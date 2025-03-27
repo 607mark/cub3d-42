@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:56:11 by rkhakimu          #+#    #+#             */
-/*   Updated: 2024/05/03 02:44:18 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/27 13:47:49 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 		return (NULL);
 	i1 = 0;
 	len = ft_strlen(s1);
+	if(!len)
+		return (ft_strdup(""));
 	i2 = len - 1;
 	while (s1[i1] && isin_set(s1[i1], set))
 		i1++;

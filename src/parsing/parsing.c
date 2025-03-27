@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:25 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/26 16:56:26 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/27 13:27:50 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	read_config_line(t_game *game, char *line)
 	trimmed = ft_strtrim(line, " \t\n");
 	if (!trimmed)
 		error_exit("Memory allocation failed", game);
+	free(line);
 	if (ft_strncmp(trimmed, "NO ", 3) == 0)
 		parse_texture(&game->textures, trimmed, game);
 	else if (ft_strncmp(trimmed, "SO ", 3) == 0)
@@ -34,24 +35,26 @@ void	read_config_line(t_game *game, char *line)
 	else
 	{
 		free(trimmed);
-		error_exit("invalid config line", game);
+		error_exit("Invalid config line", game);
 	}
 }
+
+
 
 void	parse_cub_file(t_game *game, char *filename)
 {
 	int		fd;
 	char	*first_map_line;
 
+	init_game(game);
 	if (!validate_file_ext(filename) || !validate_file_access(filename))
 		error_exit("Invalid file extension or access", game);
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
+	game->fd = open(filename, O_RDONLY);
+	if (game->fd < 0)
 		error_exit("Failed to open a file", game);
-	init_game(game);
-	first_map_line = parse_config(game, fd);
-	parse_map_start(game, fd, first_map_line);
-	close(fd);
+	first_map_line = parse_config(game, game->fd);
+	parse_map_start(game, game->fd, first_map_line);
+	close(game->fd);
 	validate_config(game);
 	validate_map(game);
 }
@@ -64,14 +67,12 @@ char	*parse_config(t_game *game, int fd)
 	{
 		if (is_config_element(line))
 			read_config_line(game, line);
-		free(line);
+		else
+			free(line);
 		line = get_next_line(fd);
 	}
 	if (!line)
-	{
-		free(line);
 		error_exit("No map found in file", game);
-	}
 	return (line);
 }
 
@@ -90,10 +91,16 @@ void	parse_map_start(t_game *game, int fd, char *first_map_line)
         error_exit("No map found after config", game);
     game->map = ft_realloc_2d(NULL, 1);
     if (!game->map)
+	{
+		free(line);
         error_exit("Memory allocation failed", game);
+	}
     trimmed = ft_strtrim(line, "\n");
     if (!trimmed)
+	{
+		free(line);
         error_exit("Memory allocation failed", game);
+	}
     game->map[0] = trimmed;
     free(line);
     game->map_height = 1;
