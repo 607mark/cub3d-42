@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:10:07 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/27 13:04:04 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:21:01 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ void	init_game(t_game *game)
 {
 	ft_bzero(game, sizeof(t_game));
 	game->fd = -1;
+	game->textures.north = NULL;
+    game->textures.south = NULL;
+    game->textures.west = NULL;
+    game->textures.east = NULL;
+    game->ceiling_rgb = -1;
+    game->floor_rgb = -1;
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:25 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/27 13:27:50 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/27 18:05:11 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ void	read_config_line(t_game *game, char *line)
 	}
 }
 
-
-
 void	parse_cub_file(t_game *game, char *filename)
 {
 	int		fd;
@@ -54,14 +52,15 @@ void	parse_cub_file(t_game *game, char *filename)
 		error_exit("Failed to open a file", game);
 	first_map_line = parse_config(game, game->fd);
 	parse_map_start(game, game->fd, first_map_line);
-	close(game->fd);
 	validate_config(game);
 	validate_map(game);
+	close(game->fd);
 }
 
 char	*parse_config(t_game *game, int fd)
 {
 	char	*line;
+
 	line = get_next_line(fd);
 	while (line && (is_config_element(line) || is_newline(line)))
 	{
@@ -76,38 +75,46 @@ char	*parse_config(t_game *game, int fd)
 	return (line);
 }
 
-void	parse_map_start(t_game *game, int fd, char *first_map_line)
+char	*skip_empty_lines(t_game *game, int fd, char *first_map_line)
 {
-    char *line;
-    char *trimmed;
+	char	*line;
 
-    line = first_map_line;
-    while (line && is_newline(line))
-    {
-        free(line);
-        line = get_next_line(fd);
-    }
-    if (!line)
-        error_exit("No map found after config", game);
-    game->map = ft_realloc_2d(NULL, 1);
-    if (!game->map)
+	line = first_map_line;
+	while (line && is_newline(line))
 	{
 		free(line);
-        error_exit("Memory allocation failed", game);
+		line = get_next_line(fd);
 	}
-    trimmed = ft_strtrim(line, "\n");
-    if (!trimmed)
-	{
-		free(line);
-        error_exit("Memory allocation failed", game);
-	}
-    game->map[0] = trimmed;
-    free(line);
-    game->map_height = 1;
-    read_map(game, fd);
+	return (line);
 }
 
-void	parse_texture(t_texture *textures, char *line, t_game *game)
+void	parse_map_start(t_game *game, int fd, char *first_map_line)
+{
+	char	*line;
+	char	*trimmed;
+
+	line = skip_empty_lines(game, fd, first_map_line);
+	if (!line)
+		error_exit("No map found after config", game);
+	game->map = ft_realloc_2d(NULL, 1);
+	if (!game->map)
+	{
+		free(line);
+		error_exit("Memory allocation failed", game);
+	}
+	trimmed = ft_strtrim(line, "\n");
+	if (!trimmed)
+	{
+		free(line);
+		error_exit("Memoory allocation failed", game);
+	}
+	game->map[0] = trimmed;
+	free(line);
+	game->map_height = 1;
+	read_map(game, fd);
+}
+
+char	*extract_texture_path(char *line, t_game *game)
 {
 	char	*path;
 	char	*start;
@@ -133,6 +140,12 @@ void	parse_texture(t_texture *textures, char *line, t_game *game)
 		free(line);
 		error_exit("File not accessible", game);
 	}
+	return (path);
+}
+
+int	assign_north_south_texture(t_texture *textures,
+		char *line, char *path, t_game *game)
+{
 	if (ft_strncmp(line, "NO ", 3) == 0)
 	{
 		if (textures->north)
@@ -142,6 +155,7 @@ void	parse_texture(t_texture *textures, char *line, t_game *game)
 			error_exit("Duplicate NO textrure", game);
 		}
 		textures->north = path;
+		return (1);
 	}
 	else if (ft_strncmp(line, "SO ", 3) == 0)
 	{
@@ -152,8 +166,15 @@ void	parse_texture(t_texture *textures, char *line, t_game *game)
 			error_exit("Duplicate SO textrure", game);
 		}
 		textures->south = path;
+		return (1);
 	}
-	else if (ft_strncmp(line, "WE ", 3) == 0)
+	return (0);
+}
+
+int	assign_east_west_texture(t_texture *textures,
+		char *line, char *path, t_game *game)
+{
+	if (ft_strncmp(line, "WE ", 3) == 0)
 	{
 		if (textures->west)
 		{
@@ -162,6 +183,7 @@ void	parse_texture(t_texture *textures, char *line, t_game *game)
 			error_exit("Duplicate WE textrure", game);
 		}
 		textures->west = path;
+		return (1);
 	}
 	else if (ft_strncmp(line, "EA ", 3) == 0)
 	{
@@ -172,6 +194,26 @@ void	parse_texture(t_texture *textures, char *line, t_game *game)
 			error_exit("Duplicate EA textrure", game);
 		}
 		textures->east = path;
+		return (1);
 	}
+	return (0);
+}
+
+void	parse_texture(t_texture *textures, char *line, t_game *game)
+{
+	char	*path;
+
+	path = extract_texture_path(line, game);
+	if (assign_north_south_texture(textures, line, path, game))
+	{
+		free(line);
+		return ;
+	}
+	if (assign_east_west_texture(textures, line, path, game))
+	{
+		free(line);
+		return ;
+	}
+	free(path);
 	free(line);
 }

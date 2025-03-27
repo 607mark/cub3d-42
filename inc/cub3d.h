@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:20 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/27 12:54:25 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/27 18:06:56 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ typedef struct	s_game
 	int			map_height;
 	int			width;
 	int			height;
-	int scale;
+	int			scale;
 	t_player	player;
 	t_texture	textures;
 	int			floor_rgb;
@@ -134,12 +134,18 @@ void			free_game(t_game *game);
 void			parse_cub_file(t_game *game, char *filename);
 char			*parse_config(t_game *game, int fd);
 void			parse_map_start(t_game *game, int fd, char *first_map_line);
+char			*skip_empty_lines(t_game *game, int fd, char *first_map_line);
 int				validate_file_ext(char *filename);
 int				validate_file_access(char *filename);
 int				validate_tex_ext(char *filename, t_game *game);
 int				is_config_element(char *line);
 void			init_game(t_game *game);
 void			parse_texture(t_texture *textures, char *line, t_game *game);
+char			*extract_texture_path(char *line, t_game *game);
+int				assign_north_south_texture(t_texture *textures, char *line, char *path, t_game *game);
+int 			assign_east_west_texture(t_texture *textures, char *line, char *path, t_game *game);
+void			parse_texture(t_texture *textures, char *line, t_game *game);
+int				parse_rgb_component(char **ptr, char delimiter, t_game *game, char *line);
 void			parse_color(int *color, char *line, t_game *game);
 void			validate_config(t_game *game);
 int				is_newline(char *line);

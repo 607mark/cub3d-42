@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:26:12 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/26 15:59:16 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:01:26 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ mlx_texture_t	*load_texture_file(char *path, t_game *game)
 	texture = mlx_load_png(path);
 	if (!texture)
 		error_exit("Failed to load PNG texture", game);
-	return (texture);    
+	return (texture);
 }
 
 void	load_textures(t_game *game)
@@ -38,26 +38,4 @@ void	load_textures(t_game *game)
 	if (!game->textures.east)
 		error_exit("Missing EA texture", game);
 	game->textures.tex_east = load_texture_file(game->textures.east, game);
-
 }
-
-// mlx_texture_t	*get_texture_for_wall(t_game *game, t_raycast *raycast)
-// {
-// 	mlx_texture_t	*texture;
-
-// 	if (raycast->side == 0)
-// 	{
-// 		if (raycast->x_raydir > 0)
-// 			texture = game->textures.east;
-// 		else
-// 			texture = game->textures.west;
-// 	}
-// 	else
-// 	{
-// 		if (raycast->y_raydir > 0)
-// 			texture = game->textures.south;
-// 		else
-// 			texture = game->textures.north;
-// 	}
-// 	return (texture);
-// }

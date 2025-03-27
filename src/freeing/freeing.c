@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:54:57 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/20 09:44:38 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/27 14:59:07 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	free_map(t_game *game)
 {
 	int	y;
-	
+
 	y = 0;
 	if (game->map)
 	{
