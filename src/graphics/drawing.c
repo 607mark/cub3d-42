@@ -30,10 +30,6 @@ void	calculate_wall_position(t_game *game, t_raycast *raycast, int *draw_start, 
 	
 	*draw_start = (game->height / 2) - (raycast->wall_height / 2);
 	*draw_end = (game->height / 2) + (raycast->wall_height / 2);
-	// printf("draw_start: %d\n", *draw_start);
-	// printf("draw_end: %d\n", *draw_end);
-	// if (*draw_start < 0)
-	// 	*draw_start = 0;
 	if (*draw_end > game->height)
 		*draw_end = game->height;
 }

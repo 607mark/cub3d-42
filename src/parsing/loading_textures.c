@@ -38,5 +38,7 @@ void	load_textures(t_game *game)
 	if (!game->textures.east)
 		error_exit("Missing EA texture", game);
 	game->textures.tex_east = load_texture_file(game->textures.east, game);
-	game->textures.vignette = mlx_load_png("./textures/vignette2.png");
+	game->textures.vignette = mlx_load_png("./textures/hud2.png");
+	if (!game->textures.vignette)
+		error_exit("Missing hud texture", game);
 }

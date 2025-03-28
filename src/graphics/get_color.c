@@ -2,9 +2,13 @@
 
 uint32_t get_texture_pixel_color(mlx_texture_t* texture, uint32_t x, uint32_t y)
 {
-    uint32_t shift = (y * texture->width + x) * texture->bytes_per_pixel;
-    uint8_t* pixel = texture->pixels + shift;
-    uint32_t color = (pixel[0] << 24 | pixel[1] << 16 | (pixel[2] << 8) | pixel[3]);
+    uint32_t shift;
+    uint8_t* pixel;
+    uint32_t color;
+    
+    shift = (y * texture->width + x) * texture->bytes_per_pixel;
+    pixel = texture->pixels + shift;
+    color = (pixel[0] << 24 | pixel[1] << 16 | (pixel[2] << 8) | pixel[3]);
     return color;
 }
 
@@ -20,48 +24,54 @@ void define_side(t_raycast *r)
         r->texture_type = 'E';
 }
 
-uint32_t get_color(t_game * game, t_raycast *r, int total_y, int draw_start)
+void calc_texture_points(t_game *game, t_raycast *r, int total_y, int draw_start)
 {
-    double hit_x, hit_y;
-    
-    hit_x = fabs(game->player.x_pos + r->x_raydir * r->perp_dist);
-    hit_y = fabs(game->player.y_pos + r->y_raydir * r->perp_dist);
-
-    define_side(r);
-    double tex_x_point;   
-    double tex_y_point; 
-
+    r->x_hit = fabs(game->player.x_pos + r->x_raydir * r->perp_dist);
+    r->y_hit = fabs(game->player.y_pos + r->y_raydir * r->perp_dist);
     if (r->side)
-        tex_x_point = hit_x - (int)hit_x;
+        r->tex_x_point = r->x_hit - (int)r->x_hit;
     else
-        tex_x_point = hit_y - (int)hit_y;
+        r->tex_x_point = r->y_hit - (int)r->y_hit;
 
     if (r->texture_type == 'S' || r->texture_type == 'W')
-        tex_x_point = 1 - tex_x_point;
-    tex_y_point = (double)(total_y - draw_start) / (double)r->wall_height;
+        r->tex_x_point = 1 - r->tex_x_point;
+    r->tex_y_point = (double)(total_y - draw_start) / (double)r->wall_height;
+}
+
+void calc_tex_pix_coords(t_game * game, t_raycast *r)
+{
     if (r->texture_type == 'N')
     {
-        int x = game->textures.tex_north->width * tex_x_point;
-        int y = game->textures.tex_north->height * tex_y_point;
-        return (get_texture_pixel_color(game->textures.tex_north, x, y));
+        r->tex_x_pix= game->textures.tex_north->width * r->tex_x_point;
+        r->tex_y_pix = game->textures.tex_north->height * r->tex_y_point;
     }
-    if (r->texture_type == 'S')
+    else if (r->texture_type == 'S')
     {
-        int x = game->textures.tex_south->width * tex_x_point;
-        int y = game->textures.tex_south->height * tex_y_point;
-        return (get_texture_pixel_color(game->textures.tex_south, x, y));
+        r->tex_x_pix= game->textures.tex_south->width * r->tex_x_point;
+        r->tex_y_pix = game->textures.tex_south->height * r->tex_y_point;
     }
-    if (r->texture_type == 'W')
+    else if (r->texture_type == 'W')
     {
-        int x = game->textures.tex_west->width * tex_x_point;
-        int y = game->textures.tex_west->height * tex_y_point;
-        return (get_texture_pixel_color(game->textures.tex_west, x, y));
+        r->tex_x_pix= game->textures.tex_west->width * r->tex_x_point;
+        r->tex_y_pix = game->textures.tex_west->height * r->tex_y_point;
     }
     else
     {
-        int x = game->textures.tex_east->width * tex_x_point;
-        int y = game->textures.tex_east->height * tex_y_point;
-        return (get_texture_pixel_color(game->textures.tex_east, x, y));
+        r->tex_x_pix= game->textures.tex_east->width * r->tex_x_point;
+        r->tex_y_pix = game->textures.tex_east->height * r->tex_y_point;
     }
-    
+}
+uint32_t get_color(t_game * game, t_raycast *r, int total_y, int draw_start)
+{
+    define_side(r);
+    calc_texture_points(game, r, total_y, draw_start);
+    calc_tex_pix_coords(game, r);
+    if (r->texture_type == 'N')
+        return (get_texture_pixel_color(game->textures.tex_north, r->tex_x_pix, r->tex_y_pix));
+    else if (r->texture_type == 'S')
+        return (get_texture_pixel_color(game->textures.tex_south, r->tex_x_pix, r->tex_y_pix));
+    else if (r->texture_type == 'W')
+        return (get_texture_pixel_color(game->textures.tex_west, r->tex_x_pix, r->tex_y_pix));
+    else
+        return (get_texture_pixel_color(game->textures.tex_east, r->tex_x_pix, r->tex_y_pix));
 }
