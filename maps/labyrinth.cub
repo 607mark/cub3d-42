@@ -1,7 +1,7 @@
-NO ./textures/dark_stone.png
-SO ./textures/cobblestone.png
-WE ./textures/old_wood.png
-EA ./textures/iron_plate.png
+NO ./textures/377.png
+SO ./textures/fire2.png
+WE ./textures/t8.png
+EA ./textures/342.png
 
 F 20,20,20
 C 80,120,180
