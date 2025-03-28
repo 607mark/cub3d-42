@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:20 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/24 13:04:37 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/03/27 18:06:56 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ typedef struct	s_game
 	int			map_height;
 	int			width;
 	int			height;
-	int scale;
+	int			scale;
 	t_player	player;
 	t_texture	textures;
 	int			floor_rgb;
@@ -104,6 +104,7 @@ typedef struct	s_game
 	mlx_t		*mlx;
     mlx_image_t	*img;
 	t_keys		keys;
+	int			fd;
 }	t_game;
 
 
@@ -113,12 +114,12 @@ uint32_t get_color(t_game * game, t_raycast *r, int total_y, int draw_start);
 int 			render(t_game *game);
 int				calculate_wall_height(t_game *game, t_raycast *raycast);
 void			calculate_wall_position(t_game *game, t_raycast *raycast, int *draw_start, int *draw_end);
-void	draw_wall_strip(t_game *game, int x, int draw_start, int draw_end, t_raycast *r);
+void			draw_wall_strip(t_game *game, int x, int draw_start, int draw_end, t_raycast *r);
 void			draw_floor(t_game *game, int x, int *draw_end);
 void			draw_ceiling(t_game *game, int x, int *draw_start);
  
 /*Errors*/
-void			error_exit(char *msg);
+void			error_exit(char *msg, t_game *game);
 void			free_game(t_game *game);
 
 /* Freeing */
@@ -133,19 +134,24 @@ void			free_game(t_game *game);
 void			parse_cub_file(t_game *game, char *filename);
 char			*parse_config(t_game *game, int fd);
 void			parse_map_start(t_game *game, int fd, char *first_map_line);
-void			error_exit(char *msg);
+char			*skip_empty_lines(t_game *game, int fd, char *first_map_line);
 int				validate_file_ext(char *filename);
 int				validate_file_access(char *filename);
-int				validate_tex_ext(char *filename);
+int				validate_tex_ext(char *filename, t_game *game);
 int				is_config_element(char *line);
 void			init_game(t_game *game);
-void			parse_texture(t_texture *textures, char *line);
-void			parse_color(int *color, char *line);
+void			parse_texture(t_texture *textures, char *line, t_game *game);
+char			*extract_texture_path(char *line, t_game *game);
+int				assign_north_south_texture(t_texture *textures, char *line, char *path, t_game *game);
+int 			assign_east_west_texture(t_texture *textures, char *line, char *path, t_game *game);
+void			parse_texture(t_texture *textures, char *line, t_game *game);
+int				parse_rgb_component(char **ptr, char delimiter, t_game *game, char *line);
+void			parse_color(int *color, char *line, t_game *game);
 void			validate_config(t_game *game);
 int				is_newline(char *line);
 
 /* Loading textures */
-mlx_texture_t	*load_texture_file(char *path);
+mlx_texture_t	*load_texture_file(char *path, t_game *game);
 void			load_textures(t_game *game);
 
 /* MAP */
