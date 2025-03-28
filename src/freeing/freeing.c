@@ -50,6 +50,7 @@ void	free_textures(t_game *game)
 	free_texture_pair(&game->textures.south, &game->textures.tex_south);
 	free_texture_pair(&game->textures.west, &game->textures.tex_west);
 	free_texture_pair(&game->textures.east, &game->textures.tex_east);
+	mlx_delete_texture(game->textures.vignette);
 }
 
 void	free_mlx(t_game *game)
@@ -57,6 +58,7 @@ void	free_mlx(t_game *game)
 	if (game->img)
 	{
 		mlx_delete_image(game->mlx, game->img);
+		mlx_delete_image(game->mlx, game->textures.vigne);
 		game->img = NULL;
 	}
 	if (game->mlx)

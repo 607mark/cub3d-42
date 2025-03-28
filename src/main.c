@@ -32,8 +32,8 @@ int	main(int ac, char **av)
 	if (ac != 2)
 		error_exit("Usage: ./cub3d <map.cub>", NULL);
 	parse_cub_file(&game, av[1]);
-	//load_textures(&game);
-	//render(&game);
+	load_textures(&game);
+	render(&game);
 	free_game(&game);
 	
 	return (0);

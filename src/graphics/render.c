@@ -230,10 +230,9 @@ void init(t_game *game)
     else
         game->scale = 400 / game->map_height;
     game->width = 1600;
-    game->height = 800;
+    game->height = 1000;
     game->map_offset_x = 1600 - game->map_width * game->scale - game->scale;
     game->map_offset_y = game->scale;
-    // game->map_offset_y = 800 - game->map_height * game->scale - game->scale * 1.5 ;
     ft_memset(&game->keys, 0, sizeof(t_keys));
 }
 
@@ -243,19 +242,17 @@ int render(t_game *game)
 
     game->mlx = mlx_init(game->width, game->height, "cub3D", 0);
     game->img = mlx_new_image(game->mlx, game->width, game->height);
-    // validate_map(game);
+    game->textures.vigne = mlx_texture_to_image(game->mlx, game->textures.vignette);
+    mlx_resize_image(game->textures.vigne,  game->width , game->height);
 
     mlx_image_to_window(game->mlx, game->img, 0, 0);
+    mlx_image_to_window(game->mlx, game->textures.vigne, 0, 0);
     mlx_loop_hook(game->mlx, player_hook, game);
     mlx_loop_hook(game->mlx, draw_hook, game);
-    // // // mlx_loop_hook(game.mlx, render_hook, &game);
-    // // //mlx_loop_hook(game.mlx, print_hook, &game);
+
     mlx_key_hook(game->mlx, key_hook, game);
     
     mlx_loop(game->mlx);
-    
-    // mlx_delete_image(game->mlx, game->img);
-    // mlx_terminate(game->mlx);
     
     return 0;
 }

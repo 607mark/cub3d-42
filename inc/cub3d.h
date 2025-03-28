@@ -87,7 +87,10 @@ typedef struct	s_texture
 	mlx_texture_t	*tex_south;
 	mlx_texture_t	*tex_east;
 	mlx_texture_t	*tex_west;
+	mlx_texture_t	*vignette;
+	mlx_image_t		*vigne;
 }	t_texture;
+
 
 typedef struct	s_game
 {
