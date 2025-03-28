@@ -48,7 +48,9 @@ SRC         := main.c \
 			freeing/freeing.c \
 			graphics/render.c \
 			graphics/drawing.c \
-			graphics/get_color.c
+			graphics/get_color.c \
+			graphics/minimap.c
+			
                
 SRCS        := $(addprefix $(SRC_DIR)/, $(SRC))
 OBJ         := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))

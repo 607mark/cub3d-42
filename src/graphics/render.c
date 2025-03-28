@@ -1,54 +1,4 @@
-
-// void draw_ceiling(t_game *game)
-// {
-//         int i;
-//         int j;
-
-//         j = -1;
-//         while (++j <= HEIGHT / 2)
-//         {
-//             i = -1;
-//             while (++i < WIDTH)
-//                 mlx_put_pixel(game->img, i, j, game->ceiling_rgb);
-//         }
-// }
-
-// void draw_floor(t_game *game)
-// {
-//     int i;
-//     int j;
-
-//     j =  HEIGHT / 2;
-//     while (++j < HEIGHT)
-//     {
-//         i = -1;
-//         while (++i < WIDTH)
-//             mlx_put_pixel(game->img, i, j, game->floor_rgb);
-//     }
-// }
-
 #include "../../inc/cub3d.h"
-
-
-// #define MAP_WIDTH 10
-// #define MAP_HEIGHT 10
-// #define SCREEN_WIDTH 1000
-// #define SCREEN_HEIGHT 1000
-
-
-
-// int map[MAP_HEIGHT][MAP_WIDTH] = {
-//     {1,1,1,1,1,1,1,1,1,1},
-//     {1,0,0,1,0,0,0,0,0,1},
-//     {1,0,0,0,0,0,0,0,0,1},
-//     {1,0,0,0,0,0,0,0,0,1},
-//     {1,0,0,0,0,0,0,0,0,1},
-//     {1,0,0,0,1,1,1,0,0,1},
-//     {1,0,0,0,0,0,0,0,1,1},
-//     {1,0,0,0,0,0,0,0,0,1},
-//     {1,0,0,0,0,0,1,0,0,1},
-//     {1,1,1,1,1,1,1,1,1,1}
-// };
 
 // rotation matrix for wikipedia
 void rotate_vector(double* x, double* y, double rad)
@@ -109,92 +59,6 @@ void rotate(t_game* game, double rot_rad)
 {
     rotate_vector(&game->player.x_dir, &game->player.y_dir, rot_rad);
     rotate_vector(&game->player.x_plane, &game->player.y_plane, rot_rad);
-}
-
-//draws square of given color and size
-void draw_square(t_game *game, int x, int y, int size, uint32_t color)
-{
-    int start_x = x;
-    int start_y = y;
-    int end_x = x + size - 1;
-    int end_y = y + size - 1;
-    int draw_y = start_y;
-    while (draw_y <= end_y)
-    {
-        int draw_x = start_x;
-        while (draw_x <= end_x)
-        {
-            if(size == game->scale && (!(draw_x % game->scale) || !(draw_y % game->scale)))
-                mlx_put_pixel(game->img, draw_x, draw_y, 0x000000FF);
-            else
-                mlx_put_pixel(game->img, draw_x, draw_y, color);
-            draw_x++;
-        }
-        draw_y++;
-    }
-}
-
-
-//draws simple visualization of top-down view map 
-void draw_map(t_game* game)
-{
-    memset(game->img->pixels, 0, game->map_width * game->scale * game->map_height * game->scale * sizeof(uint32_t));
-    int i, j;
-    i = 0;
-    while(i < game->map_width)
-    {
-        j = 0;
-        while(j < game->map_height)
-        {
-            if (game->map[j][i] == '1')
-                draw_square(game, i * game->scale, j * game->scale, game->scale, 0xF000002F);
-            j++;
-        }
-        i++;
-    }
-}
-//bresenham that draws from player to player's direction the line of specific length
-void draw_line(t_game *game, double xdir, double ydir, double line_length, uint32_t color)
-{
-    uint32_t start_x = game->player.x_pos * game->scale;
-    uint32_t start_y = game->player.y_pos * game->scale;
-    double end_x = start_x + xdir * line_length;
-    double end_y = start_y + ydir * line_length;
-    int x0 = start_x;
-    int y0 = start_y;
-    int x1 = end_x;
-    int y1 = end_y;
-
-    int dx = abs(x1 - x0);
-    int dy = abs(y1 - y0);
-    int sx = (x0 < x1) ? 1 : -1;
-    int sy = (y0 < y1) ? 1 : -1;
-    int err = dx - dy;
-
-    while (42)
-    {
-            
-        if (x0 >= 0 && x0 < game->width && y0 - 1>= 0 && y0 + 1 < game->height)
-        {
-            mlx_put_pixel(game->img, x0, y0, color);
-            mlx_put_pixel(game->img, x0 , y0 + 1, color);
-            mlx_put_pixel(game->img, x0, y0 -1, color);
-        }
-        draw_square(game, start_x - 5, start_y -5, 10, 0xFFFFFFFF);
-        if (x0 == x1 && y0 == y1)
-            break;
-        int e2 = 2 * err;
-        if (e2 > -dy)
-        {
-            err -= dy;
-            x0 += sx;
-        }
-        if (e2 < dx)
-        {
-            err += dx;
-            y0 += sy;
-        }
-    }
 }
 
 void reset_img(t_game *game)
@@ -297,90 +161,6 @@ void calc_perpendicular_dist(t_raycast *r)
         r->perp_dist = (r->y_side_dist - r->y_delt_dist);
 }
 
-// void render_hook(void* param)
-// {
-//     t_game *game = (t_game *) param;
-//     t_raycast r;
-//     ft_memset(&r, 0, sizeof(t_raycast));
-//     //reset_img(game);
-//     int i = 0;
-//     while(i < SCREEN_WIDTH)
-//     {
-//         calc_ray_dir(&r, i, game);
-//         calc_delt_dist(&r, i, game);
-//         get_step_dir(&r, i, game);
-//         draw_line(game, r.x_raydir, r.y_raydir, 66, 0x5F40FF80);
-//         dda(&r, game);
-//         if (r.side == 0)
-//             r.perp_dist = (r.x_side_dist - r.x_delt_dist);
-//         else
-//             r.perp_dist = (r.y_side_dist - r.y_delt_dist);
-          
-//         i++;
-//     }
-// }
-
-void draw_ray(t_game *game, t_raycast *r)
-{
-    double hit_x, hit_y;
-    
-    hit_x = game->player.x_pos + r->x_raydir * r->perp_dist;
-    hit_y = game->player.y_pos + r->y_raydir * r->perp_dist;
-    uint32_t hit_x_screen = (uint32_t)(hit_x * game->scale);
-    uint32_t hit_y_screen = (uint32_t)(hit_y * game->scale);
-
-    int x0 = game->player.x_pos * game->scale;
-    int y0 = game->player.y_pos * game->scale;
-    int x1 = hit_x_screen;
-    int y1 = hit_y_screen;
-
-    int dx = abs(x1 - x0);
-    int dy = abs(y1 - y0);
-    int sx = (x0 < x1) ? 1 : -1;
-    int sy = (y0 < y1) ? 1 : -1;
-    int err = dx - dy;
-
-    while (42)
-    {
-        if (x0 >= 0 && x0 < game->width && y0 >= 0 && y0 < game->height)
-            mlx_put_pixel(game->img, x0, y0, 0x9F4000F0);
-        if (x0 == x1 && y0 == y1)
-            break;
-        int e2 = 2 * err;
-        if (e2 > -dy)
-        {
-            err -= dy;
-            x0 += sx;
-        }
-        if (e2 < dx)
-        {
-            err += dx;
-            y0 += sy;
-        }
-    }
-}
-// void draw_hook(void* param)
-// {
-//     t_game* game = (t_game*)param;
-//     t_raycast r;
-
-//     draw_map(game);
-//     int i = 0;
-//     while (i < game->width) {
-//         ft_memset(&r, 0, sizeof(t_raycast));
-//         calc_ray_dir(&r, i, game);
-//         calc_delt_dist(&r, i, game);
-//         get_step_dir(&r, i, game);
-//         dda(&r, game);
-//         calc_perpendicular_dist(&r);
-//         draw_ray(game, &r);
-
-//         i += 10;
-//     }
-//     draw_square(game, game->player.x_pos *game->scale - 5, game->player.y_pos * game->scale - 5, 10, 0xFFFFFFFF);
-//     draw_line(game, game->player.x_dir, game->player.y_dir, 90, 0xFFFFFFFF);
-// }
-
 void    draw_hook(void *param)
 {
     t_game *game = (t_game *)param;
@@ -403,6 +183,9 @@ void    draw_hook(void *param)
         draw_wall_strip(game, i, draw_start, draw_end, &r);
         i++;
     }
+    draw_map(game);
+    draw_player(game, game->map_offset_x + game->player.x_pos *game->scale - 6, game->map_offset_y + game->player.y_pos * game->scale - 6, 12, 0x000000FF);
+    draw_player(game, game->map_offset_x + game->player.x_pos *game->scale - 4, game->map_offset_y + game->player.y_pos * game->scale - 4, 8, 0xFFFFFFFF);
 }
 
 void player_hook(void* param)
@@ -424,35 +207,38 @@ void player_hook(void* param)
         rotate(game, rot_speed);
 }
 
-void init(t_game *game)
+void set_player(t_game* game)
 {
     game->player.x_pos += 0.5;
     game->player.y_pos += 0.5;
     game->player.x_dir = 0;
     game->player.y_dir = -1;
     game->player.x_plane = 0.66;
-    game->scale = 70;
-    game->width = game->map_width * game->scale;
-    game->height = game->map_height * game->scale;
-    // rotate_vector(&game->player.x_dir, &game->player.y_dir, 3.14 / 2);
-    // rotate_vector(&game->player.x_plane, &game->player.y_plane, 3.14 / 2);
-    
-    
-    game->keys.w = 0;
-    game->keys.a = 0;
-    game->keys.s = 0;
-    game->keys.d = 0;
-    game->keys.left = 0;
-    game->keys.right = 0;
+    if (game->player.orientation == 'E')
+        rotate(game, PI / 2);
+    else if (game->player.orientation == 'S')
+        rotate(game, PI);
+    else if (game->player.orientation == 'W')
+        rotate(game, -PI / 2);
+}
+void init(t_game *game)
+{
+    set_player(game);
+
+    if (game->map_width > game->map_height)
+        game->scale = 400 / game->map_width;
+    else
+        game->scale = 400 / game->map_height;
+    game->width = 1600;
+    game->height = 800;
+    game->map_offset_x = 1600 - game->map_width * game->scale - game->scale;
+    game->map_offset_y = game->scale;
+    // game->map_offset_y = 800 - game->map_height * game->scale - game->scale * 1.5 ;
+    ft_memset(&game->keys, 0, sizeof(t_keys));
 }
 
-int render(t_game *game) {
-
-
-       
-
-    // Print key mappings
-
+int render(t_game *game)
+{
     init(game);
 
     game->mlx = mlx_init(game->width, game->height, "cub3D", 0);

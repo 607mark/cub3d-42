@@ -17,8 +17,8 @@ int	calculate_wall_height(t_game *game, t_raycast *raycast)
 
 	int	wall_height;
 
-	if (raycast->perp_dist < 0.001)
-		wall_height = game->height * 4;
+	if (raycast->perp_dist < 0.08)
+		wall_height = game->height * 10;
 	else
 		wall_height = (int)(game->height / raycast->perp_dist);
 	return (wall_height);	

@@ -1,7 +1,7 @@
-NO ./textures/castle_wall.png
-SO ./textures/dirt.png
-WE ./textures/steel.png
-EA ./textures/tile_mosaic.png
+NO ./textures/163.png
+SO ./textures/342.png
+WE ./textures/377.png
+EA ./textures/dalles2.png
 
 F 60,40,20
 C 200,100,50
