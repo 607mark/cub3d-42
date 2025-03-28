@@ -1,7 +1,7 @@
-NO ./textures/ancient_brick.png
-SO ./textures/cracked_ground.png
-WE ./textures/vine_wall.png
-EA ./textures/weathered_stone.png
+NO ./textures/1.png
+SO ./textures/2.png
+WE ./textures/3.png
+EA ./textures/4.png
 
 F 40,60,30
 C 120,180,90

@@ -191,8 +191,8 @@ void    draw_hook(void *param)
 void player_hook(void* param)
 {
     t_game* game = (t_game*)param;
-    const double move_speed = 0.1;
-    const double rot_speed = 0.05;
+    const double move_speed = 0.3;
+    const double rot_speed = 0.1;
     if (game->keys.w)
         move(game, game->player.x_dir, game->player.y_dir, move_speed);
     if (game->keys.s)
