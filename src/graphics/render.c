@@ -13,7 +13,7 @@ void    draw_hook(void *param)
     int draw_start;
     int draw_end;
 
-    memset(game->img->pixels, 0, game->img->width * game->img->height * sizeof(int32_t));
+    ft_memset(game->img->pixels, 0, game->img->width * game->img->height * sizeof(int32_t));
     i = 0;
     while (i < game->width)
     {
@@ -28,11 +28,7 @@ void    draw_hook(void *param)
         i++;
     }
     draw_map(game);
-    draw_player(game, game->map_offset_x + game->player.x_pos *game->scale - 6, game->map_offset_y + game->player.y_pos * game->scale - 6, 12, 0x000000FF);
-    draw_player(game, game->map_offset_x + game->player.x_pos *game->scale - 4, game->map_offset_y + game->player.y_pos * game->scale - 4, 8, 0xFFFFFFFF);
 }
-
-
 
 void set_player(t_game* game)
 {
@@ -52,33 +48,29 @@ void set_player(t_game* game)
 void init(t_game *game)
 {
     set_player(game);
-
     if (game->map_width > game->map_height)
         game->scale = 400 / game->map_width;
     else
         game->scale = 400 / game->map_height;
-    game->width = 1800;
+    game->width = 2040;
     game->height = 1000;
-    game->map_offset_x = 1600 - game->map_width * game->scale - game->scale;
+    game->map_offset_x = game->width - game->map_width * game->scale - game->scale;
     game->map_offset_y = game->scale;
     ft_memset(&game->keys, 0, sizeof(t_keys));
-}
-
-int render(t_game *game)
-{
-    init(game);
-
     game->mlx = mlx_init(game->width, game->height, "cub3D", 0);
     game->img = mlx_new_image(game->mlx, game->width, game->height);
     game->textures.vigne = mlx_texture_to_image(game->mlx, game->textures.vignette);
     mlx_resize_image(game->textures.vigne,  game->width , game->height);
     mlx_image_to_window(game->mlx, game->img, 0, 0);
     mlx_image_to_window(game->mlx, game->textures.vigne, 0, 0);
+}
+
+int render(t_game *game)
+{
+    init(game);
     mlx_loop_hook(game->mlx, player_hook, game);
     mlx_loop_hook(game->mlx, draw_hook, game);
-
     mlx_key_hook(game->mlx, key_hook, game);
-    
     mlx_loop(game->mlx);
     
     return 0;

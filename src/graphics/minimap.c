@@ -2,55 +2,63 @@
 
 void draw_player(t_game *game, int x, int y, int size, uint32_t color)
 {
-    int start_x = x;
-    int start_y = y;
-    int end_x = x + size - 1;
-    int end_y = y + size - 1;
-    int draw_y = start_y;
-    while (draw_y <= end_y)
+    t_draw d;
+    d.x_start = game->map_offset_x + x;
+    d.y_start =  game->map_offset_y + y;
+    d.x_end =  game->map_offset_x + x + size;
+    d.y_end = game->map_offset_y + y + size;
+    d.y_draw = d.y_start;
+    while (d.y_draw <= d.y_end)
     {
-        int draw_x = start_x;
-        while (draw_x <= end_x)
+        d.x_draw = d.x_start;
+        while (d.x_draw <= d.x_end)
         {
-                mlx_put_pixel(game->textures.vigne, draw_x, draw_y, color);
-            draw_x++;
+                mlx_put_pixel(game->textures.vigne, d.x_draw, d.y_draw, color);
+            d.x_draw++;
         }
-        draw_y++;
+        d.y_draw++;
+    }
+}
+void shadow(t_game *game, int x, int y, int size, uint32_t color)
+{
+    t_draw d;
+    d.x_start = game->map_offset_x + x;
+    d.y_start = game->map_offset_y + y + size;
+    d.x_end = d.x_start + size;
+    d.y_end = d.y_start + size / 3;
+    d.y_draw = d.y_start;
+    
+    while (d.y_draw <= d.y_end)
+    {
+        d.x_draw = d.x_start;
+        while (d.x_draw <= d.x_end + 1)
+        {
+            mlx_put_pixel(game->textures.vigne, d.x_draw, d.y_draw, 0x470D00FF);
+            d.x_draw++;
+        }
+        d.y_draw++;
     }
 }
 void draw_square(t_game *game, int x, int y, int size, uint32_t color)
 {
-    int start_x = x;
-    int start_y = y;
-    int end_x = x + size - 1;
-    int end_y = y + size - 1;
-    int draw_y = start_y;
-    while (draw_y <= end_y)
+    t_draw d;
+    
+    d.x_start = game->map_offset_x + x;
+    d.y_start = game->map_offset_y + y;
+    d.x_end = game->map_offset_x + x + size;
+    d.y_end = game->map_offset_y + y + size;
+    d.y_draw = d.y_start;
+    while (d.y_draw <= d.y_end)
     {
-        int draw_x = start_x;
-        while (draw_x <= end_x)
-        {
-                mlx_put_pixel(game->textures.vigne, draw_x, draw_y, color);
-            draw_x++;
-        }
-        draw_y++;
+        d.x_draw = d.x_start - 1;
+        while (d.x_draw++ <= d.x_end)
+            mlx_put_pixel(game->textures.vigne, d.x_draw, d.y_draw, color);
+        d.y_draw++;
     }
-    start_x = x;
-    start_y = end_y + 1;
-    end_x = start_x + size -1;
-    end_y = start_y + size / 3;
-    draw_y = start_y;
-    while (draw_y <= end_y)
-    {
-        int draw_x = start_x;
-        while (draw_x <= end_x)
-        {
-            mlx_put_pixel(game->textures.vigne, draw_x, draw_y, 0x470D00FF);
-            draw_x++;
-        }
-        draw_y++;
-    }
+    shadow(game, x, y, size, color);
 }
+
+
 
 void draw_background(t_game *game)
 {
@@ -62,7 +70,7 @@ void draw_background(t_game *game)
         while(j < game->map_height)
         {
             if (game->map[j][i] == '#' || game->map[j][i] == '0')
-                draw_square(game, game->map_offset_x + i * game->scale, game->map_offset_y + j * game->scale, game->scale, 0xD6C0AB9F);
+                draw_square(game, i * game->scale, j * game->scale, game->scale, 0xD6C0AB9F);
             j++;
         }
         i++;
@@ -79,9 +87,11 @@ void draw_map(t_game* game)
         while(j < game->map_height)
         {
             if (game->map[j][i] == '1')
-                draw_square(game, game->map_offset_x + i * game->scale, game->map_offset_y + j * game->scale, game->scale, 0x660F07FF);
+                draw_square(game, i * game->scale, j * game->scale, game->scale, 0x660F07FF);
             j++;
         }
         i++;
     }
+    draw_player(game, game->player.x_pos *game->scale - 6, game->player.y_pos * game->scale - 6, 12, 0x000000FF);
+    draw_player(game, game->player.x_pos *game->scale - 4, game->player.y_pos * game->scale - 4, 8, 0xFFFFFFFF);
 }

@@ -23,8 +23,6 @@
 # include <limits.h>
 # include <stdlib.h>
 
-# define WIDTH 1000
-# define HEIGHT 500
 # define PI 3.14159265358979323846264338327950288
 
 typedef struct s_rgb
@@ -33,6 +31,15 @@ typedef struct s_rgb
 	int		g;
 	int		b;
 }	t_rgb;
+
+typedef struct s_draw {
+    int x_start;
+    int y_start;
+    int x_end;
+    int y_end;
+    int x_draw;
+    int y_draw;
+} t_draw;
 
 typedef struct s_player
 {
@@ -65,6 +72,12 @@ typedef struct s_raycast
 	char dir;
 	char texture_type;
 	int wall_height;
+	double x_hit;
+    double y_hit;
+    double tex_x_point;   
+    double tex_y_point;
+	double tex_x_pix;   
+    double tex_y_pix;
 } t_raycast;
 
 
@@ -114,22 +127,22 @@ typedef struct	s_game
 
 
 /*DDA*/
-void calc_ray_dir(t_raycast *r, int i, t_game* game);
-void calc_delt_dist(t_raycast *r, int i, t_game* game);
-void get_step_dir(t_raycast *r, int i, t_game* game);
-void dda(t_raycast *r, t_game* game);
-void calc_perpendicular_dist(t_raycast *r);
+void 			calc_ray_dir(t_raycast *r, int i, t_game* game);
+void 			calc_delt_dist(t_raycast *r, int i, t_game* game);
+void 			get_step_dir(t_raycast *r, int i, t_game* game);
+void 			dda(t_raycast *r, t_game* game);
+void 			calc_perpendicular_dist(t_raycast *r);
 
 /*Player's movement*/
-void key_hook(mlx_key_data_t keydata, void* param);
-void player_hook(void* param);
-void rotate(t_game* game, double rot_rad);
-int is_valid_pos(t_game* game, double new_x, double new_y);
+void 			key_hook(mlx_key_data_t keydata, void* param);
+void 			player_hook(void* param);
+void 			rotate(t_game* game, double rot_rad);
+int 			is_valid_pos(t_game* game, double new_x, double new_y);
 
 /* Minimap*/
-void draw_square(t_game *game, int x, int y, int size, uint32_t color);
-void draw_map(t_game* game);
-void draw_player(t_game *game, int x, int y, int size, uint32_t color);
+void 			draw_square(t_game *game, int x, int y, int size, uint32_t color);
+void 			draw_map(t_game* game);
+void 			draw_player(t_game *game, int x, int y, int size, uint32_t color);
 
 /* Rendering*/
 int 			render(t_game *game);
@@ -138,7 +151,7 @@ void			calculate_wall_position(t_game *game, t_raycast *raycast, int *draw_start
 void			draw_wall_strip(t_game *game, int x, int draw_start, int draw_end, t_raycast *r);
 void			draw_floor(t_game *game, int x, int *draw_end);
 void			draw_ceiling(t_game *game, int x, int *draw_start);
-uint32_t get_color(t_game * game, t_raycast *r, int total_y, int draw_start);
+uint32_t		get_color(t_game * game, t_raycast *r, int total_y, int draw_start);
 
 /*Errors*/
 void			error_exit(char *msg, t_game *game);

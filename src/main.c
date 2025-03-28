@@ -16,16 +16,9 @@ void	init_game(t_game *game)
 {
 	ft_bzero(game, sizeof(t_game));
 	game->fd = -1;
-	game->textures.north = NULL;
-    game->textures.south = NULL;
-    game->textures.west = NULL;
-    game->textures.east = NULL;
     game->ceiling_rgb = -1;
     game->floor_rgb = -1;
 }
-
-
-
 int	main(int ac, char **av)
 {
 	t_game	game;
@@ -35,7 +28,6 @@ int	main(int ac, char **av)
 	load_textures(&game);
 	render(&game);
 	free_game(&game);
-	
 	return (0);
 }
 
