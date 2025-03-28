@@ -6,7 +6,7 @@
 #    By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/25 13:18:21 by rkhakimu          #+#    #+#              #
-#    Updated: 2025/03/20 12:17:18 by rkhakimu         ###   ########.fr        #
+#    Updated: 2025/03/27 11:21:05 by rkhakimu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ SRCS = \
 	ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c \
 	ft_putnbr_fd.c ft_printchar.c ft_printf.c ft_printhex.c \
 	ft_printhex_ptr.c ft_printnbr.c ft_printstr.c ft_printunbr.c \
-	get_next_line_bonus.c get_next_line_utils_bonus.c \
+	get_next_line.c get_next_line_utils.c \
 	ft_isspace.c ft_strcmp.c ft_realloc.c \
 	ft_abs.c ft_min.c ft_max.c ft_custom_puts.c
 
