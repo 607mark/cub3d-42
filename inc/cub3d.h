@@ -25,7 +25,7 @@
 
 # define WIDTH 1000
 # define HEIGHT 500
-
+# define PI 3.14159265358979323846264338327950288
 
 typedef struct s_rgb
 {
@@ -96,6 +96,8 @@ typedef struct	s_game
 	int			map_height;
 	int			width;
 	int			height;
+	int			map_offset_x;
+	int			map_offset_y;
 	int			scale;
 	t_player	player;
 	t_texture	textures;
@@ -110,6 +112,10 @@ typedef struct	s_game
 
 
 uint32_t get_color(t_game * game, t_raycast *r, int total_y, int draw_start);
+void draw_square(t_game *game, int x, int y, int size, uint32_t color);
+void draw_map(t_game* game);
+void draw_player(t_game *game, int x, int y, int size, uint32_t color);
+
 
 int 			render(t_game *game);
 int				calculate_wall_height(t_game *game, t_raycast *raycast);
