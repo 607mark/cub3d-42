@@ -32,10 +32,10 @@ typedef struct s_rgb
 	int		r;
 	int		g;
 	int		b;
-	bool	vaid;
 }	t_rgb;
 
-typedef struct s_player {
+typedef struct s_player
+{
     double x_pos;
     double y_pos;
     double x_dir;
@@ -113,20 +113,33 @@ typedef struct	s_game
 }	t_game;
 
 
+/*DDA*/
+void calc_ray_dir(t_raycast *r, int i, t_game* game);
+void calc_delt_dist(t_raycast *r, int i, t_game* game);
+void get_step_dir(t_raycast *r, int i, t_game* game);
+void dda(t_raycast *r, t_game* game);
+void calc_perpendicular_dist(t_raycast *r);
 
-uint32_t get_color(t_game * game, t_raycast *r, int total_y, int draw_start);
+/*Player's movement*/
+void key_hook(mlx_key_data_t keydata, void* param);
+void player_hook(void* param);
+void rotate(t_game* game, double rot_rad);
+int is_valid_pos(t_game* game, double new_x, double new_y);
+
+/* Minimap*/
 void draw_square(t_game *game, int x, int y, int size, uint32_t color);
 void draw_map(t_game* game);
 void draw_player(t_game *game, int x, int y, int size, uint32_t color);
 
-
+/* Rendering*/
 int 			render(t_game *game);
 int				calculate_wall_height(t_game *game, t_raycast *raycast);
 void			calculate_wall_position(t_game *game, t_raycast *raycast, int *draw_start, int *draw_end);
 void			draw_wall_strip(t_game *game, int x, int draw_start, int draw_end, t_raycast *r);
 void			draw_floor(t_game *game, int x, int *draw_end);
 void			draw_ceiling(t_game *game, int x, int *draw_start);
- 
+uint32_t get_color(t_game * game, t_raycast *r, int total_y, int draw_start);
+
 /*Errors*/
 void			error_exit(char *msg, t_game *game);
 void			free_game(t_game *game);

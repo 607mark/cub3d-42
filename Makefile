@@ -49,7 +49,9 @@ SRC         := main.c \
 			graphics/render.c \
 			graphics/drawing.c \
 			graphics/get_color.c \
-			graphics/minimap.c
+			graphics/minimap.c \
+			mechanics/dda.c \
+			mechanics/player.c
 			
                
 SRCS        := $(addprefix $(SRC_DIR)/, $(SRC))
