@@ -1,8 +1,8 @@
 #include "../../inc/cub3d.h"
 
-int is_valid_pos(t_game* game, double new_x, double new_y)
+int is_valid_pos(t_game* game, double x_new, double y_new)
 {
-    return (game->map[(int)new_y][(int)new_x] == '#');
+    return (game->map[(int)y_new][(int)x_new] == '#');
 }
 
 void    draw_hook(void *param)

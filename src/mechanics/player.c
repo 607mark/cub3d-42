@@ -3,9 +3,13 @@
 // rotation matrix for wikipedia
 void rotate_vector(double* x, double* y, double rad)
 {
-    double x_old = *x;
-    double cos_angle = cos(rad);
-    double sin_angle = sin(rad);
+    double x_old;
+    double cos_angle;
+    double sin_angle;
+
+    x_old = *x;
+    cos_angle = cos(rad);
+    sin_angle = sin(rad);
     *x = x_old * cos_angle - *y * sin_angle;
     *y = x_old * sin_angle + *y * cos_angle;
 }
@@ -19,12 +23,15 @@ void rotate(t_game* game, double rot_rad)
 
 void move(t_game* game, double x_dir, double y_dir, double speed)
 {
-    double new_x = game->player.x_pos + x_dir * speed;
-    double new_y = game->player.y_pos + y_dir * speed;
-    if (is_valid_pos(game, new_x, game->player.y_pos))
-        game->player.x_pos = new_x;
-    if (is_valid_pos(game, game->player.x_pos, new_y))
-        game->player.y_pos = new_y;
+    double x_new;
+    double y_new;
+    
+    x_new = game->player.x_pos + x_dir * speed;
+    y_new = game->player.y_pos + y_dir * speed;
+    if (is_valid_pos(game, x_new, game->player.y_pos))
+        game->player.x_pos = x_new;
+    if (is_valid_pos(game, game->player.x_pos, y_new))
+        game->player.y_pos = y_new;
 }
 
 void key_hook(mlx_key_data_t keydata, void* param)
