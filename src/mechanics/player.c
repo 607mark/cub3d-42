@@ -29,7 +29,9 @@ void move(t_game* game, double x_dir, double y_dir, double speed)
 
 void key_hook(mlx_key_data_t keydata, void* param)
 {
-    t_game* game = (t_game*)param;
+    t_game* game;
+    
+    game = (t_game*)param;
     if (keydata.key == MLX_KEY_W)
         game->keys.w = (keydata.action != MLX_RELEASE);
     if (keydata.key == MLX_KEY_S)
@@ -48,9 +50,13 @@ void key_hook(mlx_key_data_t keydata, void* param)
 
 void player_hook(void* param)
 {
-    t_game* game = (t_game*)param;
-    const double move_speed = 0.3;
-    const double rot_speed = 0.1;
+    t_game* game;
+    double move_speed;
+    double rot_speed;
+
+    game = (t_game*)param;
+    move_speed = 0.3;
+    rot_speed = 0.1;
     if (game->keys.w)
         move(game, game->player.x_dir, game->player.y_dir, move_speed);
     if (game->keys.s)

@@ -13,7 +13,7 @@
 # Project and Compiler Settings
 NAME        := cub3D
 CC          := cc
-CFLAGS      := -Wall -Wextra -ggdb3
+CFLAGS      := -Wall -Wextra -Werror -ggdb3
 
 # Directories
 SRC_DIR     := src

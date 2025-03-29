@@ -10,7 +10,7 @@ void calc_ray_dir(t_raycast *r, int i, t_game* game)
 }
 
 // delt_dist is the distance it takes ray to cross 1 "square" on xy graph, it's 1 <=
-void calc_delt_dist(t_raycast *r, int i, t_game* game)
+void calc_delt_dist(t_raycast *r)
 {
     if (!r->x_raydir) //check if the ray is moving this direction at all, if no, then set to big value to prevent division by 0 later on
         r->x_delt_dist = 1e12;
@@ -26,7 +26,7 @@ void calc_delt_dist(t_raycast *r, int i, t_game* game)
 //determines step's direction for future dda calculation
 // side_dist is calculation to get the distance to the closest whole number coord.  if 3.65 -> calc distance to get to 4
 //if ray direction for one of the axises was 0, then delt_dist is 1e12, then side_dist is also really big, this is used in later dda , so dda will never pick this step
-void get_step_dir(t_raycast *r, int i, t_game* game)
+void set_step_dir(t_raycast *r, t_game* game)
 {
     r->x_map = (int)game->player.x_pos;
     r->y_map = (int)game->player.y_pos;
