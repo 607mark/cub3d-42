@@ -41,7 +41,6 @@ void	read_config_line(t_game *game, char *line)
 
 void	parse_cub_file(t_game *game, char *filename)
 {
-	int		fd;
 	char	*first_map_line;
 
 	init_game(game);
@@ -75,7 +74,7 @@ char	*parse_config(t_game *game, int fd)
 	return (line);
 }
 
-char	*skip_empty_lines(t_game *game, int fd, char *first_map_line)
+char	*skip_empty_lines(int fd, char *first_map_line)
 {
 	char	*line;
 
@@ -93,7 +92,7 @@ void	parse_map_start(t_game *game, int fd, char *first_map_line)
 	char	*line;
 	char	*trimmed;
 
-	line = skip_empty_lines(game, fd, first_map_line);
+	line = skip_empty_lines(fd, first_map_line);
 	if (!line)
 		error_exit("No map found after config", game);
 	game->map = ft_realloc_2d(NULL, 1);

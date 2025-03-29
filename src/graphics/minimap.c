@@ -3,6 +3,7 @@
 void draw_player(t_game *game, int x, int y, int size, uint32_t color)
 {
     t_draw d;
+
     d.x_start = game->map_offset_x + x;
     d.y_start =  game->map_offset_y + y;
     d.x_end =  game->map_offset_x + x + size;
@@ -13,15 +14,16 @@ void draw_player(t_game *game, int x, int y, int size, uint32_t color)
         d.x_draw = d.x_start;
         while (d.x_draw <= d.x_end)
         {
-                mlx_put_pixel(game->textures.vigne, d.x_draw, d.y_draw, color);
+            mlx_put_pixel(game->textures.vigne, d.x_draw, d.y_draw, color);
             d.x_draw++;
         }
         d.y_draw++;
     }
 }
-void shadow(t_game *game, int x, int y, int size, uint32_t color)
+void shadow(t_game *game, int x, int y, int size)
 {
     t_draw d;
+
     d.x_start = game->map_offset_x + x;
     d.y_start = game->map_offset_y + y + size;
     d.x_end = d.x_start + size;
@@ -55,7 +57,7 @@ void draw_square(t_game *game, int x, int y, int size, uint32_t color)
             mlx_put_pixel(game->textures.vigne, d.x_draw, d.y_draw, color);
         d.y_draw++;
     }
-    shadow(game, x, y, size, color);
+    shadow(game, x, y, size);
 }
 
 

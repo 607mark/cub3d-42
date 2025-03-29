@@ -19,8 +19,8 @@ void    draw_hook(void *param)
     {
         ft_memset(&r, 0, sizeof(t_raycast));
         calc_ray_dir(&r, i, game);
-        calc_delt_dist(&r, i, game);
-        get_step_dir(&r, i, game);
+        calc_delt_dist(&r);
+        set_step_dir(&r, game);
         dda(&r, game);
         calc_perpendicular_dist(&r);
         calculate_wall_position(game, &r, &draw_start, &draw_end);
@@ -36,7 +36,7 @@ void set_player(t_game* game)
     game->player.y_pos += 0.5;
     game->player.x_dir = 0;
     game->player.y_dir = -1;
-    game->player.x_plane = 0.66;
+    game->player.x_plane = 0.7;
     if (game->player.orientation == 'E')
         rotate(game, PI / 2);
     else if (game->player.orientation == 'S')

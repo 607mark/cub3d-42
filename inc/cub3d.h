@@ -128,8 +128,8 @@ typedef struct	s_game
 
 /*DDA*/
 void 			calc_ray_dir(t_raycast *r, int i, t_game* game);
-void 			calc_delt_dist(t_raycast *r, int i, t_game* game);
-void 			get_step_dir(t_raycast *r, int i, t_game* game);
+void 			calc_delt_dist(t_raycast *r);
+void 			set_step_dir(t_raycast *r, t_game* game);
 void 			dda(t_raycast *r, t_game* game);
 void 			calc_perpendicular_dist(t_raycast *r);
 
@@ -169,7 +169,7 @@ void			free_game(t_game *game);
 void			parse_cub_file(t_game *game, char *filename);
 char			*parse_config(t_game *game, int fd);
 void			parse_map_start(t_game *game, int fd, char *first_map_line);
-char			*skip_empty_lines(t_game *game, int fd, char *first_map_line);
+char			*skip_empty_lines(int fd, char *first_map_line);
 int				validate_file_ext(char *filename);
 int				validate_file_access(char *filename);
 int				validate_tex_ext(char *filename, t_game *game);
