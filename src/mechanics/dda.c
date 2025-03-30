@@ -12,13 +12,12 @@ void calc_ray_dir(t_raycast *r, int i, t_game* game)
 // delt_dist is the distance it takes ray to cross 1 "square" on xy graph, it's 1 <=
 void calc_delt_dist(t_raycast *r)
 {
-    if (!r->x_raydir) //check if the ray is moving this direction at all, if no, then set to big value to prevent division by 0 later on
-        r->x_delt_dist = 1e12;
-    else
+    //check if the ray is moving this direction at all, if no, then set to big value to prevent division by 0 later on
+    r->x_delt_dist = 1e12;
+    r->y_delt_dist = 1e12;
+    if (r->x_raydir) 
         r->x_delt_dist = fabs(1/r->x_raydir); // fabs is |-4| = 4
-    if (!r->y_raydir)
-        r->y_delt_dist = 1e12;
-    else
+    if (r->y_raydir)
         r->y_delt_dist = fabs(1/r->y_raydir);
 }
 
@@ -30,25 +29,19 @@ void set_step_dir(t_raycast *r, t_game* game)
 {
     r->x_map = (int)game->player.x_pos;
     r->y_map = (int)game->player.y_pos;
+    r->x_step = 1;
+    r->x_side_dist = (r->x_map + 1 - game->player.x_pos) * r->x_delt_dist;
+    r->y_step = 1;
+    r->y_side_dist = (r->y_map + 1 - game->player.y_pos) * r->y_delt_dist;
     if (r->x_raydir < 0)
     {
         r->x_step = -1;
         r->x_side_dist = (game->player.x_pos - r->x_map) * r->x_delt_dist;
     }
-    else
-    {
-        r->x_step = 1;
-        r->x_side_dist = (r->x_map + 1 - game->player.x_pos) * r->x_delt_dist;
-    }
     if (r->y_raydir < 0)
     {
         r->y_step = -1;
         r->y_side_dist = (game->player.y_pos - r->y_map) * r->y_delt_dist;
-    }
-    else
-    {
-        r->y_step = 1;
-        r->y_side_dist = (r->y_map + 1 - game->player.y_pos) * r->y_delt_dist;
     }
 }
 
@@ -72,11 +65,9 @@ void dda(t_raycast *r, t_game* game)
             r->y_map += r->y_step;
             r->side = 1;
         }
-        if (r->x_map >= 0 && r->x_map < game->map_width && r->y_map >= 0 && r->y_map < game->map_height)
-        {
-            if (game->map[r->y_map][r->x_map] != '#')
+        if (r->x_map >= 0 && r->x_map < game->map_width && r->y_map >= 0 
+            && r->y_map < game->map_height && (game->map[r->y_map][r->x_map] != '#'))
                 r->collision = true;
-        }
     }
 }
 

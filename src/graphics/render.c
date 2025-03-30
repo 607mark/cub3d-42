@@ -1,8 +1,8 @@
 #include "../../inc/cub3d.h"
 
-int is_valid_pos(t_game* game, double x_new, double y_new)
+int is_valid_pos(t_game* game, double x, double y)
 {
-    return (game->map[(int)y_new][(int)x_new] == '#');
+    return (game->map[(int)y][(int)x] == '#');
 }
 
 void    draw_hook(void *param)
@@ -14,8 +14,8 @@ void    draw_hook(void *param)
     int draw_end;
 
     ft_memset(game->img->pixels, 0, game->img->width * game->img->height * sizeof(int32_t));
-    i = 0;
-    while (i < game->width)
+    i = -1;
+    while (++i < game->width)
     {
         ft_memset(&r, 0, sizeof(t_raycast));
         calc_ray_dir(&r, i, game);
@@ -25,7 +25,6 @@ void    draw_hook(void *param)
         calc_perpendicular_dist(&r);
         calculate_wall_position(game, &r, &draw_start, &draw_end);
         draw_wall_strip(game, i, draw_start, draw_end, &r);
-        i++;
     }
     draw_map(game);
 }
@@ -48,10 +47,9 @@ void set_player(t_game* game)
 void init(t_game *game)
 {
     set_player(game);
+    game->scale = 400 / game->map_height;
     if (game->map_width > game->map_height)
         game->scale = 400 / game->map_width;
-    else
-        game->scale = 400 / game->map_height;
     game->width = 2040;
     game->height = 1000;
     game->map_offset_x = game->width - game->map_width * game->scale - game->scale;

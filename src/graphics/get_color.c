@@ -1,6 +1,6 @@
 #include "../../inc/cub3d.h"
 
-uint32_t get_texture_pixel_color(mlx_texture_t* texture, uint32_t x, uint32_t y)
+uint32_t get_tex_pix_color(mlx_texture_t* texture, uint32_t x, uint32_t y)
 {
     uint32_t shift;
     uint8_t* pixel;
@@ -28,11 +28,9 @@ void calc_texture_points(t_game *game, t_raycast *r, int total_y, int draw_start
 {
     r->x_hit = fabs(game->player.x_pos + r->x_raydir * r->perp_dist);
     r->y_hit = fabs(game->player.y_pos + r->y_raydir * r->perp_dist);
+    r->tex_x_point = r->y_hit - (int)r->y_hit;
     if (r->side)
         r->tex_x_point = r->x_hit - (int)r->x_hit;
-    else
-        r->tex_x_point = r->y_hit - (int)r->y_hit;
-
     if (r->texture_type == 'S' || r->texture_type == 'W')
         r->tex_x_point = 1 - r->tex_x_point;
     r->tex_y_point = (double)(total_y - draw_start) / (double)r->wall_height;
@@ -67,11 +65,11 @@ uint32_t get_color(t_game * game, t_raycast *r, int total_y, int draw_start)
     calc_texture_points(game, r, total_y, draw_start);
     calc_tex_pix_coords(game, r);
     if (r->texture_type == 'N')
-        return (get_texture_pixel_color(game->textures.tex_north, r->tex_x_pix, r->tex_y_pix));
+        return (get_tex_pix_color(game->textures.tex_north, r->tex_x_pix, r->tex_y_pix));
     else if (r->texture_type == 'S')
-        return (get_texture_pixel_color(game->textures.tex_south, r->tex_x_pix, r->tex_y_pix));
+        return (get_tex_pix_color(game->textures.tex_south, r->tex_x_pix, r->tex_y_pix));
     else if (r->texture_type == 'W')
-        return (get_texture_pixel_color(game->textures.tex_west, r->tex_x_pix, r->tex_y_pix));
+        return (get_tex_pix_color(game->textures.tex_west, r->tex_x_pix, r->tex_y_pix));
     else
-        return (get_texture_pixel_color(game->textures.tex_east, r->tex_x_pix, r->tex_y_pix));
+        return (get_tex_pix_color(game->textures.tex_east, r->tex_x_pix, r->tex_y_pix));
 }
