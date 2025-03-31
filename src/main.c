@@ -16,12 +16,14 @@ void	init_game(t_game *game)
 {
 	ft_bzero(game, sizeof(t_game));
 	game->fd = -1;
-    game->ceiling_rgb = -1;
-    game->floor_rgb = -1;
+	game->ceiling_rgb = -1;
+	game->floor_rgb = -1;
 }
+
 int	main(int ac, char **av)
 {
 	t_game	game;
+
 	if (ac != 2)
 		error_exit("Usage: ./cub3d <map.cub>", NULL);
 	parse_cub_file(&game, av[1]);
@@ -30,4 +32,3 @@ int	main(int ac, char **av)
 	free_game(&game);
 	return (0);
 }
-

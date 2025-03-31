@@ -23,21 +23,20 @@ int	calculate_wall_height(t_game *game, t_raycast *raycast)
 	return (wall_height);
 }
 
-void	calculate_wall_position(t_game *game, t_raycast *raycast,
-		int *draw_start, int *draw_end)
+void	calculate_wall_position(t_game *game, t_raycast *raycast)
 {
 	raycast->wall_height = calculate_wall_height(game, raycast);
-	*draw_start = (game->height / 2) - (raycast->wall_height / 2);
-	*draw_end = (game->height / 2) + (raycast->wall_height / 2);
-	if (*draw_end > game->height)
-		*draw_end = game->height;
+	raycast->draw_start = (game->height / 2) - (raycast->wall_height / 2);
+	raycast->draw_end = (game->height / 2) + (raycast->wall_height / 2);
+	if (raycast->draw_end > game->height)
+		raycast->draw_end = game->height;
 }
 
-void	draw_floor(t_game *game, int x, int *draw_end)
+void	draw_floor(t_game *game, int x, t_raycast *raycast)
 {
 	int	y;
 
-	y = *draw_end;
+	y = raycast->draw_end;
 	while (y < game->height)
 	{
 		if (y < 0)
@@ -50,12 +49,12 @@ void	draw_floor(t_game *game, int x, int *draw_end)
 	}
 }
 
-void	draw_ceiling(t_game *game, int x, int *draw_start)
+void	draw_ceiling(t_game *game, int x, t_raycast *raycast)
 {
 	int	y;
 
 	y = 0;
-	while (y < *draw_start)
+	while (y < raycast->draw_start)
 	{
 		if (y < 0)
 		{
@@ -67,22 +66,21 @@ void	draw_ceiling(t_game *game, int x, int *draw_start)
 	}
 }
 
-void	draw_wall_strip(t_game *game, int x, int draw_start, int draw_end,
-		t_raycast *r)
+void	draw_wall_strip(t_game *game, int x, t_raycast *r)
 {
 	int	y;
 
-	draw_ceiling(game, x, &draw_start);
-	y = draw_start;
-	while (y < draw_end)
+	draw_ceiling(game, x, r);
+	y = r->draw_start;
+	while (y < r->draw_end)
 	{
 		if (y < 0)
 		{
 			y++;
 			continue ;
 		}
-		mlx_put_pixel(game->img, x, y, get_color(game, r, y, draw_start));
+		mlx_put_pixel(game->img, x, y, get_color(game, r, y));
 		y++;
 	}
-	draw_floor(game, x, &draw_end);
+	draw_floor(game, x, r);
 }

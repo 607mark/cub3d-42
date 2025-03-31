@@ -36,8 +36,7 @@ void	define_side(t_raycast *r)
 		r->texture_type = 'E';
 }
 
-void	calc_texture_points(t_game *game, t_raycast *r, int total_y,
-		int draw_start)
+void	calc_texture_points(t_game *game, t_raycast *r, int total_y)
 {
 	r->x_hit = fabs(game->player.x_pos + r->x_raydir * r->perp_dist);
 	r->y_hit = fabs(game->player.y_pos + r->y_raydir * r->perp_dist);
@@ -46,7 +45,7 @@ void	calc_texture_points(t_game *game, t_raycast *r, int total_y,
 		r->tex_x_point = r->x_hit - (int)r->x_hit;
 	if (r->texture_type == 'S' || r->texture_type == 'W')
 		r->tex_x_point = 1 - r->tex_x_point;
-	r->tex_y_point = (double)(total_y - draw_start) / (double)r->wall_height;
+	r->tex_y_point = (double)(total_y - r->draw_start) / (double)r->wall_height;
 }
 
 void	calc_tex_pix_coords(t_game *game, t_raycast *r)
@@ -72,10 +71,11 @@ void	calc_tex_pix_coords(t_game *game, t_raycast *r)
 		r->tex_y_pix = game->textures.tex_east->height * r->tex_y_point;
 	}
 }
-uint32_t	get_color(t_game *game, t_raycast *r, int total_y, int draw_start)
+
+uint32_t	get_color(t_game *game, t_raycast *r, int total_y)
 {
 	define_side(r);
-	calc_texture_points(game, r, total_y, draw_start);
+	calc_texture_points(game, r, total_y);
 	calc_tex_pix_coords(game, r);
 	if (r->texture_type == 'N')
 		return (get_tex_pix_color(game->textures.tex_north, r->tex_x_pix,

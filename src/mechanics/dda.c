@@ -43,8 +43,8 @@ void	calc_delt_dist(t_raycast *r)
 //whole number coord.
 //  if 3.65 -> calc distance to get to 4
 //if ray direction for one of the axises was 0, then delt_dist is 1e12,
-	// then side_dist is also really big, this is used in later dda ,
-	// so dda will never pick this step
+// then side_dist is also really big, this is used in later dda ,
+// so dda will never pick this step
 void	set_step_dir(t_raycast *r, t_game *game)
 {
 	r->x_map = (int)game->player.x_pos;
@@ -69,9 +69,9 @@ void	set_step_dir(t_raycast *r, t_game *game)
 // compares x_side_dist and y_side_dist to decide which direction to 
 //step next (x or y)
 // if a step’s side_dist was huge (1e12 from delt_dist),
-	// dda skips that direction, doing only on the valid step
+// dda skips that direction, doing only on the valid step
 // side = 0 means hit a vertical wall (x-step),
-	// side = 1 means hit a horizontal wall (y-step)
+// side = 1 means hit a horizontal wall (y-step)
 void	dda(t_raycast *r, t_game *game)
 {
 	while (r->collision == false)

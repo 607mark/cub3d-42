@@ -78,6 +78,8 @@ typedef struct s_raycast
     double tex_y_point;
 	double tex_x_pix;   
     double tex_y_pix;
+	int	draw_start;
+	int draw_end;
 } t_raycast;
 
 
@@ -140,18 +142,14 @@ void 			rotate(t_game* game, double rot_rad);
 int 			is_valid_pos(t_game* game, double x_new, double y_new);
 
 /* Minimap*/
-void 			draw_square(t_game *game, int x, int y, int size, uint32_t color);
 void 			draw_map(t_game* game);
-void 			draw_player(t_game *game, int x, int y, int size, uint32_t color);
 
 /* Rendering*/
 int 			render(t_game *game);
 int				calculate_wall_height(t_game *game, t_raycast *raycast);
-void			calculate_wall_position(t_game *game, t_raycast *raycast, int *draw_start, int *draw_end);
-void			draw_wall_strip(t_game *game, int x, int draw_start, int draw_end, t_raycast *r);
-void			draw_floor(t_game *game, int x, int *draw_end);
-void			draw_ceiling(t_game *game, int x, int *draw_start);
-uint32_t		get_color(t_game * game, t_raycast *r, int total_y, int draw_start);
+void			calculate_wall_position(t_game *game, t_raycast *raycast);
+void			draw_wall_strip(t_game *game, int x, t_raycast *r);
+uint32_t	get_color(t_game *game, t_raycast *r, int total_y);
 
 /*Errors*/
 void			error_exit(char *msg, t_game *game);
