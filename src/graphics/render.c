@@ -44,7 +44,7 @@ void set_player(t_game* game)
         rotate(game, -PI / 2);
 }
 
-void init(t_game *game)
+int init(t_game *game)
 {
     set_player(game);
     game->scale = 400 / game->map_height;
@@ -56,18 +56,30 @@ void init(t_game *game)
     game->map_offset_y = game->scale;
     ft_memset(&game->keys, 0, sizeof(t_keys));
     game->mlx = mlx_init(game->width, game->height, "cub3D", 0);
+    if (game->mlx == NULL)
+        return (1);
     game->img = mlx_new_image(game->mlx, game->width, game->height);
+    if (game->img == NULL)
+        return (1);
     game->textures.vigne = mlx_texture_to_image(game->mlx, game->textures.vignette);
-    mlx_resize_image(game->textures.vigne,  game->width , game->height);
-    mlx_image_to_window(game->mlx, game->img, 0, 0);
-    mlx_image_to_window(game->mlx, game->textures.vigne, 0, 0);
+    if (game->textures.vigne == NULL)
+        return (1);
+    if (mlx_resize_image(game->textures.vigne,  game->width , game->height) == false)
+        return (1);
+    if (mlx_image_to_window(game->mlx, game->img, 0, 0) == -1)
+        return (1);   
+    if (mlx_image_to_window(game->mlx, game->textures.vigne, 0, 0) == -1)
+        return (1);
+    return (0);
 }
 
 int render(t_game *game)
 {
-    init(game);
-    mlx_loop_hook(game->mlx, player_hook, game);
-    mlx_loop_hook(game->mlx, draw_hook, game);
+    if (init(game) == 1)
+        return (1);
+    if ( mlx_loop_hook(game->mlx, player_hook, game) == false
+            || mlx_loop_hook(game->mlx, draw_hook, game) == false)
+        return (1);
     mlx_key_hook(game->mlx, key_hook, game);
     mlx_loop(game->mlx);
     
