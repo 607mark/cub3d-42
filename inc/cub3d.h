@@ -137,7 +137,7 @@ void 			calc_perpendicular_dist(t_raycast *r);
 void 			key_hook(mlx_key_data_t keydata, void* param);
 void 			player_hook(void* param);
 void 			rotate(t_game* game, double rot_rad);
-int 			is_valid_pos(t_game* game, double new_x, double new_y);
+int 			is_valid_pos(t_game* game, double x_new, double y_new);
 
 /* Minimap*/
 void 			draw_square(t_game *game, int x, int y, int size, uint32_t color);
