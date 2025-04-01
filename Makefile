@@ -6,7 +6,7 @@
 #    By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/05 12:31:45 by rkhakimu          #+#    #+#              #
-#    Updated: 2025/03/24 11:18:05 by rkhakimu         ###   ########.fr        #
+#    Updated: 2025/04/01 12:06:19 by rkhakimu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ endif
 # Source files
 SRC         := main.c \
 			error_handling/error_handling.c \
-			parsing/flood_fill.c \
+			parsing/perimeter_check.c \
 			parsing/parsing.c \
 			parsing/parsing_color.c \
 			parsing/reading_map.c \

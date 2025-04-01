@@ -6,39 +6,30 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:26:12 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/27 15:01:26 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/01 11:51:00 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-mlx_texture_t	*load_texture_file(char *path, t_game *game)
+void	load_texture_file(char *path, mlx_texture_t **texture, t_game *game)
 {
-	mlx_texture_t	*texture;
-
-	if (!path || !validate_tex_ext(path, game))
-		error_exit("invalid texture path or extention", game);
-	texture = mlx_load_png(path);
-	if (!texture)
+	*texture = mlx_load_png(path);
+	if (!*texture)
 		error_exit("Failed to load PNG texture", game);
-	return (texture);
+	free(path);
 }
 
 void	load_textures(t_game *game)
 {
-	if (!game->textures.north)
-		error_exit("Missing NO texture", game);
-	game->textures.tex_north = load_texture_file(game->textures.north, game);
-	if (!game->textures.south)
-		error_exit("Missing SO texture", game);
-	game->textures.tex_south = load_texture_file(game->textures.south, game);
-	if (!game->textures.west)
-		error_exit("Missing WE texture", game);
-	game->textures.tex_west = load_texture_file(game->textures.west, game);
-	if (!game->textures.east)
-		error_exit("Missing EA texture", game);
-	game->textures.tex_east = load_texture_file(game->textures.east, game);
-	game->textures.vignette = mlx_load_png("./textures/hud2.png");
-	if (!game->textures.vignette)
-		error_exit("Missing hud texture", game);
+	char	*vignette_path;
+
+	load_texture_file(game->textures.north, &game->textures.tex_north, game);
+	load_texture_file(game->textures.south, &game->textures.tex_south, game);
+	load_texture_file(game->textures.west, &game->textures.tex_west, game);
+	load_texture_file(game->textures.east, &game->textures.tex_east, game);
+	vignette_path = ft_strdup("./textures/hud2.png");
+	if (!vignette_path)
+		error_exit("Memory allocation failed", game);
+	load_texture_file(vignette_path, &game->textures.vignette, game);
 }
