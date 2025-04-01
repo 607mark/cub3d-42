@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:47:45 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/04/01 12:03:49 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/01 17:49:08 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,26 +56,38 @@ void	check_empty_lines_after_map(int fd, t_game *game, int has_content)
 
 char	*process_map_line(char *line, t_game *game)
 {
-	char	*trimmed;
-	int		i;
-
+	// char	*trimmed;
+		
+	// trimmed = ft_strtrim(line, " \t\n");
+	// free(line);
+	// if (!trimmed)
+	// 	error_exit("Trim failed", game);
 	if (is_config_element(line))
 	{
 		free(line);
 		error_exit("Invalid map: config element after map start", game);
 	}
-	trimmed = ft_strtrim(line, "\n");
-	free(line);
-	if (!trimmed)
-		error_exit("Trim failed", game);
+	return (line);
+}
+
+char	*ft_smartdup(const char *s1)
+{
+	int		i;
+	int		len;
+	char	*pnt;
+
 	i = 0;
-	while (trimmed[i])
+	len = ft_strlen(s1);
+	pnt = ft_calloc(129, 1);
+	if (!pnt)
+		return (NULL);
+	while (i < len)
 	{
-		if (ft_isspace(trimmed[i]))
-			trimmed[i] = '1';
+		pnt[i] = s1[i];
 		i++;
 	}
-	return (trimmed);
+	pnt[i] = '\0';
+	return (pnt);
 }
 
 int	add_line_to_map(t_game *game, char *processed_line)
@@ -86,7 +98,7 @@ int	add_line_to_map(t_game *game, char *processed_line)
 		free(processed_line);
 		error_exit("Memory allocation failed", game);
 	}
-	game->map[game->map_height] = ft_strdup(processed_line);
+	game->map[game->map_height] = ft_smartdup(processed_line);
 	free(processed_line);
 	if (!game->map[game->map_height])
 		error_exit("Memory allocation failed", game);
@@ -99,7 +111,6 @@ void	read_map(t_game *game, int fd)
 	char	*line;
 	char	*processed_line;
 	int		has_content;
-
 	has_content = 0;
 	line = get_next_line(fd);
 	while (line)

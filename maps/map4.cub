@@ -1,11 +1,14 @@
 NO ./textures/cyber.png
+
+
+           
 SO ./textures/cyber.png
 WE ./textures/cyber.png
 EA ./textures/cyber.png
-
+    
 F 50,50,50
 C 15,208,217
-
+   
 1111111111111111111111
 1S00000000000000000001
 1000000000000000000001

@@ -6,14 +6,14 @@
 #    By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/05 12:31:45 by rkhakimu          #+#    #+#              #
-#    Updated: 2025/04/01 12:06:19 by rkhakimu         ###   ########.fr        #
+#    Updated: 2025/04/01 16:41:52 by rkhakimu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Project and Compiler Settings
 NAME        := cub3D
 CC          := cc
-CFLAGS      := -Wall -Wextra -Werror -ggdb3 -g
+CFLAGS      := -Wall -Wextra -ggdb3 -g -Ofast
 
 # Directories
 SRC_DIR     := src
@@ -39,7 +39,7 @@ endif
 # Source files
 SRC         := main.c \
 			error_handling/error_handling.c \
-			parsing/perimeter_check.c \
+			parsing/flood_fill.c \
 			parsing/parsing.c \
 			parsing/parsing_color.c \
 			parsing/reading_map.c \

@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 22:03:49 by mshabano          #+#    #+#             */
-/*   Updated: 2025/04/01 12:29:47 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:53:04 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	dda(t_raycast *r, t_game *game)
 		}
 		if (r->x_map >= 0 && r->x_map < game->map_width && r->y_map >= 0
 			&& r->y_map < game->map_height
-			&& (game->map[r->y_map][r->x_map] != '0'))
+			&& (game->map[r->y_map][r->x_map] != '#'))
 			r->collision = true;
 	}
 }

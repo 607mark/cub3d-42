@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:20 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/04/01 12:06:07 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/01 17:34:19 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ void			free_game(t_game *game);
 
 /* Freeing */
 void			free_map(t_game *game);
-void			free_texture_pair(char **path, mlx_texture_t **texture);
+void			free_texture(mlx_texture_t **texture);
 void			free_textures(t_game *game);
 void			free_mlx(t_game *game);
 void			free_game(t_game *game);
@@ -191,7 +191,6 @@ void			read_map(t_game *game, int fd);
 void			validate_map(t_game *game);
 char			**ft_realloc_2d(char **old, int new_size);
 void			check_row(char *row, int y, t_game *game, int *player_found);
-void			check_perimeter(t_game *game, char **map);
-
+void			flood_fill(t_game *game, int x, int y, char **map);
 
 #endif

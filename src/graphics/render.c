@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 22:15:08 by mshabano          #+#    #+#             */
-/*   Updated: 2025/04/01 12:32:00 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/01 17:49:41 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	set_mlx(t_game *game)
 
 void	set_player(t_game *game)
 {
-	game->map[(int)game->player.y_pos][(int)game->player.x_pos] = '0';
 	game->player.x_pos += 0.5;
 	game->player.y_pos += 0.5;
 	game->player.x_dir = 0;
@@ -74,8 +73,8 @@ int	init(t_game *game)
 	game->scale = 400 / game->map_height;
 	if (game->map_width > game->map_height)
 		game->scale = 400 / game->map_width;
-	game->width = 2040;
-	game->height = 1000;
+	game->width = 3000;
+	game->height = 1500;
 	game->map_offset_x = game->width - game->map_width * game->scale
 		- game->scale;
 	game->map_offset_y = game->scale;
@@ -87,6 +86,7 @@ int	init(t_game *game)
 
 int	render(t_game *game)
 {
+
 	if (init(game) == 1)
 		return (1);
 	if (mlx_loop_hook(game->mlx, player_hook, game) == false

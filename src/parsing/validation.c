@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:07 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/04/01 12:05:16 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/01 17:08:02 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ void	validate_map(t_game *game)
 	player_found = 0;
 	while (y < game->map_height)
 	{
-		//printf("Row %d: %s\n", y, game->map[y]);
 		check_row(game->map[y], y, game, &player_found);
 		if ((int)ft_strlen(game->map[y]) > game->map_width)
 			game->map_width = ft_strlen(game->map[y]);
@@ -93,8 +92,7 @@ void	validate_map(t_game *game)
 		error_exit("No player found in map", game);
 	if (game->map_width < 2)
         error_exit("Map too narrow", game);
-	//printf("Starting flood_fill at x: %f, y: %f\n", game->player.x_pos, game->player.y_pos);
-	check_perimeter(game, game->map);
+	flood_fill(game, game->player.x_pos, game->player.y_pos, game->map);
 }
 
 void	validate_config(t_game *game)
@@ -119,5 +117,21 @@ int	is_newline(char *line)
 		return (0);
 	if (ft_strlen(line) == 1 && line[0] == '\n')
 		return (1);
+	int len = ft_strlen(line);
+	int i = 0;
+	while (i < len - 1)
+	{
+		if (ft_isspace((int)line[i]))
+		{
+			i++;
+			continue;
+		}
+		else
+			break;
+	}
+	if (line[i] == '\n')
+			return (1);
+	if (i == len)
+		return(1);
 	return (0);
 }
