@@ -1,7 +1,7 @@
-NO ./textures/dalles2.png
-SO ./textures/Tile_04-256x256.png
-WE ./textures/Tile_20-256x256.png
-EA ./textures/Woven_17-256x256.png
+NO ./textures/temple.png
+SO ./textures/temple.png
+WE ./textures/temple.png
+EA ./textures/temple.png
 
 F 20,20,20
 C 200,200,200

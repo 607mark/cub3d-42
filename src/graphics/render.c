@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mshabano <mshabano@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 22:15:08 by mshabano          #+#    #+#             */
-/*   Updated: 2025/03/31 22:15:09 by mshabano         ###   ########.fr       */
+/*   Updated: 2025/04/01 12:32:00 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,13 @@ int	set_mlx(t_game *game)
 
 void	set_player(t_game *game)
 {
+	game->map[(int)game->player.y_pos][(int)game->player.x_pos] = '0';
 	game->player.x_pos += 0.5;
 	game->player.y_pos += 0.5;
 	game->player.x_dir = 0;
 	game->player.y_dir = -1;
 	game->player.x_plane = 0.7;
+	
 	if (game->player.orientation == 'E')
 		rotate(game, PI / 2);
 	else if (game->player.orientation == 'S')

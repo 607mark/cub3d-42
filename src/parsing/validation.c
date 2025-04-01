@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:07 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/27 18:42:50 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/01 12:05:16 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,10 @@ void	validate_map(t_game *game)
 	}
 	if (!player_found)
 		error_exit("No player found in map", game);
+	if (game->map_width < 2)
+        error_exit("Map too narrow", game);
 	//printf("Starting flood_fill at x: %f, y: %f\n", game->player.x_pos, game->player.y_pos);
-	flood_fill(game, game->player.x_pos, game->player.y_pos, game->map);
+	check_perimeter(game, game->map);
 }
 
 void	validate_config(t_game *game)

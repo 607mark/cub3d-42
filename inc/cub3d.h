@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:20 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/27 18:06:56 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/01 12:06:07 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ void			validate_config(t_game *game);
 int				is_newline(char *line);
 
 /* Loading textures */
-mlx_texture_t	*load_texture_file(char *path, t_game *game);
+void			load_texture_file(char *path, mlx_texture_t **texture, t_game *game);
 void			load_textures(t_game *game);
 
 /* MAP */
@@ -192,6 +192,7 @@ void			read_map(t_game *game, int fd);
 void			validate_map(t_game *game);
 char			**ft_realloc_2d(char **old, int new_size);
 void			check_row(char *row, int y, t_game *game, int *player_found);
-void			flood_fill(t_game *game, int x, int y, char **map);
+void			check_perimeter(t_game *game, char **map);
+
 
 #endif

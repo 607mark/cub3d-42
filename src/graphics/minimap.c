@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mshabano <mshabano@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 22:47:34 by mshabano          #+#    #+#             */
-/*   Updated: 2025/03/31 22:47:35 by mshabano         ###   ########.fr       */
+/*   Updated: 2025/04/01 12:37:38 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	draw_background(t_game *game)
 		j = 0;
 		while (j < game->map_height)
 		{
-			if (game->map[j][i] == '#' || game->map[j][i] == '0')
+			if (game->map[j][i] == '0')
 				draw_square(game, i * game->scale, j * game->scale, 0xD6C0AB9F);
 			j++;
 		}

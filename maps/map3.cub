@@ -1,7 +1,7 @@
-NO ./textures/t2.png
-SO ./textures/t3.png
-WE ./textures/t4.png
-EA ./textures/t1.png
+NO ./textures/game1.png
+SO ./textures/game1.png
+WE ./textures/game1.png
+EA ./textures/game1.png
 
 F 50,50,50
 C 15,208,217
