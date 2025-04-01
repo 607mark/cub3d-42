@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mshabano <mshabano@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 23:30:40 by mshabano          #+#    #+#             */
-/*   Updated: 2025/03/31 23:30:42 by mshabano         ###   ########.fr       */
+/*   Updated: 2025/04/01 12:29:03 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 int	is_valid_pos(t_game *game, double x, double y)
 {
-	return (game->map[(int)y][(int)x] == '#');
+	return (game->map[(int)y][(int)x] == '0');
 }

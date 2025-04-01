@@ -1,7 +1,7 @@
-NO ./textures/hills.png
-SO ./textures/hills.png
-WE ./textures/hills.png
-EA ./textures/hills.png
+NO ./textures/pyramids.png
+SO ./textures/pyramids.png
+WE ./textures/pyramids.png
+EA ./textures/pyramids.png
 
 F 30,30,30
 C 100,150,200
