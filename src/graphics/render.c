@@ -42,18 +42,12 @@ int	set_mlx(t_game *game)
 	if (game->mlx == NULL)
 		return (1);
 	game->img = mlx_new_image(game->mlx, game->width, game->height);
-	if (game->img == NULL)
-		return (1);
-	game->textures.vigne = mlx_texture_to_image(game->mlx,
-			game->textures.vignette);
-	if (game->textures.vigne == NULL)
-		return (1);
-	if (mlx_resize_image(game->textures.vigne, game->width,
-			game->height) == false)
+	game->minimap = mlx_new_image(game->mlx, 400, 400);
+	if (game->img == NULL || game->minimap == NULL) 
 		return (1);
 	if (mlx_image_to_window(game->mlx, game->img, 0, 0) == -1)
 		return (1);
-	if (mlx_image_to_window(game->mlx, game->textures.vigne, 0, 0) == -1)
+	if (mlx_image_to_window(game->mlx, game->minimap, game->map_offset_x, game->map_offset_y) == -1)
 		return (1);
 	return (0);
 }
@@ -66,7 +60,6 @@ void	set_player(t_game *game)
 	game->player.x_dir = 0;
 	game->player.y_dir = -1;
 	game->player.x_plane = 0.7;
-	
 	if (game->player.orientation == 'E')
 		rotate(game, PI / 2);
 	else if (game->player.orientation == 'S')

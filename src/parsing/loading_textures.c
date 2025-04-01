@@ -22,14 +22,8 @@ void	load_texture_file(char *path, mlx_texture_t **texture, t_game *game)
 
 void	load_textures(t_game *game)
 {
-	char	*vignette_path;
-
 	load_texture_file(game->textures.north, &game->textures.tex_north, game);
 	load_texture_file(game->textures.south, &game->textures.tex_south, game);
 	load_texture_file(game->textures.west, &game->textures.tex_west, game);
 	load_texture_file(game->textures.east, &game->textures.tex_east, game);
-	vignette_path = ft_strdup("./textures/hud2.png");
-	if (!vignette_path)
-		error_exit("Memory allocation failed", game);
-	load_texture_file(vignette_path, &game->textures.vignette, game);
 }

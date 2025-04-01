@@ -102,8 +102,6 @@ typedef struct	s_texture
 	mlx_texture_t	*tex_south;
 	mlx_texture_t	*tex_east;
 	mlx_texture_t	*tex_west;
-	mlx_texture_t	*vignette;
-	mlx_image_t		*vigne;
 }	t_texture;
 
 
@@ -123,6 +121,7 @@ typedef struct	s_game
 	int			ceiling_rgb;
 	mlx_t		*mlx;
     mlx_image_t	*img;
+	mlx_image_t	*minimap;
 	t_keys		keys;
 	int			fd;
 }	t_game;
