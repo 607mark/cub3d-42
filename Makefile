@@ -104,7 +104,7 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 	@make fclean -C $(LIBFT_DIR)
-	# rm -rf $(MLX_DIR)
+	rm -rf $(MLX_DIR)
 	@echo "Fully cleaned project, including libraries and executable."
 
 # Rebuild everything from scratch
