@@ -41,7 +41,7 @@ void	draw_floor(t_game *game, int x, t_raycast *raycast)
 	{
 		if (y < 0)
 		{
-			y++;
+			y = 0;
 			continue ;
 		}
 		mlx_put_pixel(game->img, x, y, game->floor_rgb);
@@ -58,7 +58,7 @@ void	draw_ceiling(t_game *game, int x, t_raycast *raycast)
 	{
 		if (y < 0)
 		{
-			y++;
+			y = 0;
 			continue ;
 		}
 		mlx_put_pixel(game->img, x, y, game->ceiling_rgb);
@@ -76,7 +76,7 @@ void	draw_wall_strip(t_game *game, int x, t_raycast *r)
 	{
 		if (y < 0)
 		{
-			y++;
+			y = 0;
 			continue ;
 		}
 		mlx_put_pixel(game->img, x, y, get_color(game, r, y));

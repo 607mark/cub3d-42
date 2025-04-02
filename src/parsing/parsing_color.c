@@ -76,7 +76,7 @@ int	parse_rgb_component(char **ptr, char delimiter, t_game *game, char *line)
 	return (component);
 }
 
-void	parse_color(int *color, char *line, t_game *game)
+void	parse_color(long *color, char *line, t_game *game)
 {
 	char	*ptr;
 	t_rgb	rgb;
@@ -96,7 +96,7 @@ void	parse_color(int *color, char *line, t_game *game)
 		line = NULL;
 		error_exit("Invalid RGB format", game);
 	}
-	*color = (uint32_t)((rgb.r << 16) | (rgb.g << 8) | rgb.b);
+	*color = (uint32_t)((rgb.r << 24) | (rgb.g << 16) | rgb.b << 8 | 0xFF);
 	if (color_type == 1)
 		game->floor_rgb = *color;
 	else if (color_type == 2)

@@ -15,13 +15,8 @@
 
 # include "../lib/Libft/libft.h"
 # include "../lib/MLX42/include/MLX42/MLX42.h"
-# include <stdio.h>
 # include <fcntl.h>
 # include <math.h>
-# include <errno.h>
-# include <string.h>
-# include <limits.h>
-# include <stdlib.h>
 
 # define PI 3.14159265358979323846264338327950288
 
@@ -117,8 +112,8 @@ typedef struct s_game
 	int			scale;
 	t_player	player;
 	t_texture	textures;
-	int			floor_rgb;
-	int			ceiling_rgb;
+	long		floor_rgb;
+	long		ceiling_rgb;
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	mlx_image_t	*minimap;
@@ -178,7 +173,7 @@ int				assign_east_west_texture(t_texture *textures,
 void			parse_texture(t_texture *textures, char *line, t_game *game);
 int				parse_rgb_component(char **ptr,
 					char delimiter, t_game *game, char *line);
-void			parse_color(int *color, char *line, t_game *game);
+void			parse_color(long *color, char *line, t_game *game);
 void			validate_config(t_game *game);
 int				is_newline(char *line);
 void			skip_spaces(char **ptr);
