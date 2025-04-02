@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 10:07:26 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/04/02 10:34:27 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/02 12:05:57 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	validate_tex_ext(char *filename, t_game *game)
 	if (ft_strcmp(".png", ext) == 0)
 		return (1);
 	if (ft_strcmp(".xpm", ext) == 0)
-		error_exit("warning: .xpm detected. Needs to be .png", game);
+		error_exit("warning! Needs to be .png", game);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:25 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/04/02 10:11:26 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/02 12:04:26 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*parse_config(t_game *game, int fd)
 		line = get_next_line(fd);
 	}
 	if (!line)
-		error_exit("No map found in file", game);
+		error_exit("Invalid map", game);
 	return (line);
 }
 
@@ -94,7 +94,7 @@ void	parse_map_start(t_game *game, int fd, char *first_map_line)
 
 	line = skip_empty_lines(fd, first_map_line);
 	if (!line)
-		error_exit("No map found after config", game);
+		error_exit("Invalid map", game);
 	game->map = ft_realloc_2d(NULL, 1);
 	if (!game->map)
 	{

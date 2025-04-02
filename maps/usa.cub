@@ -1,7 +1,7 @@
-NO ./textures/pyramids.png
-SO ./textures/pyramids.png
-WE ./textures/pyramids.png
-EA ./textures/pyramids.png
+NO ./textures/unclesam.png
+SO ./textures/unclesam.png
+WE ./textures/unclesam.png
+EA ./textures/unclesam.png
 
 F 30,30,30
 C 100,150,200

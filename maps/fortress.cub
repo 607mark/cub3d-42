@@ -1,7 +1,7 @@
-NO ./textures/game1.png
-SO ./textures/game1.png
-WE ./textures/game1.png
-EA ./textures/game1.png
+NO ./textures/SB.png
+SO ./textures/SB.png
+WE ./textures/SB.png
+EA ./textures/SB.png
 
 F 60,40,20
 C 200,100,50

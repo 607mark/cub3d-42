@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:47:45 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/04/02 10:15:27 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/02 12:05:10 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ void	check_empty_lines_after_map(int fd, t_game *game, int has_content)
 	char	*line;
 
 	if (!has_content)
-		error_exit("Invalid map: empty line within map", game);
+		error_exit("Invalid map", game);
 	line = get_next_line(fd);
 	while (line)
 	{
 		if (!is_newline(line))
 		{
 			free(line);
-			error_exit("Invalid map: content after map end", game);
+			error_exit("Invalid map", game);
 		}
 		free(line);
 		line = get_next_line(fd);
@@ -36,7 +36,7 @@ char	*process_map_line(char *line, t_game *game)
 	if (is_config_element(line))
 	{
 		free(line);
-		error_exit("Invalid map: config element after map start", game);
+		error_exit("Invalid map", game);
 	}
 	return (line);
 }

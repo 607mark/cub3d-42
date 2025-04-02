@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 09:09:06 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/04/02 11:57:30 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/02 12:03:22 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ int	parse_rgb_component(char **ptr, char delimiter, t_game *game, char *line)
 	{
 		free(line);
 		if (delimiter == ',')
-			error_exit("Invalid RGB format: RED or GREEN component", game);
+			error_exit("Invalid RGB format", game);
 		else
-			error_exit("Invalid RGB format: BLUE or duplicate", game);
+			error_exit("Invalid RGB format", game);
 	}
 	return (component);
 }
@@ -94,7 +94,7 @@ void	parse_color(int *color, char *line, t_game *game)
 	{
 		free(line);
 		line = NULL;
-		error_exit("Invalid RGB format: trailing characters", game);
+		error_exit("Invalid RGB format", game);
 	}
 	*color = (uint32_t)((rgb.r << 16) | (rgb.g << 8) | rgb.b);
 	if (color_type == 1)

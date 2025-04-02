@@ -1,7 +1,7 @@
-NO ./textures/pyramids.png
-SO ./textures/pyramids.png
-WE ./textures/pyramids.png
-EA ./textures/pyramids.png
+NO ./textures/smile.png
+SO ./textures/smile.png
+WE ./textures/smile.png
+EA ./textures/smile.png
 
 F 50,50,50
 C 15,208,217
