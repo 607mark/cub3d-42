@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 22:15:08 by mshabano          #+#    #+#             */
-/*   Updated: 2025/04/01 17:49:41 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/02 10:31:57 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,12 @@ int	set_mlx(t_game *game)
 		return (1);
 	game->img = mlx_new_image(game->mlx, game->width, game->height);
 	game->minimap = mlx_new_image(game->mlx, 400, 400);
-	if (game->img == NULL || game->minimap == NULL) 
+	if (game->img == NULL || game->minimap == NULL)
 		return (1);
 	if (mlx_image_to_window(game->mlx, game->img, 0, 0) == -1)
 		return (1);
-	if (mlx_image_to_window(game->mlx, game->minimap, game->map_offset_x, game->map_offset_y) == -1)
+	if (mlx_image_to_window(game->mlx, game->minimap,
+			game->map_offset_x, game->map_offset_y) == -1)
 		return (1);
 	return (0);
 }
@@ -86,7 +87,6 @@ int	init(t_game *game)
 
 int	render(t_game *game)
 {
-
 	if (init(game) == 1)
 		return (1);
 	if (mlx_loop_hook(game->mlx, player_hook, game) == false

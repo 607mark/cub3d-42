@@ -6,7 +6,7 @@
 #    By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/05 12:31:45 by rkhakimu          #+#    #+#              #
-#    Updated: 2025/04/01 16:41:52 by rkhakimu         ###   ########.fr        #
+#    Updated: 2025/04/02 10:20:38 by rkhakimu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,9 @@ SRC         := main.c \
 			parsing/reading_map.c \
 			parsing/validation.c \
 			parsing/loading_textures.c \
+			parsing/parsing_textures.c \
+			parsing/parsing_map_utils \
+			parsing/utils.c \
 			freeing/freeing.c \
 			graphics/render.c \
 			graphics/drawing.c \

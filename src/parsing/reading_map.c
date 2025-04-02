@@ -6,34 +6,11 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:47:45 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/04/01 17:49:08 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/02 10:15:27 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
-
-char	**copy_rows(char **new, char **old, int index, int numofrows)
-{
-	if (index >= numofrows)
-		return (new);
-	new[index] = old[index];
-	return (copy_rows(new, old, index + 1, numofrows));
-}
-
-char	**ft_realloc_2d(char **old, int new_size)
-{
-	char	**new;
-
-	new = malloc(new_size * sizeof(char *));
-	if (!new)
-		return (NULL);
-	if (old)
-	{
-		new = copy_rows(new, old, 0, new_size - 1);
-		free(old);
-	}
-	return (new);
-}
 
 void	check_empty_lines_after_map(int fd, t_game *game, int has_content)
 {
@@ -56,38 +33,12 @@ void	check_empty_lines_after_map(int fd, t_game *game, int has_content)
 
 char	*process_map_line(char *line, t_game *game)
 {
-	// char	*trimmed;
-		
-	// trimmed = ft_strtrim(line, " \t\n");
-	// free(line);
-	// if (!trimmed)
-	// 	error_exit("Trim failed", game);
 	if (is_config_element(line))
 	{
 		free(line);
 		error_exit("Invalid map: config element after map start", game);
 	}
 	return (line);
-}
-
-char	*ft_smartdup(const char *s1)
-{
-	int		i;
-	int		len;
-	char	*pnt;
-
-	i = 0;
-	len = ft_strlen(s1);
-	pnt = ft_calloc(129, 1);
-	if (!pnt)
-		return (NULL);
-	while (i < len)
-	{
-		pnt[i] = s1[i];
-		i++;
-	}
-	pnt[i] = '\0';
-	return (pnt);
 }
 
 int	add_line_to_map(t_game *game, char *processed_line)
@@ -111,6 +62,7 @@ void	read_map(t_game *game, int fd)
 	char	*line;
 	char	*processed_line;
 	int		has_content;
+
 	has_content = 0;
 	line = get_next_line(fd);
 	while (line)
@@ -123,10 +75,10 @@ void	read_map(t_game *game, int fd)
 		}
 		processed_line = process_map_line(line, game);
 		if (ft_strlen(processed_line) > 128)
-            error_exit("Map exceeds width limit (128)", game);
+			error_exit("Map exceeds width limit (128)", game);
 		has_content = add_line_to_map(game, processed_line);
 		if (game->map_height > 128)
-            error_exit("Map exceeds height limit (128)", game);
+			error_exit("Map exceeds height limit (128)", game);
 		line = get_next_line(fd);
 	}
 	if (game->map_height < 2)

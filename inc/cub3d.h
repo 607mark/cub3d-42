@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:20 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/04/01 17:34:19 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/02 10:30:06 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,67 +32,68 @@ typedef struct s_rgb
 	int		b;
 }	t_rgb;
 
-typedef struct s_draw {
-    int x_start;
-    int y_start;
-    int x_end;
-    int y_end;
-    int x_draw;
-    int y_draw;
-} t_draw;
+typedef struct s_draw
+{
+	int		x_start;
+	int		y_start;
+	int		x_end;
+	int		y_end;
+	int		x_draw;
+	int		y_draw;
+}	t_draw;
 
 typedef struct s_player
 {
-    double x_pos;
-    double y_pos;
-    double x_dir;
-    double y_dir;
-    double x_plane;
-    double y_plane;
-	char orientation;
-} t_player;
+	double	x_pos;
+	double	y_pos;
+	double	x_dir;
+	double	y_dir;
+	double	x_plane;
+	double	y_plane;
+	char	orientation;
+}	t_player;
 
 typedef struct s_raycast
 {
-	double x_cam;
-	double x_raydir;
-	double y_raydir;
+	double	x_cam;
+	double	x_raydir;
+	double	y_raydir;
 	int		x_map;
 	int		y_map;
-	double x_side_dist;
-	double y_side_dist;
-	double x_delt_dist;
-	double y_delt_dist;
-	double wall_dist;
-	double perp_dist;
-	int x_step;
-	int y_step;
-	bool collision;
-	int side;
-	char dir;
-	char texture_type;
-	int wall_height;
-	double x_hit;
-    double y_hit;
-    double tex_x_point;   
-    double tex_y_point;
-	double tex_x_pix;   
-    double tex_y_pix;
-	int	draw_start;
-	int draw_end;
-} t_raycast;
+	double	x_side_dist;
+	double	y_side_dist;
+	double	x_delt_dist;
+	double	y_delt_dist;
+	double	wall_dist;
+	double	perp_dist;
+	int		x_step;
+	int		y_step;
+	bool	collision;
+	int		side;
+	char	dir;
+	char	texture_type;
+	int		wall_height;
+	double	x_hit;
+	double	y_hit;
+	double	tex_x_point;
+	double	tex_y_point;
+	double	tex_x_pix;
+	double	tex_y_pix;
+	int		draw_start;
+	int		draw_end;
+}	t_raycast;
 
+typedef struct s_keys
+{
+	bool	w;
+	bool	a;
+	bool	s;
+	bool	d;
+	bool	left;
+	bool	right;
+}	t_keys;
 
-typedef struct s_keys {
-    bool w;
-    bool a;
-    bool s;
-    bool d;
-    bool left;
-    bool right;
-} t_keys;
-
-typedef struct	s_texture
+typedef struct s_texture
 {
 	char			*north;
 	char			*south;
@@ -104,8 +105,7 @@ typedef struct	s_texture
 	mlx_texture_t	*tex_west;
 }	t_texture;
 
-
-typedef struct	s_game
+typedef struct s_game
 {
 	char		**map;
 	int			map_width;
@@ -120,35 +120,34 @@ typedef struct	s_game
 	int			floor_rgb;
 	int			ceiling_rgb;
 	mlx_t		*mlx;
-    mlx_image_t	*img;
+	mlx_image_t	*img;
 	mlx_image_t	*minimap;
 	t_keys		keys;
 	int			fd;
 }	t_game;
 
-
 /*DDA*/
-void 			calc_ray_dir(t_raycast *r, int i, t_game* game);
-void 			calc_delt_dist(t_raycast *r);
-void 			set_step_dir(t_raycast *r, t_game* game);
-void 			dda(t_raycast *r, t_game* game);
-void 			calc_perpendicular_dist(t_raycast *r);
+void			calc_ray_dir(t_raycast *r, int i, t_game *game);
+void			calc_delt_dist(t_raycast *r);
+void			set_step_dir(t_raycast *r, t_game *game);
+void			dda(t_raycast *r, t_game *game);
+void			calc_perpendicular_dist(t_raycast *r);
 
 /*Player's movement*/
-void 			key_hook(mlx_key_data_t keydata, void* param);
-void 			player_hook(void* param);
-void 			rotate(t_game* game, double rot_rad);
-int 			is_valid_pos(t_game* game, double x_new, double y_new);
+void			key_hook(mlx_key_data_t keydata, void *param);
+void			player_hook(void *param);
+void			rotate(t_game *game, double rot_rad);
+int				is_valid_pos(t_game *game, double x_new, double y_new);
 
 /* Minimap*/
-void 			draw_map(t_game* game);
+void			draw_map(t_game *game);
 
 /* Rendering*/
-int 			render(t_game *game);
+int				render(t_game *game);
 int				calculate_wall_height(t_game *game, t_raycast *raycast);
 void			calculate_wall_position(t_game *game, t_raycast *raycast);
 void			draw_wall_strip(t_game *game, int x, t_raycast *r);
-uint32_t	get_color(t_game *game, t_raycast *r, int total_y);
+uint32_t		get_color(t_game *game, t_raycast *r, int total_y);
 
 /*Errors*/
 void			error_exit(char *msg, t_game *game);
@@ -160,7 +159,6 @@ void			free_texture(mlx_texture_t **texture);
 void			free_textures(t_game *game);
 void			free_mlx(t_game *game);
 void			free_game(t_game *game);
-
 
 /* Parsing functions */
 void			parse_cub_file(t_game *game, char *filename);
@@ -174,16 +172,20 @@ int				is_config_element(char *line);
 void			init_game(t_game *game);
 void			parse_texture(t_texture *textures, char *line, t_game *game);
 char			*extract_texture_path(char *line, t_game *game);
-int				assign_north_south_texture(t_texture *textures, char *line, char *path, t_game *game);
-int 			assign_east_west_texture(t_texture *textures, char *line, char *path, t_game *game);
+int				assign_north_south_texture(t_texture *textures,
+					char *line, char *path, t_game *game);
+int				assign_east_west_texture(t_texture *textures,
+					char *line, char *path, t_game *game);
 void			parse_texture(t_texture *textures, char *line, t_game *game);
-int				parse_rgb_component(char **ptr, char delimiter, t_game *game, char *line);
+int				parse_rgb_component(char **ptr,
+					char delimiter, t_game *game, char *line);
 void			parse_color(int *color, char *line, t_game *game);
 void			validate_config(t_game *game);
 int				is_newline(char *line);
 
 /* Loading textures */
-void			load_texture_file(char *path, mlx_texture_t **texture, t_game *game);
+void			load_texture_file(char *path,
+					mlx_texture_t **texture, t_game *game);
 void			load_textures(t_game *game);
 
 /* MAP */
@@ -192,5 +194,6 @@ void			validate_map(t_game *game);
 char			**ft_realloc_2d(char **old, int new_size);
 void			check_row(char *row, int y, t_game *game, int *player_found);
 void			flood_fill(t_game *game, int x, int y, char **map);
+char			*ft_smartdup(const char *s1);
 
 #endif
