@@ -6,7 +6,7 @@
 #    By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/05 12:31:45 by rkhakimu          #+#    #+#              #
-#    Updated: 2025/04/02 10:45:33 by rkhakimu         ###   ########.fr        #
+#    Updated: 2025/04/02 13:48:46 by rkhakimu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,12 @@
 NAME        := cub3D
 CC          := cc
 CFLAGS      := -Wall -Wextra -ggdb3 -g -Ofast
+
+# 	The -Ofast flag is a compiler optimization option,
+#	typically used with compilers like GCC or Clang.
+#	It’s part of the -O family of optimization levels (e.g., -O0, -O1, -O2, -O3),
+#	but it’s the most aggressive. Essentially, it tells the compiler,
+#	“Go all out—optimize this code as much as possible, even if it means bending some rules.”
 
 # Directories
 SRC_DIR     := src
