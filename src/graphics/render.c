@@ -50,6 +50,7 @@ int	set_mlx(t_game *game)
 	if (mlx_image_to_window(game->mlx, game->minimap,
 			game->map_offset_x, game->map_offset_y) == -1)
 		return (1);
+	game->minimap->enabled = (!game->minimap->enabled);
 	return (0);
 }
 
