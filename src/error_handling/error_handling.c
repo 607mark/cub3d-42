@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 09:17:47 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/04/02 10:05:41 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/02 10:38:05 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	error_exit(char *msg, t_game *game)
 {
 	char	*line;
-	int		y;
 
 	if (game && game->fd != -1)
 	{

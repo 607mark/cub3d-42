@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 10:12:46 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/04/02 10:14:19 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/02 11:57:06 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,32 @@ char	*ft_smartdup(const char *s1)
 	}
 	pnt[i] = '\0';
 	return (pnt);
+}
+
+int	check_color_duplicate(char *line, t_game *game)
+{
+	if (ft_strncmp(line, "F ", 2) == 0)
+	{
+		if (game->floor_rgb != -1)
+		{
+			free(line);
+			error_exit("Duplicate (F) color", game);
+		}
+		return (1);
+	}
+	else if (ft_strncmp(line, "C ", 2) == 0)
+	{
+		if (game->ceiling_rgb != -1)
+		{
+			free(line);
+			error_exit("Duplicate (C) color", game);
+		}
+		return (2);
+	}
+	else
+	{
+		free(line);
+		error_exit("Invalid color identifiers (must be F or C)", game);
+	}
+	return (0);
 }

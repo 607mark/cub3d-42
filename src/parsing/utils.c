@@ -6,13 +6,13 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 10:07:26 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/04/02 10:19:06 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/02 10:34:27 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-static void	skip_spaces(char **ptr)
+void	skip_spaces(char **ptr)
 {
 	if (ptr && *ptr)
 	{

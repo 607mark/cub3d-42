@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:20 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/04/02 10:30:06 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/02 11:50:21 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,6 @@ void			free_game(t_game *game);
 
 /* Freeing */
 void			free_map(t_game *game);
-void			free_texture(mlx_texture_t **texture);
 void			free_textures(t_game *game);
 void			free_mlx(t_game *game);
 void			free_game(t_game *game);
@@ -182,6 +181,8 @@ int				parse_rgb_component(char **ptr,
 void			parse_color(int *color, char *line, t_game *game);
 void			validate_config(t_game *game);
 int				is_newline(char *line);
+void			skip_spaces(char **ptr);
+int				check_color_duplicate(char *line, t_game *game);
 
 /* Loading textures */
 void			load_texture_file(char *path,
