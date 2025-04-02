@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:10:07 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/04/01 17:52:48 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/02 17:13:42 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ int	main(int ac, char **av)
 	t_game	game;
 
 	if (ac != 2)
-		error_exit("Usage: ./cub3d <map.cub>", NULL);
+	{
+		ft_putstr_fd("Error\nUsage: ./cub3d <map.cub>\n", STDERR_FILENO);
+		return (1);
+	}
 	parse_cub_file(&game, av[1]);
 	load_textures(&game);
 	render(&game);
