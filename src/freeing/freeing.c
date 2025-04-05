@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:54:57 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/27 14:59:07 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/02 10:35:30 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	free_textures(t_game *game)
 	free_texture_pair(&game->textures.south, &game->textures.tex_south);
 	free_texture_pair(&game->textures.west, &game->textures.tex_west);
 	free_texture_pair(&game->textures.east, &game->textures.tex_east);
-	mlx_delete_texture(game->textures.vignette);
 }
 
 void	free_mlx(t_game *game)
@@ -58,7 +57,7 @@ void	free_mlx(t_game *game)
 	if (game->img)
 	{
 		mlx_delete_image(game->mlx, game->img);
-		mlx_delete_image(game->mlx, game->textures.vigne);
+		mlx_delete_image(game->mlx, game->minimap);
 		game->img = NULL;
 	}
 	if (game->mlx)

@@ -6,50 +6,11 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:07 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/27 18:42:50 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/02 12:06:25 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
-
-int	validate_file_ext(char *filename)
-{
-	char	*ext;
-
-	ext = NULL;
-	ext = ft_strrchr(filename, '.');
-	if (!ext)
-		return (0);
-	if (ft_strcmp(".cub", ext) == 0)
-		return (1);
-	return (0);
-}
-
-int	validate_tex_ext(char *filename, t_game *game)
-{
-	char	*ext;
-
-	ext = NULL;
-	ext = ft_strrchr(filename, '.');
-	if (!ext)
-		return (0);
-	if (ft_strcmp(".png", ext) == 0)
-		return (1);
-	if (ft_strcmp(".xpm", ext) == 0)
-		error_exit("warning: .xpm detected. Needs to be .png", game);
-	return (0);
-}
-
-int	validate_file_access(char *filename)
-{
-	int	fd;
-
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		return (0);
-	close(fd);
-	return (1);
-}
 
 int	is_config_element(char *line)
 {
@@ -83,7 +44,6 @@ void	validate_map(t_game *game)
 	player_found = 0;
 	while (y < game->map_height)
 	{
-		//printf("Row %d: %s\n", y, game->map[y]);
 		check_row(game->map[y], y, game, &player_found);
 		if ((int)ft_strlen(game->map[y]) > game->map_width)
 			game->map_width = ft_strlen(game->map[y]);
@@ -91,7 +51,8 @@ void	validate_map(t_game *game)
 	}
 	if (!player_found)
 		error_exit("No player found in map", game);
-	//printf("Starting flood_fill at x: %f, y: %f\n", game->player.x_pos, game->player.y_pos);
+	if (game->map_width < 2)
+		error_exit("Map too narrow", game);
 	flood_fill(game, game->player.x_pos, game->player.y_pos, game->map);
 }
 
@@ -109,13 +70,4 @@ void	validate_config(t_game *game)
 		error_exit("Missing C color", game);
 	if (game->floor_rgb == -1)
 		error_exit("Missing F color", game);
-}
-
-int	is_newline(char *line)
-{
-	if (!line)
-		return (0);
-	if (ft_strlen(line) == 1 && line[0] == '\n')
-		return (1);
-	return (0);
 }

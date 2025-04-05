@@ -65,6 +65,8 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 		game->keys.right = (keydata.action != MLX_RELEASE);
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 		mlx_close_window(game->mlx);
+	if (keydata.key == MLX_KEY_M && keydata.action == MLX_PRESS)
+		game->minimap->enabled = (!game->minimap->enabled);
 }
 
 void	player_hook(void *param)

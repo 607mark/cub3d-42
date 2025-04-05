@@ -6,48 +6,25 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:47:45 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/27 18:37:32 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/02 12:05:10 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
-
-char	**copy_rows(char **new, char **old, int index, int numofrows)
-{
-	if (index >= numofrows)
-		return (new);
-	new[index] = old[index];
-	return (copy_rows(new, old, index + 1, numofrows));
-}
-
-char	**ft_realloc_2d(char **old, int new_size)
-{
-	char	**new;
-
-	new = malloc(new_size * sizeof(char *));
-	if (!new)
-		return (NULL);
-	if (old)
-	{
-		new = copy_rows(new, old, 0, new_size - 1);
-		free(old);
-	}
-	return (new);
-}
 
 void	check_empty_lines_after_map(int fd, t_game *game, int has_content)
 {
 	char	*line;
 
 	if (!has_content)
-		error_exit("Invalid map: empty line within map", game);
+		error_exit("Invalid map", game);
 	line = get_next_line(fd);
 	while (line)
 	{
 		if (!is_newline(line))
 		{
 			free(line);
-			error_exit("Invalid map: content after map end", game);
+			error_exit("Invalid map", game);
 		}
 		free(line);
 		line = get_next_line(fd);
@@ -56,26 +33,12 @@ void	check_empty_lines_after_map(int fd, t_game *game, int has_content)
 
 char	*process_map_line(char *line, t_game *game)
 {
-	char	*trimmed;
-	int		i;
-
 	if (is_config_element(line))
 	{
 		free(line);
-		error_exit("Invalid map: config element after map start", game);
+		error_exit("Invalid map", game);
 	}
-	trimmed = ft_strtrim(line, "\n");
-	free(line);
-	if (!trimmed)
-		error_exit("Trim failed", game);
-	i = 0;
-	while (trimmed[i])
-	{
-		if (ft_isspace(trimmed[i]))
-			trimmed[i] = '0';
-		i++;
-	}
-	return (trimmed);
+	return (line);
 }
 
 int	add_line_to_map(t_game *game, char *processed_line)
@@ -86,7 +49,7 @@ int	add_line_to_map(t_game *game, char *processed_line)
 		free(processed_line);
 		error_exit("Memory allocation failed", game);
 	}
-	game->map[game->map_height] = ft_strdup(processed_line);
+	game->map[game->map_height] = ft_smartdup(processed_line);
 	free(processed_line);
 	if (!game->map[game->map_height])
 		error_exit("Memory allocation failed", game);
@@ -111,7 +74,11 @@ void	read_map(t_game *game, int fd)
 			break ;
 		}
 		processed_line = process_map_line(line, game);
+		if (ft_strlen(processed_line) > 128)
+			error_exit("Map exceeds width limit (128)", game);
 		has_content = add_line_to_map(game, processed_line);
+		if (game->map_height > 128)
+			error_exit("Map exceeds height limit (128)", game);
 		line = get_next_line(fd);
 	}
 	if (game->map_height < 2)

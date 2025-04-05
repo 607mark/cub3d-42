@@ -6,14 +6,14 @@
 #    By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/05 12:31:45 by rkhakimu          #+#    #+#              #
-#    Updated: 2025/03/24 11:18:05 by rkhakimu         ###   ########.fr        #
+#    Updated: 2025/04/02 10:45:33 by rkhakimu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Project and Compiler Settings
 NAME        := cub3D
 CC          := cc
-CFLAGS      := -Wall -Wextra -Werror -ggdb3 -g
+CFLAGS      := -Wall -Wextra -Werror -O3
 
 # Directories
 SRC_DIR     := src
@@ -45,13 +45,17 @@ SRC         := main.c \
 			parsing/reading_map.c \
 			parsing/validation.c \
 			parsing/loading_textures.c \
+			parsing/parsing_textures.c \
+			parsing/parsing_map_utils.c \
+			parsing/utils.c \
 			freeing/freeing.c \
 			graphics/render.c \
 			graphics/drawing.c \
 			graphics/get_color.c \
 			graphics/minimap.c \
 			mechanics/dda.c \
-			mechanics/player.c
+			mechanics/player.c \
+			graphics/utils.c
 			
                
 SRCS        := $(addprefix $(SRC_DIR)/, $(SRC))
@@ -100,7 +104,7 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 	@make fclean -C $(LIBFT_DIR)
-	# rm -rf $(MLX_DIR)
+	rm -rf $(MLX_DIR)
 	@echo "Fully cleaned project, including libraries and executable."
 
 # Rebuild everything from scratch

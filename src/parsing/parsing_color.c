@@ -6,20 +6,11 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 09:09:06 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/03/27 16:38:29 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/02 12:03:22 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
-
-static void	skip_spaces(char **ptr)
-{
-	if (ptr && *ptr)
-	{
-		while (ft_isspace(**ptr))
-			(*ptr)++;
-	}
-}
 
 static int	check_start(char *ptr)
 {
@@ -78,18 +69,22 @@ int	parse_rgb_component(char **ptr, char delimiter, t_game *game, char *line)
 	{
 		free(line);
 		if (delimiter == ',')
-			error_exit("Invalid RGB format: RED or GREEN component", game);
+			error_exit("Invalid RGB format", game);
 		else
-			error_exit("Invalid RGB format: BLUE or duplicate", game);
+			error_exit("Invalid RGB format", game);
 	}
 	return (component);
 }
 
-void	parse_color(int *color, char *line, t_game *game)
+void	parse_color(long *color, char *line, t_game *game)
 {
 	char	*ptr;
 	t_rgb	rgb;
+	int		color_type;
 
+	if (!line)
+		error_exit("Null line pointer", game);
+	color_type = check_color_duplicate(line, game);
 	ptr = line + 2;
 	rgb.r = parse_rgb_component(&ptr, ',', game, line);
 	rgb.g = parse_rgb_component(&ptr, ',', game, line);
@@ -98,8 +93,14 @@ void	parse_color(int *color, char *line, t_game *game)
 	if (*ptr != '\0')
 	{
 		free(line);
-		error_exit("Invalid RGB format: trailing characters", game);
+		line = NULL;
+		error_exit("Invalid RGB format", game);
 	}
-	free(line);
-	*color = (uint32_t)((rgb.r << 16) | (rgb.g << 8) | rgb.b);
+	*color = (uint32_t)((rgb.r << 24) | (rgb.g << 16) | rgb.b << 8 | 0xFF);
+	if (color_type == 1)
+		game->floor_rgb = *color;
+	else if (color_type == 2)
+		game->ceiling_rgb = *color;
+	if (line)
+		free(line);
 }
