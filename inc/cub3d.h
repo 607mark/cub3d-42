@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:20 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/04/02 11:50:21 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/07 10:02:29 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,5 +191,6 @@ char			**ft_realloc_2d(char **old, int new_size);
 void			check_row(char *row, int y, t_game *game, int *player_found);
 void			flood_fill(t_game *game, int x, int y, char **map);
 char			*ft_smartdup(const char *s1);
+void			normalize_map_rows(t_game *game);
 
 #endif

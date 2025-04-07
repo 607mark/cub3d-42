@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 22:15:08 by mshabano          #+#    #+#             */
-/*   Updated: 2025/04/02 10:31:57 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/07 10:55:18 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	draw_hook(void *param)
 	game = (t_game *)param;
 	ft_memset(game->img->pixels, 0, game->img->width * game->img->height
 		* sizeof(int32_t));
+	ft_memset(game->minimap->pixels, 0, game->minimap->width
+		* game->minimap->height * sizeof(int32_t));
 	i = -1;
 	while (++i < game->width)
 	{
