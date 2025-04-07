@@ -27,10 +27,10 @@ void	draw_player(t_game *game, int x, int y, int size)
 		while (d.x_draw <= d.x_end)
 		{
 			if (size == 12)
-				mlx_put_pixel(game->minimap, d.x_draw, d.y_draw,
+				put_pixel(game->minimap, d.x_draw, d.y_draw,
 					0x000000FF);
 			else
-				mlx_put_pixel(game->minimap, d.x_draw, d.y_draw,
+				put_pixel(game->minimap, d.x_draw, d.y_draw,
 					0xFFFFFFFF);
 			d.x_draw++;
 		}
@@ -52,7 +52,7 @@ void	shadow(t_game *game, int x, int y, int size)
 		d.x_draw = d.x_start;
 		while (d.x_draw <= d.x_end + 1)
 		{
-			mlx_put_pixel(game->minimap, d.x_draw, d.y_draw, 0x470D00FF);
+			put_pixel(game->minimap, d.x_draw, d.y_draw, 0x470D00FF);
 			d.x_draw++;
 		}
 		d.y_draw++;
@@ -74,7 +74,7 @@ void	draw_square(t_game *game, int x, int y, uint32_t color)
 	{
 		d.x_draw = d.x_start - 1;
 		while (d.x_draw++ <= d.x_end)
-			mlx_put_pixel(game->minimap, d.x_draw, d.y_draw, color);
+			put_pixel(game->minimap, d.x_draw, d.y_draw, color);
 		d.y_draw++;
 	}
 	shadow(game, x, y, size);

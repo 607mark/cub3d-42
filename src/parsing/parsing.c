@@ -110,7 +110,5 @@ void	parse_map_start(t_game *game, int fd, char *first_map_line)
 	game->map[0] = trimmed;
 	free(line);
 	game->map_height = 1;
-	if (game->map_height > 128)
-		error_exit("Map exceeds height limit (128)", game);
 	read_map(game, fd);
 }

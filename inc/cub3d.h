@@ -192,5 +192,6 @@ void			check_row(char *row, int y, t_game *game, int *player_found);
 void			flood_fill(t_game *game, int x, int y, char **map);
 char			*ft_smartdup(const char *s1);
 void			normalize_map_rows(t_game *game);
+void			put_pixel(mlx_image_t *image, int x, int y, uint32_t color);
 
 #endif
