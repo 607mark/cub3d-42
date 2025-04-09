@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_color.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mshabano <mshabano@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 22:47:43 by mshabano          #+#    #+#             */
-/*   Updated: 2025/03/31 22:47:46 by mshabano         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:54:57 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ uint32_t	get_tex_pix_color(mlx_texture_t *texture, uint32_t x, uint32_t y)
 	uint32_t	shift;
 	uint8_t		*pixel;
 	uint32_t	color;
+
+	color = 0;
 
 	shift = (y * texture->width + x) * texture->bytes_per_pixel;
 	pixel = texture->pixels + shift;
@@ -46,6 +48,7 @@ void	calc_texture_points(t_game *game, t_raycast *r, int total_y)
 	if (r->texture_type == 'S' || r->texture_type == 'W')
 		r->tex_x_point = 1 - r->tex_x_point;
 	r->tex_y_point = (double)(total_y - r->draw_start) / (double)r->wall_height;
+	
 }
 
 void	calc_tex_pix_coords(t_game *game, t_raycast *r)
@@ -70,9 +73,11 @@ void	calc_tex_pix_coords(t_game *game, t_raycast *r)
 		r->tex_x_pix = game->textures.tex_east->width * r->tex_x_point;
 		r->tex_y_pix = game->textures.tex_east->height * r->tex_y_point;
 	}
+	if (r->tex_x_pix < 0) r->tex_x_pix = 0;
+	if (r->tex_y_pix < 0) r->tex_y_pix = 0;
 }
 
-uint32_t	get_color(t_game *game, t_raycast *r, int total_y)
+uint32_t	get_color(t_game *game, t_raycast *r, long long total_y)
 {
 	define_side(r);
 	calc_texture_points(game, r, total_y);

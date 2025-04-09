@@ -6,14 +6,14 @@
 #    By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/05 12:31:45 by rkhakimu          #+#    #+#              #
-#    Updated: 2025/04/07 11:11:47 by rkhakimu         ###   ########.fr        #
+#    Updated: 2025/04/09 15:30:42 by rkhakimu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Project and Compiler Settings
 NAME        := cub3D
 CC          := cc
-CFLAGS      := -Wall -Wextra -Werror -O3
+CFLAGS      := -Wall -Wextra -Werror -O3 -g
 
 # Directories
 SRC_DIR     := src

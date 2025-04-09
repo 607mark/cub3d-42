@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 23:30:40 by mshabano          #+#    #+#             */
-/*   Updated: 2025/04/01 15:53:12 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:54:53 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,3 +25,6 @@ int	is_valid_pos(t_game *game, double x, double y)
 {
 	return (game->map[(int)y][(int)x] == '#');
 }
+
+/*if (r->tex_x_pix >= texture->width) r->tex_x_pix = texture->width - 1;
+	if (r->tex_y_pix >= texture->height) r->tex_y_pix = texture->height - 1;*/
