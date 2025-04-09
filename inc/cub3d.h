@@ -142,7 +142,7 @@ int				render(t_game *game);
 int				calculate_wall_height(t_game *game, t_raycast *raycast);
 void			calculate_wall_position(t_game *game, t_raycast *raycast);
 void			draw_wall_strip(t_game *game, int x, t_raycast *r);
-uint32_t	get_color(t_game *game, t_raycast *r, long long total_y);
+uint32_t		get_color(t_game *game, t_raycast *r, long long total_y);
 
 /*Errors*/
 void			error_exit(char *msg, t_game *game);

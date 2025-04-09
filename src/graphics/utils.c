@@ -25,6 +25,3 @@ int	is_valid_pos(t_game *game, double x, double y)
 {
 	return (game->map[(int)y][(int)x] == '#');
 }
-
-/*if (r->tex_x_pix >= texture->width) r->tex_x_pix = texture->width - 1;
-	if (r->tex_y_pix >= texture->height) r->tex_y_pix = texture->height - 1;*/
