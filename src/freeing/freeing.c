@@ -57,6 +57,10 @@ void	free_mlx(t_game *game)
 	if (game->img)
 	{
 		mlx_delete_image(game->mlx, game->img);
+		game->img = NULL;
+	}
+	if (game->minimap)
+	{
 		mlx_delete_image(game->mlx, game->minimap);
 		game->img = NULL;
 	}

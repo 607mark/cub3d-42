@@ -30,7 +30,7 @@ char	*extract_texture_path(char *line, t_game *game)
 	{
 		free(path);
 		free(line);
-		error_exit("Invalid texture extention (must be teture.png)", game);
+		error_exit("Invalid texture extention (must be texture.png)", game);
 	}
 	if (!validate_file_access(path))
 	{
