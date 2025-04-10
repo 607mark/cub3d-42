@@ -52,7 +52,7 @@ int	add_line_to_map(t_game *game, char *processed_line)
 	game->map[game->map_height] = ft_smartdup(processed_line);
 	free(processed_line);
 	if (!game->map[game->map_height])
-		error_exit("Memory allocation failed", game);
+		error_exit("The map is too wide or mem alloc failed", game);
 	game->map_height++;
 	return (1);
 }

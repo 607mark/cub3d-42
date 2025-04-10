@@ -22,11 +22,6 @@ void	calc_ray_dir(t_raycast *r, int i, t_game *game)
 	r->x_raydir = game->player.x_dir + game->player.x_plane * r->x_cam;
 	r->y_raydir = game->player.y_dir + game->player.y_plane * r->x_cam;
 }
-// delt_dist is the distance it takes ray to cross 1 "square" on xy graph,
-//it's 1 <=
-//check if the ray is moving this direction at all, if no,
-//then set to big value to prevent division by 0 later on
-// fabs is |-4| = 4
 
 void	calc_delt_dist(t_raycast *r)
 {
@@ -38,13 +33,6 @@ void	calc_delt_dist(t_raycast *r)
 		r->y_delt_dist = fabs(1 / r->y_raydir);
 }
 
-//determines step's direction for future dda calculation
-// side_dist is calculation to get the distance to the closest 
-//whole number coord.
-//  if 3.65 -> calc distance to get to 4
-//if ray direction for one of the axises was 0, then delt_dist is 1e12,
-// then side_dist is also really big, this is used in later dda ,
-// so dda will never pick this step
 void	set_step_dir(t_raycast *r, t_game *game)
 {
 	r->x_map = (int)game->player.x_pos;
@@ -65,11 +53,6 @@ void	set_step_dir(t_raycast *r, t_game *game)
 	}
 }
 
-// moves the ray step-by-step across the map to find where it hits a wall
-// compares x_side_dist and y_side_dist to decide which direction to 
-//step next (x or y)
-// if a step’s side_dist was huge (1e12 from delt_dist),
-// dda skips that direction, doing only on the valid step
 // side = 0 means hit a vertical wall (x-step),
 // side = 1 means hit a horizontal wall (y-step)
 void	dda(t_raycast *r, t_game *game)

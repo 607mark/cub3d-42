@@ -44,7 +44,7 @@ int	set_mlx(t_game *game)
 	if (game->mlx == NULL)
 		return (1);
 	game->img = mlx_new_image(game->mlx, game->width, game->height);
-	game->minimap = mlx_new_image(game->mlx, 400, 400);
+	game->minimap = mlx_new_image(game->mlx, 410, 410);
 	if (game->img == NULL || game->minimap == NULL)
 		return (1);
 	if (mlx_image_to_window(game->mlx, game->img, 0, 0) == -1)
@@ -80,8 +80,8 @@ int	init(t_game *game)
 	game->width = 3000;
 	game->height = 1500;
 	game->map_offset_x = game->width - game->map_width * game->scale
-		- game->scale;
-	game->map_offset_y = game->scale;
+		- game->scale - 10;
+	game->map_offset_y = game->scale + 10;
 	ft_memset(&game->keys, 0, sizeof(t_keys));
 	if (set_mlx(game) == 1)
 		return (1);

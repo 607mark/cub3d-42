@@ -43,6 +43,8 @@ char	*ft_smartdup(const char *s1)
 
 	i = 0;
 	len = ft_strlen(s1);
+	if (len > 128)
+		return (0);
 	pnt = ft_calloc(129, 1);
 	if (!pnt)
 		return (NULL);
