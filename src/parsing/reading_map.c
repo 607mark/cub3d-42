@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:47:45 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/04/02 12:05:10 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:54:52 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,7 @@ void	read_map(t_game *game, int fd)
 			break ;
 		}
 		processed_line = process_map_line(line, game);
-		if (ft_strlen(processed_line) > 128)
-			error_exit("Map exceeds width limit (128)", game);
 		has_content = add_line_to_map(game, processed_line);
-		if (game->map_height > 128)
-			error_exit("Map exceeds height limit (128)", game);
 		line = get_next_line(fd);
 	}
 	if (game->map_height < 2)

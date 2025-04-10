@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 11:51:33 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/04/02 10:08:35 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:07:22 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	flood_fill(t_game *game, int x, int y, char **map)
 	if (map[y][x] == '1' || map[y][x] == '#')
 		return ;
 	if (ft_isspace(map[y][x]))
-		error_exit("Map not enclosed by walls: whitespace at boundary", game);
+		error_exit("Map error: whitespaces found in the map", game);
 	map[y][x] = '#';
 	flood_fill(game, x + 1, y, map);
 	flood_fill(game, x - 1, y, map);
