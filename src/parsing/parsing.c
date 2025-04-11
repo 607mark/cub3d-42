@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:59:25 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/04/02 12:04:26 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:52:14 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,5 @@ void	parse_map_start(t_game *game, int fd, char *first_map_line)
 	game->map[0] = trimmed;
 	free(line);
 	game->map_height = 1;
-	if (game->map_height > 128)
-		error_exit("Map exceeds height limit (128)", game);
 	read_map(game, fd);
 }

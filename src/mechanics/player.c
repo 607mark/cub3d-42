@@ -38,12 +38,12 @@ void	move(t_game *game, double x_dir, double y_dir, double speed)
 	double	x_new;
 	double	y_new;
 
-	x_new = game->player.x_pos + x_dir * speed;
-	y_new = game->player.y_pos + y_dir * speed;
+	x_new = game->player.x_pos + x_dir * speed * 2;
+	y_new = game->player.y_pos + y_dir * speed * 2;
 	if (is_valid_pos(game, x_new, game->player.y_pos))
-		game->player.x_pos = x_new;
+		game->player.x_pos = game->player.x_pos + x_dir * speed;
 	if (is_valid_pos(game, game->player.x_pos, y_new))
-		game->player.y_pos = y_new;
+		game->player.y_pos = game->player.y_pos + y_dir * speed;
 }
 
 void	key_hook(mlx_key_data_t keydata, void *param)

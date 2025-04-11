@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:47:45 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/04/02 12:05:10 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:54:52 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	add_line_to_map(t_game *game, char *processed_line)
 	game->map[game->map_height] = ft_smartdup(processed_line);
 	free(processed_line);
 	if (!game->map[game->map_height])
-		error_exit("Memory allocation failed", game);
+		error_exit("The map is too wide or mem alloc failed", game);
 	game->map_height++;
 	return (1);
 }
@@ -74,11 +74,7 @@ void	read_map(t_game *game, int fd)
 			break ;
 		}
 		processed_line = process_map_line(line, game);
-		if (ft_strlen(processed_line) > 128)
-			error_exit("Map exceeds width limit (128)", game);
 		has_content = add_line_to_map(game, processed_line);
-		if (game->map_height > 128)
-			error_exit("Map exceeds height limit (128)", game);
 		line = get_next_line(fd);
 	}
 	if (game->map_height < 2)

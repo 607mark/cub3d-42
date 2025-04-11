@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:54:57 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/04/02 10:35:30 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:03:11 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,10 @@ void	free_mlx(t_game *game)
 	if (game->img)
 	{
 		mlx_delete_image(game->mlx, game->img);
+		game->img = NULL;
+	}
+	if (game->minimap)
+	{
 		mlx_delete_image(game->mlx, game->minimap);
 		game->img = NULL;
 	}

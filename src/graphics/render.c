@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 22:15:08 by mshabano          #+#    #+#             */
-/*   Updated: 2025/04/02 10:31:57 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/07 10:55:18 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	draw_hook(void *param)
 	game = (t_game *)param;
 	ft_memset(game->img->pixels, 0, game->img->width * game->img->height
 		* sizeof(int32_t));
+	ft_memset(game->minimap->pixels, 0, game->minimap->width
+		* game->minimap->height * sizeof(int32_t));
 	i = -1;
 	while (++i < game->width)
 	{
@@ -42,7 +44,7 @@ int	set_mlx(t_game *game)
 	if (game->mlx == NULL)
 		return (1);
 	game->img = mlx_new_image(game->mlx, game->width, game->height);
-	game->minimap = mlx_new_image(game->mlx, 400, 400);
+	game->minimap = mlx_new_image(game->mlx, 410, 410);
 	if (game->img == NULL || game->minimap == NULL)
 		return (1);
 	if (mlx_image_to_window(game->mlx, game->img, 0, 0) == -1)
@@ -78,8 +80,8 @@ int	init(t_game *game)
 	game->width = 3000;
 	game->height = 1500;
 	game->map_offset_x = game->width - game->map_width * game->scale
-		- game->scale;
-	game->map_offset_y = game->scale;
+		- game->scale - 10;
+	game->map_offset_y = game->scale + 10;
 	ft_memset(&game->keys, 0, sizeof(t_keys));
 	if (set_mlx(game) == 1)
 		return (1);

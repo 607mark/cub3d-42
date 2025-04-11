@@ -6,7 +6,7 @@
 /*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:20 by rkhakimu          #+#    #+#             */
-/*   Updated: 2025/04/02 11:50:21 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:42:53 by rkhakimu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ int				render(t_game *game);
 int				calculate_wall_height(t_game *game, t_raycast *raycast);
 void			calculate_wall_position(t_game *game, t_raycast *raycast);
 void			draw_wall_strip(t_game *game, int x, t_raycast *r);
-uint32_t		get_color(t_game *game, t_raycast *r, int total_y);
+uint32_t		get_color(t_game *game, t_raycast *r, long long total_y);
 
 /*Errors*/
 void			error_exit(char *msg, t_game *game);
@@ -191,5 +191,7 @@ char			**ft_realloc_2d(char **old, int new_size);
 void			check_row(char *row, int y, t_game *game, int *player_found);
 void			flood_fill(t_game *game, int x, int y, char **map);
 char			*ft_smartdup(const char *s1);
+void			normalize_map_rows(t_game *game);
+void			put_pixel(mlx_image_t *image, int x, int y, uint32_t color);
 
 #endif
