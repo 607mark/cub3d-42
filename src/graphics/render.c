@@ -77,8 +77,8 @@ int	init(t_game *game)
 	game->scale = 400 / game->map_height;
 	if (game->map_width > game->map_height)
 		game->scale = 400 / game->map_width;
-	game->width = 3000;
-	game->height = 1500;
+	game->width = 1920;
+	game->height = 1080;
 	game->map_offset_x = game->width - game->map_width * game->scale
 		- game->scale - 10;
 	game->map_offset_y = game->scale + 10;
